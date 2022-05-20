@@ -1,8 +1,6 @@
 package pages;
 
-import utils.RestAssuredExtension;
-
-public class ManagePetsPage extends BasePage {
+public class ManagePetsPage extends AbstractPage {
 
   public void findByPetId(String id, String path) {
     String idContext = getScenarioContextVariables(id);

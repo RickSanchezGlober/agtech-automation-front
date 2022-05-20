@@ -2,7 +2,7 @@ package pages;
 
 import pageObjects.LoginPageObject;
 
-public class LoginPage extends BasePage {
+public class LoginPage extends AbstractPage {
   LoginPageObject loginPageObject = new LoginPageObject();
 
   public LoginPage() {

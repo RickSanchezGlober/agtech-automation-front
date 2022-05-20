@@ -2,7 +2,7 @@ package pages;
 
 import pageObjects.BuyArticlesPageObject;
 
-public class BuyArticlesPage extends BasePage {
+public class BuyArticlesPage extends AbstractPage {
   BuyArticlesPageObject buyArticlesPageObject = new BuyArticlesPageObject();
 
   public BuyArticlesPage() {

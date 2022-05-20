@@ -11,16 +11,15 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import steps.Hooks;
-import utils.RestAssuredExtension;
 
-public class BasePage {
+public class AbstractPage {
   protected static WebDriver driver;
   private static WebDriverWait wait;
   public static DataTable data;
   public static Map<String, String> scenarioData = new HashMap<>();
   Logger log;
 
-  public BasePage() {
+  public AbstractPage() {
     driver = Hooks.driver;
     wait = Hooks.wait;
     log = Hooks.log;

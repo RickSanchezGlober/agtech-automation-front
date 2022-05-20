@@ -6,7 +6,7 @@ import pageObjects.LoginPageObject;
 import pageObjects.RegisterUserPageObject;
 import utils.DataGenerator;
 
-public class RegisterUserPage extends BasePage {
+public class RegisterUserPage extends AbstractPage {
 
   public static String emailGenerated;
   public static String passwordGenerated;
