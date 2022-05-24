@@ -1,0 +1,69 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Maven Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: browser-actions/setup-firefox@latest
+      - name: Install Firefox Browser
+        run: firefox --version
+      - uses: browser-actions/setup-chrome@latest
+      - name: Install Chrome Browser
+        run: chrome --version
+      - name: Install Edge Browser
+        run: |
+          wget -O - https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /usr/share/keyrings/microsoft.gpg
+          sudo sh -c 'echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft.gpg] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge.list'
+          sudo apt update
+          sudo apt install microsoft-edge-stable
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: "11"
+          distribution: "temurin"
+          cache: maven
+      - name: Cache Maven Packages 
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and Execute Test
+        run: mvn clean install
+      - name: Get Allure history
+        uses: actions/checkout@v2
+        if: always()
+        continue-on-error: true
+        with:
+          ref: gh-pages
+          path: gh-pages
+      - name: Allure Report action
+        uses: simple-elf/allure-report-action@master
+        if: always()
+        continue-on-error: true
+        with:
+          allure_results: target/allure-results
+          allure_history: allure-history/allure-history
+          keep_reports: 5
+      - name: Deploy Test Report
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          #personal_token: ${{ secrets.DEPLOY_TEST_REPORT }}
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history/allure-history
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_message: ${{ github.event.head_commit.message }}
