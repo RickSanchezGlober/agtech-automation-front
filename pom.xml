@@ -25,6 +25,8 @@
     <commonsio.version>2.11.0</commonsio.version>
     <gson.version>2.9.0</gson.version>
     <restassured.version>5.1.0</restassured.version>
+    <javafaker.version>1.0.2</javafaker.version>
+    <lombok.version>1.18.24</lombok.version>
   </properties>
 
   <dependencies>
@@ -103,6 +105,17 @@
       <version>${restassured.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.github.javafaker</groupId>
+      <artifactId>javafaker</artifactId>
+      <version>${javafaker.version}</version>
+  </dependency>
+  <dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>${lombok.version}</version>
+		<scope>provided</scope>
+	</dependency>
   </dependencies>
 
   <build>
