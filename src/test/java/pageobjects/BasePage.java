@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+//import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
@@ -21,12 +26,16 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import io.cucumber.datatable.DataTable;
 import io.qameta.allure.Attachment;
 import steps.Hook;
+import utils.RestAssuredExtension;
 
 public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+    public static DataTable data;
+    public static Map<String, String> scenarioData = new HashMap<>();
     Logger log;
 
     public BasePage() {
@@ -175,7 +184,7 @@ public class BasePage {
     public byte[] getByteScreenshot() throws IOException {
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         byte[] fileContent = FileUtils.readFileToByteArray(src);
-        
+
         return fileContent;
     }
 
@@ -198,5 +207,61 @@ public class BasePage {
 
     public Cookie getCookie(String name) {
         return driver.manage().getCookieNamed(name);
+    }
+
+    public void getDataFromApiServices(String path, String body, List<List<String>> t_table) {
+        RestAssuredExtension.response = RestAssuredExtension.postMethod(path, body);
+        DataTable data = createDataTable(t_table);
+        if (data != null) {
+            //AtomicInteger i = new AtomicInteger(1);
+            data.cells()
+                    .forEach(
+                            value -> {
+                                List<String> rField = Collections.singletonList(value.get(0));
+                                List<String> rValue = Collections.singletonList(value.get(1));
+                                String VALUES = null;
+                                try {
+                                    String KEY = rField.get(0);
+                                    VALUES = RestAssuredExtension.response
+                                            .getBody()
+                                            .jsonPath()
+                                            .get(rValue.get(0))
+                                            .toString();
+                                    // SAVE
+                                    saveInScenarioContext(KEY, VALUES);
+                                } catch (NullPointerException e) {
+                                    log.info(String.format("Path specified doesn't exist: %s", VALUES));
+                                }
+                            });
+        }
+    }
+
+    public DataTable createDataTable(List<List<String>> table) {
+        data = DataTable.create(table);
+        log.info(String.valueOf(data));
+        return data;
+    }
+
+    public void saveInScenarioContext(String key, String text) {
+        try {
+            if (!scenarioData.containsKey(key)) {
+                scenarioData.put(key, text);
+                log.info(String.format("Save as Scenario Context key: %s with value: %s ", key, text));
+            } else {
+                scenarioData.replace(key, text);
+                log.info(String.format("Update Scenario Context key: %s with value: %s ", key, text));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getScenarioContextVariables(String key) {
+        try {
+            return scenarioData.get(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return key;
     }
 }
