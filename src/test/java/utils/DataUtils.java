@@ -1,49 +1,65 @@
 package utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.testng.annotations.DataProvider;
 
 public class DataUtils {
-    public static final Logger log = LogManager.getLogger(DataUtils.class);
+    private static final String JSON_FILE = "src/test/resources/data/testData.json";
+    private static final Logger log = LogManager.getLogger(DataUtils.class);
     
-    @DataProvider(name="readJson")
-    public static Object[] readJson(){
-        JSONParser parser = new JSONParser();
-        JSONObject jsonObject = null;
+    @DataProvider(name="dataJson")
+    public static Object[] dataJson(){
+        return readJson(JSON_FILE, "data 1");
+    }
 
+    // This method uses the GSON library to parse JSON data
+    public static Object[][] readJson(String filename, String jsonObj) {
+        File file = new File(filename);
+        JsonElement jsonElement = null;
+
+        // Parse JSON data
         try {
-            Object object = parser.parse(new FileReader("src/test/resources/data/testData.json"));
-            jsonObject = (JSONObject) object;
-        } catch (IOException | ParseException exception) {
-            exception.printStackTrace();
+            jsonElement = JsonParser.parseReader(new FileReader(file));
+        } catch (FileNotFoundException e) {
+            log.error(e);
         }
 
-        Object[] data = new Object[1];
+        assert jsonElement != null;
+        // Get entire JSON object
+        JsonObject jsonObj1 = jsonElement.getAsJsonObject();
+        // Get individual JSON array object
+        JsonArray jsonArray = jsonObj1.get(jsonObj).getAsJsonArray();
 
-        // Store JSON data as key/value pairs in a hashMap
-        HashMap<String, String> hashMap = new LinkedHashMap<>();
-        if (jsonObject != null) {
-            Set<String> jsonObjKeys = jsonObject.keySet();
-            for (String jsonObjKey : jsonObjKeys) {
-                hashMap.put(jsonObjKey, (String) jsonObject.get(jsonObjKey));
+        // Java array to store JSON data
+        Object[][] testData = new Object[jsonArray.size()][1];
+
+        // Read data inside JSON array and store it in Java array
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JsonObject jsonObj2 = jsonArray.get(i).getAsJsonObject();
+            Map<Object, Object> map = new HashMap<>();
+
+            for (String key : jsonObj2.keySet()) {
+                String value = jsonObj2.get(key).getAsString();
+                map.put(key, value);
             }
-        } else {
-            log.error("Error retrieving JSON data");
-            throw new RuntimeException();
+            testData[i][0] = map;
         }
 
-        // Store HashMap in an array and return array
-        data[0] = hashMap;
-        return data;
+        return testData;
     }
 }
