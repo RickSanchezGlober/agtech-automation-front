@@ -1,12 +1,14 @@
 # Agtech Automation Front
 
+## Description
+
+This repository contains the automations scripts for web frontend of AgTech project.
+
 ## Requirements
 
-* Install Java 11
+* Install Java JDK 11
 * Install Maven
 * Create environment variable (JAVA_HOME and MAVEN_HOME)
-* Install Allure (To install Allure, download and install Scoop) [download here](https://docs.qameta.io/allure/#_installing_a_commandline)
-* If you do not have administrator permission on your computer to install Allure [see more](https://github.com/ScoopInstaller/Install#for-admin)
 
 ## Running the stories
 
