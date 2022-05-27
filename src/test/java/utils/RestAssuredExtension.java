@@ -31,7 +31,7 @@ public class RestAssuredExtension {
     private static final String GLOBAL_DATA_FILE_LOCATION = "src/test/resources/application.properties";
     public static String setBaseUri;
     public static String bodyData;
-    private static final Logger log = LogManager.getLogger(DataUtils.class);
+    private static final Logger log = LogManager.getLogger(DataSources.class);
 
     public static void initConfig() {
         try {

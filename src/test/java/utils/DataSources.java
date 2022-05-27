@@ -15,9 +15,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.annotations.DataProvider;
 
-public class DataUtils {
+public class DataSources {
     private static final String JSON_FILE = "src/test/resources/data/testData.json";
-    private static final Logger log = LogManager.getLogger(DataUtils.class);
+    private static final Logger log = LogManager.getLogger(DataSources.class);
     
     @DataProvider(name="dataJson")
     public static Object[] dataJson(){
