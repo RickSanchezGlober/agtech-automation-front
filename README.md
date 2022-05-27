@@ -10,7 +10,7 @@ This repository contains the automations scripts for web frontend of AgTech proj
 * Install Maven
 * Create environment variable (JAVA_HOME and MAVEN_HOME)
 
-## Running the stories
+## Running the scenarios
 
 This will run the build and (after a minute or so) will open the application in the mobile and execute the test:
 
