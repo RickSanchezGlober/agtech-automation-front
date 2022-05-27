@@ -6,6 +6,7 @@ import org.testng.Assert;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import pageobjects.ManagePetsPage;
 
 public class ManageSteps {
@@ -27,7 +28,7 @@ public class ManageSteps {
         Assert.assertTrue(managePetsPage.verifyServiceStatusCode(statusCode));
     }
 
-    @Then("Update an existing pet with path (.*) from (.*)$")
+    @When("Update an existing pet with path (.*) from (.*)$")
     public void updateAnExistingPet(String path, String body) {
         managePetsPage.updateExistingPets(path, body);
     }
