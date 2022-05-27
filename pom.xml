@@ -24,6 +24,7 @@
     <log4j.version>2.17.2</log4j.version>
     <commonsio.version>2.11.0</commonsio.version>
     <gson.version>2.9.0</gson.version>
+    <restassured.version>5.1.0</restassured.version>
   </properties>
 
   <dependencies>
@@ -95,6 +96,12 @@
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>${gson.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>${restassured.version}</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
