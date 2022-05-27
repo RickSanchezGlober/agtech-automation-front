@@ -1,4 +1,4 @@
-# Framework Agtech Automation Front
+# Agtech Automation Front
 
 ## Requirements
 
@@ -49,9 +49,7 @@ mvn allure:report
 mvn allure:serve
 ```
 
-## Framework Agtech Automation Front description
-
-### Structure
+## Structure
 
 The framework follows the *Page Object Model*. The structure of the framework is:
 
