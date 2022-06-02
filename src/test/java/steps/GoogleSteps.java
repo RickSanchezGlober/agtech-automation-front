@@ -3,7 +3,7 @@ package steps;
 import org.testng.Assert;
 
 import io.cucumber.java.en.Given;
-import pageobjects.GooglePage;
+import pages.GooglePage;
 
 public class GoogleSteps {
     GooglePage googlePage = new GooglePage();

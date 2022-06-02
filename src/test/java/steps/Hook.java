@@ -13,7 +13,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import pageobjects.BasePage;
+import pages.BasePage;
 import runners.RunnerTest;
 
 import java.io.IOException;
