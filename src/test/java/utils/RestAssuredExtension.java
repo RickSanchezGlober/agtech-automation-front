@@ -1,5 +1,6 @@
 package utils;
 
+import config.RestAssuredPropertiesConfig;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.HttpClientConfig;
@@ -8,43 +9,40 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.specification.RequestSpecification;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.logging.Logger;
 
 public class RestAssuredExtension {
+    public static RestAssuredPropertiesConfig configProperties = new RestAssuredPropertiesConfig();
     public static RequestSpecification request;
     public static ResponseOptions<Response> response = null;
     public static RequestSpecBuilder builder = new RequestSpecBuilder();
     public static RequestSpecBuilder builderMW = new RequestSpecBuilder();
     public static ContentType content;
     private static Properties prop = new Properties();
-    private static final String GLOBAL_DATA_FILE_LOCATION = "src/test/resources/application.properties";
-    public static String setBaseUri;
-    public static String bodyData;
-    private static final Logger log = LogManager.getLogger(RestAssuredExtension.class);
+    public static String specificPath = "";
+    public static Logger log = Logger.getLogger(String.valueOf(RestAssuredExtension.class));
 
-    public static void initConfig() {
+    public RestAssuredExtension() {
         try {
-            InputStream input = null;
-            input = new FileInputStream(GLOBAL_DATA_FILE_LOCATION);
-            prop.load(input);
-        } catch (IOException e) {
-            e.printStackTrace();
+            builder.setBaseUri(configProperties.getBaseUri());
+            builder.setContentType(ContentType.JSON);
+        } catch (IllegalArgumentException e) {
+            log.info("Base URI cannot be null, check configProperties");
         }
-        setBaseUri = prop.getProperty("assured.setBaseUri");
-        bodyData = prop.getProperty("assured.bodyData");
     }
 
+    /**
+     * return string value of a text in a file
+     *
+     * @param path path to file at src/test/resources/data/body
+     */
     public static String generateBodyFromResource(String path) {
         String bodyPath = null;
         try {
@@ -57,9 +55,16 @@ public class RestAssuredExtension {
     }
 
     public static Path _path(String path) {
-        return Paths.get(bodyData + path);
+        return Paths.get(configProperties.getBodyData() + path);
     }
 
+    /**
+     * get response from Microservices
+     *
+     * @param body a text file with body
+     * @param path to api resource.
+     * @return Api responses
+     */
     public static ResponseOptions<Response> postMethod(String path, String body) {
         response = null;
         setDefaultHeaders();
@@ -70,8 +75,8 @@ public class RestAssuredExtension {
                         .setParam("http.connection.timeout", 5000));
 
         try {
-            initConfig();
-            builderMW.setBaseUri(setBaseUri);
+            configProperties.initConfig();
+            builderMW.setBaseUri(configProperties.getBaseUri());
             builderMW.setBody(generateBodyFromResource(body)).setContentType(ContentType.TEXT);
             builderMW.setAccept(ContentType.JSON);
             builderMW.setContentType(ContentType.JSON);
@@ -85,16 +90,24 @@ public class RestAssuredExtension {
         return response;
     }
 
+    /** put default header to request */
     private static void setDefaultHeaders() {
         builder.addHeader("Content-Type", "application/json; charset=utf-8");
     }
 
+    /**
+     * get response from Api
+     *
+     * @param path to api resource.
+     * @return Api responses
+     */
     public static ResponseOptions<Response> getMethod(String path) {
+        specificPath = path;
         response = null;
         setDefaultHeaders();
         try {
-            initConfig();
-            builderMW.setBaseUri(setBaseUri);
+            configProperties.initConfig();
+            builderMW.setBaseUri(configProperties.getBaseUri());
             request = RestAssured.given().spec(builderMW.build());
             response = request.get(new URI(path));
         } catch (URISyntaxException e) {
@@ -103,7 +116,15 @@ public class RestAssuredExtension {
         return response;
     }
 
+    /**
+     * get response from Microservices
+     *
+     * @param body a text file with body
+     * @param path to api resource.
+     * @return Api responses
+     */
     public static ResponseOptions<Response> putMethod(String path, String body) {
+        specificPath = path;
         response = null;
         setDefaultHeaders();
         RestAssuredConfig config = RestAssured.config();
@@ -112,8 +133,8 @@ public class RestAssuredExtension {
                         .setParam("http.socket.timeout", 5000)
                         .setParam("http.connection.timeout", 5000));
         try {
-            initConfig();
-            builderMW.setBaseUri(setBaseUri);
+            configProperties.initConfig();
+            builderMW.setBaseUri(configProperties.getBaseUri());
             builderMW.setBody(generateBodyFromResource(body)).setContentType(ContentType.TEXT);
             builderMW.setAccept(ContentType.JSON);
             builderMW.setContentType(ContentType.JSON);
@@ -125,5 +146,31 @@ public class RestAssuredExtension {
             e.printStackTrace();
         }
         return response;
+    }
+
+    /**
+     * set a content type
+     *
+     * @param type on format that you needed, text, json, html...
+     */
+    private static ContentType setContentType(String type) {
+        switch (type) {
+            case "TEXT":
+                content = ContentType.TEXT;
+                break;
+            case "JSON":
+                content = ContentType.JSON;
+                break;
+            case "HTML":
+                content = ContentType.HTML;
+                break;
+            case "ANY":
+                content = ContentType.ANY;
+                break;
+            case "XML":
+                content = ContentType.XML;
+                break;
+        }
+        return content;
     }
 }
