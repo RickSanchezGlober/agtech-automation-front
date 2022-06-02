@@ -25,7 +25,7 @@ public class RestAssuredExtension {
     public static RequestSpecBuilder builder = new RequestSpecBuilder();
     public static RequestSpecBuilder builderMW = new RequestSpecBuilder();
     public static ContentType content;
-    //private static Properties prop = new Properties();
+    private static Properties prop = new Properties();
     public static String specificPath = "";
     public static Logger log = Logger.getLogger(String.valueOf(RestAssuredExtension.class));
 
