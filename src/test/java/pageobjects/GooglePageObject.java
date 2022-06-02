@@ -1,6 +1,5 @@
 package pageobjects;
 
 public class GooglePageObject {
-    //@FindBy(id="elementId") 
-    //WebElement element;
+    //public static final By.ByLinkText CART_BUTTON = new By.ByLinkText("Cart");
 }
