@@ -10,8 +10,8 @@ public class GoogleSteps {
 
     @Given("^I go to google$")
     public void iGoToGoogle() {
-        googlePage.navigateTo("https://google.com");
+        googlePage.navigateTo();
         String actualPageTitle = googlePage.getPageTitle();
-        Assert.assertEquals(actualPageTitle, "Google");
+        Assert.assertEquals(actualPageTitle, "AgTech");
     }
 }
