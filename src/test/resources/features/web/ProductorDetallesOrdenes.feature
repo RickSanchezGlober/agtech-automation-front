@@ -1,7 +1,7 @@
 @payments @regression
 Feature:  Productor - Detalle de Órdenes
 
-  @loginSuccessful
+  @loginSuccessful @TEST_ID_AG-279
   Scenario:  Verifico Pantalla de Detalle de órdenes
     Given Se ingresa al portal Galicia Rural
     And Se hace click sobre el boton Logueate
