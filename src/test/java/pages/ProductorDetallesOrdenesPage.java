@@ -41,8 +41,8 @@ public class ProductorDetallesOrdenesPage extends BasePage {
             case "Descripción de la Orden":
                 element = ProductorDetallesOrdenesPageObject.DESCRIPCION_ORDEN_TEXT;
                 break;
-            case "Precio":
-                element = ProductorDetallesOrdenesPageObject.PRECIO_TEXT;
+            case "Monto":
+                element = ProductorDetallesOrdenesPageObject.MONTO_TEXT;
                 break;
             case "TNA":
                 element = ProductorDetallesOrdenesPageObject.TNA_TEXT;
@@ -58,6 +58,9 @@ public class ProductorDetallesOrdenesPage extends BasePage {
                 break;
             case "Botón Confirmar":
                 element = ProductorDetallesOrdenesPageObject.CONFIRMAR_BUTTON;
+                break;
+            case "Descripción de medio de pago disponible":
+                element = ProductorDetallesOrdenesPageObject.PAGA_CON_TEXT;
                 break;
         }
         return isDisplayed(element);
