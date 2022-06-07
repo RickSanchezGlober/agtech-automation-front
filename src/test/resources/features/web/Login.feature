@@ -1,10 +1,9 @@
-@onboarding @regression
-Feature:  Login
+Feature: Login
 
-  @loginSuccessful
-  Scenario:  Verificar login exitoso
-    Given Se ingresa al portal Galicia Rural
-    And Se hace click sobre el boton Logueate
-    When Se loguea con usuario cristian.duque@globant.com y password Colombia123
-    And Se hace click sobre el boton Iniciar sesión
-    Then El usuario pudo loguearse
+  @regression
+  Scenario: Verificar login exitoso
+    Given Se navega al portal Galicia Rural
+    And Se hace click sobre el botón Logueate
+    When Se ingresa con usuario cristian.duque@globant.com y password Colombia123
+    And Se hace click sobre el botón Iniciar sesión
+    Then Se visualiza el mensaje Te damos la bienvenida a Agtech
