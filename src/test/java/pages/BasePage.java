@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 //import java.util.concurrent.atomic.AtomicInteger;
 
+import config.WebPropertiesConfig;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -37,6 +38,7 @@ public class BasePage {
     public static DataTable data;
     public static Map<String, String> scenarioData = new HashMap<>();
     Logger log;
+    public static WebPropertiesConfig webPropertiesConfig=new WebPropertiesConfig();
 
     public BasePage() {
         driver = Hook.driver;
@@ -45,8 +47,8 @@ public class BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public void navigateTo(String url) {
-        driver.get(url);
+    public void navigateTo() {
+        driver.get(webPropertiesConfig.getBaseUri());
     }
 
     public String getPageTitle() {
@@ -189,7 +191,6 @@ public class BasePage {
     }
 
     /**
-     *
      * @param frame The index of the frame to switch to (first frame has index 0)
      */
     public void switchFrames(int frame) {
@@ -263,5 +264,22 @@ public class BasePage {
             e.printStackTrace();
         }
         return key;
+    }
+
+    public void write(By locator, String textToWrite) {
+        Find(locator).clear();
+        Find(locator).sendKeys(textToWrite);
+    }
+
+    private WebElement Find(By locator) {
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public void explicitWait(By by) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+    }
+
+    public boolean verifyVisibleText(By locator, String textToCompare) {
+        return Find(locator).getText().equals(textToCompare);
     }
 }
