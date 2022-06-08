@@ -38,19 +38,19 @@ public class Hook {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.setHeadless(false);
+                chromeOptions.setHeadless(true);
                 driver = new ChromeDriver(chromeOptions);
                 break;
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                firefoxOptions.setHeadless(false);
+                firefoxOptions.setHeadless(true);
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
             case "edge":
                 WebDriverManager.edgedriver().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.setHeadless(false);
+                edgeOptions.setHeadless(true);
                 driver = new EdgeDriver(edgeOptions);
                 break;
             default:
