@@ -41,28 +41,29 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - name: Build and Execute Test
         run: mvn clean install
+        
       - name: Get Allure history
         uses: actions/checkout@v2
         if: always()
         continue-on-error: true
         with:
-          ref: gh-pages
+          ref: ${{ github.event.push.head.ref }}
           path: gh-pages
-      - name: Allure Report action
+          
+      - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@master
         if: always()
-        continue-on-error: true
+        id: allure-report
         with:
           allure_results: target/allure-results
-          allure_history: allure-history/allure-history
-          keep_reports: 5
-#       - name: Deploy Test Report
-#         if: always()
-#         uses: peaceiris/actions-gh-pages@v3
-#         with:
-#           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#           PUBLISH_BRANCH: gh-pages
-#           PUBLISH_DIR: allure-history/allure-history
-#           user_name: "github-actions[bot]"
-#           user_email: "github-actions[bot]@users.noreply.github.com"
-#           commit_message: ${{ github.event.head_commit.message }}
+          gh_pages: gh-pages
+          allure_report: allure-report
+          allure_history: allure-history
+          
+      - name: Deploy report to Github Pages
+        if: always()
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history
