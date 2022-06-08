@@ -56,13 +56,13 @@ jobs:
           allure_results: target/allure-results
           allure_history: allure-history/allure-history
           keep_reports: 5
-      # - name: Deploy Test Report
-      #   if: always()
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     PUBLISH_BRANCH: gh-pages
-      #     PUBLISH_DIR: allure-history/allure-history
-      #     user_name: "github-actions[bot]"
-      #     user_email: "github-actions[bot]@users.noreply.github.com"
-      #     commit_message: ${{ github.event.head_commit.message }}
+      - name: Deploy Test Report
+        if: always()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PUBLISH_BRANCH: gh-pages
+          PUBLISH_DIR: allure-history/allure-history
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+          commit_message: ${{ github.event.head_commit.message }}
