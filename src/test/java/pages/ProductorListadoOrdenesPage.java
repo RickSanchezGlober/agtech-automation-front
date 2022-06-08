@@ -9,7 +9,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
 
+
 public class ProductorListadoOrdenesPage extends BasePage {
+
+    public ProductorListadoOrdenesPage() {
+        super();
+    }
+
     public boolean verifyElementEmptyStateScreen(String elementName) {
         explicitWait(ProductorListadoOrdenesPageObject.EMPTY_STATE_ICON);
         By element = null;
@@ -34,7 +40,6 @@ public class ProductorListadoOrdenesPage extends BasePage {
         }
         return result;
     }
-
     public boolean verifyOrderQuantity(String orderQuantity) {
         explicitWait(ProductorListadoOrdenesPageObject.ORDENES_CONTAINER);
         List<WebElement> elementList = driver.findElements(ProductorListadoOrdenesPageObject.ORDENES_CONTAINER);

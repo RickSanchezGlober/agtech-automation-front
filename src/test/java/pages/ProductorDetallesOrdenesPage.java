@@ -1,14 +1,18 @@
 package pages;
 
-
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 import pageobjects.ProductorDetallesOrdenesPageObject;
+import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
 public class ProductorDetallesOrdenesPage extends BasePage {
-    public void clickOnButton(String buttonName) {
+
+    public ProductorDetallesOrdenesPage() {
+        super();
+    }
+
+    public void clickOnButtonByName(String buttonName) {
         By element = null;
         explicitWait(ProductorDetallesOrdenesPageObject.VER_ORDENES_BUTTON);
         switch (buttonName) {
@@ -26,7 +30,7 @@ public class ProductorDetallesOrdenesPage extends BasePage {
     }
 
     public boolean verifyDetailsOrder(String detail) {
-        waitVisibility(ProductorDetallesOrdenesPageObject.DETALLE_ORDENES_SIDESHEET, "1");
+        waitVisibility(ProductorDetallesOrdenesPageObject.DETALLE_ORDENES_SIDESHEET, "2");
         By element = null;
         switch (detail) {
             case "Fecha y Hora":
