@@ -1,31 +1,31 @@
 package steps;
 
-import io.cucumber.java.en.Given;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import org.testng.Assert;
+
+import io.cucumber.java.en.Given;
 import pages.LoginPage;
 
 public class LoginSteps {
-    public static LoginPage loginPage = new LoginPage();
+    LoginPage loginPage = new LoginPage();
 
-    @Given("Se ingresa al portal Galicia Rural")
-    public void navigateToGaliciaRural() {
+    @Given("^Se navega al portal Galicia Rural$")
+    public void iGoToGoogle() {
         loginPage.navigateTo();
+        String actualPageTitle = loginPage.getPageTitle();
+        Assert.assertEquals(actualPageTitle, "AgTech");
     }
-
-    @And("Se hace click sobre el boton (.*)$")
-    public void clicnOnButtonName(String buttonName) {
-        loginPage.clickOnButton(buttonName);
+    @And("^Se hace click sobre el botón (.*)$")
+    public void clicOnButtonByName(String buttonName) {
+        loginPage.clickOnButtonByName(buttonName);
     }
-
-    @And("Se loguea con usuario (.*) y password (.*)$")
+    @And("^Se ingresa con usuario (.*) y password (.*)$")
     public void loginUserPasswd(String user,String password) {
         loginPage.loginWithUserPasswd(user,password);
     }
-
-    @Then("El usuario pudo loguearse")
-    public void elUsuarioPuedoLoguearse() {
-        Assert.assertTrue(loginPage.verifyProductorNameIsdisplayed());
+    @Then("^Se visualiza el mensaje (.*)$")
+    public void elUsuarioPuedoLoguearse(String message) {
+        Assert.assertTrue(loginPage.verifyMessageIsdisplayed(message));
     }
 }
