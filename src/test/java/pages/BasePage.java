@@ -14,14 +14,7 @@ import java.util.Map;
 import config.WebPropertiesConfig;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Cookie;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -38,7 +31,7 @@ public class BasePage {
     public static DataTable data;
     public static Map<String, String> scenarioData = new HashMap<>();
     Logger log;
-    public static WebPropertiesConfig webPropertiesConfig=new WebPropertiesConfig();
+    public static WebPropertiesConfig webPropertiesConfig = new WebPropertiesConfig();
 
     public BasePage() {
         driver = Hook.driver;
@@ -278,8 +271,29 @@ public class BasePage {
     public void explicitWait(By by) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
+    public boolean waitVisibility(By by, String wt) {
+        int time;
+        if (wt != null | wt != "") {
+            time = Integer.valueOf(wt);
+        } else {
+            time = 10;
+        }
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(by));
+            wait.until(ExpectedConditions.elementToBeClickable(by));
+            return true;
+        } catch (NoSuchElementException | TimeoutException e) {
+            log.info("Element is not present");
+            return false;
+        }
+    }
 
     public boolean verifyVisibleText(By locator, String textToCompare) {
         return Find(locator).getText().equals(textToCompare);
+    }
+
+    public boolean isDisplayed(By locator) {
+        return Find(locator).isDisplayed();
     }
 }
