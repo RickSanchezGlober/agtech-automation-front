@@ -12,4 +12,5 @@ public class ProductorListadoOrdenesPageObject {
     public static final By.ByClassName NUMERO_ORDEN_CONTAINER = new By.ByClassName("card__content_ordernumber");
     public static final By.ByClassName FECHA_HORA_GENERACION_CONTAINER = new By.ByClassName("card__content_date");
     public static final By.ByClassName DESCRIPCION_CONTAINER = new By.ByClassName("card__content_description");
+    public static final By.ByClassName TENEMOS_PROBLEMA_TEXT = new By.ByClassName("confirmation_page__container__subtitle");
 }

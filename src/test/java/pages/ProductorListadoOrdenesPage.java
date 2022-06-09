@@ -2,7 +2,10 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import pageobjects.LoginPageObject;
+import pageobjects.ProductorDetallesOrdenesPageObject;
 import pageobjects.ProductorListadoOrdenesPageObject;
+import steps.LoginSteps;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -40,6 +43,7 @@ public class ProductorListadoOrdenesPage extends BasePage {
         }
         return result;
     }
+
     public boolean verifyOrderQuantity(String orderQuantity) {
         explicitWait(ProductorListadoOrdenesPageObject.ORDENES_CONTAINER);
         List<WebElement> elementList = driver.findElements(ProductorListadoOrdenesPageObject.ORDENES_CONTAINER);
@@ -102,5 +106,25 @@ public class ProductorListadoOrdenesPage extends BasePage {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MMMM/yyyy HH:mm", Locale.forLanguageTag("es-ES"));
         LocalDateTime ldt = LocalDateTime.parse(stringDate, formatter);
         return ldt;
+    }
+
+    public void msOrdersProducerVolver() {
+        int i = 0;
+        while (i < 3) {
+            if (waitVisibility(ProductorListadoOrdenesPageObject.TENEMOS_PROBLEMA_TEXT, "1")
+                    && waitVisibility(ProductorListadoOrdenesPageObject.VOLVER_BUTTON, "1")) {
+                click(ProductorListadoOrdenesPageObject.VOLVER_BUTTON);
+                //cuando se hace click en volver te lleva a la pagina del logueo,
+                // deberia regresar a ver ordenes
+//                explicitWait(ProductorDetallesOrdenesPageObject.VER_ORDENES_BUTTON);
+//                click(ProductorDetallesOrdenesPageObject.VER_ORDENES_BUTTON);
+                i++;
+            } else {
+                break;
+            }
+            if (i > 2) {
+                log.info("Problema con la comunicacion al MS orders/producer");
+            }
+        }
     }
 }
