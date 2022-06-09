@@ -11,7 +11,7 @@ public class LoginSteps {
     LoginPage loginPage = new LoginPage();
 
     @Given("^Se navega al portal Galicia Rural$")
-    public void iGoToGoogle() {
+    public void iGoToRuralGaliciaPortal() {
         loginPage.navigateTo();
         String actualPageTitle = loginPage.getPageTitle();
         Assert.assertEquals(actualPageTitle, "AgTech");

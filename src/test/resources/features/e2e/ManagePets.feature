@@ -1,4 +1,4 @@
-@regression @managePets
+@managePets
 Feature: Manage pet API services
 
   Background:
