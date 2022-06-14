@@ -40,8 +40,17 @@ public class BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public void navigateTo() {
-        driver.get(webPropertiesConfig.getBaseUri());
+    public void navigateTo(String rol) {
+        String url = "";
+        switch (rol) {
+            case "productor":
+                url = webPropertiesConfig.getBaseUriProductor();
+                break;
+            case "proveedor":
+                url = webPropertiesConfig.getBaseUriProveedor();
+                break;
+        }
+        driver.get(url);
     }
 
     public String getPageTitle() {
@@ -271,6 +280,7 @@ public class BasePage {
     public void explicitWait(By by) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
+
     public boolean waitVisibility(By by, String wt) {
         int time;
         if (wt != null | wt != "") {

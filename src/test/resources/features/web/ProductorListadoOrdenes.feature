@@ -1,8 +1,8 @@
-@payments @listadoOrdenes
+@payments @productor @listadoOrdenes
 Feature:  Productor - Listado de órdenes
 
   Background:
-    Given Se navega al portal Galicia Rural
+    Given Se navega al portal Galicia Rural productor
     And Se hace click sobre el botón Logueate
 
   @TEST_ID_AG-275 @regression

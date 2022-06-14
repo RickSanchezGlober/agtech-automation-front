@@ -1,7 +1,8 @@
+@productor
 Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
 
   Background:
-    Given Se navega al portal Galicia Rural
+    Given Se navega al portal Galicia Rural productor
     And Se hace click sobre el botón Logueate
     And Se ingresa con usuario cristian.duque@globant.com y password Colombia123
     And Se hace click sobre el botón Iniciar sesión
