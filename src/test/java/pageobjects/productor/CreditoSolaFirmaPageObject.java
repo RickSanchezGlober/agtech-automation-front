@@ -1,4 +1,4 @@
-package pageobjects;
+package pageobjects.productor;
 
 import org.openqa.selenium.By;
 

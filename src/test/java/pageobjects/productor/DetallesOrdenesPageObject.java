@@ -1,8 +1,8 @@
-package pageobjects;
+package pageobjects.productor;
 
 import org.openqa.selenium.By;
 
-public class ProductorDetallesOrdenesPageObject {
+public class DetallesOrdenesPageObject {
     public static final By.ByLinkText VER_ORDENES_BUTTON = new By.ByLinkText("Ver órdenes");
     public static final By.ByClassName ORDENES_CONTAINER = new By.ByClassName("card__content");
     public static final By.ByXPath DETALLE_ORDENES_SIDESHEET = new By.ByXPath("//body/div[@id='root-portal']/div[1]/div[1]/div[1]");

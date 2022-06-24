@@ -40,7 +40,9 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and Execute Test
+        if: always()
         run: mvn clean install
+        continue-on-error: true
         
       - name: Get Allure history
         uses: actions/checkout@v2

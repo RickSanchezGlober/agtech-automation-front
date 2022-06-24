@@ -1,10 +1,10 @@
-package steps;
+package steps.productor;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
-import pages.CreditoSolaFirmaPage;
+import pages.productor.CreditoSolaFirmaPage;
 
 public class CreditoSolaFirmaSteps {
 

@@ -30,7 +30,7 @@ public class BasePage {
     protected WebDriverWait wait;
     public static DataTable data;
     public static Map<String, String> scenarioData = new HashMap<>();
-    Logger log;
+    protected Logger log;
     public static WebPropertiesConfig webPropertiesConfig = new WebPropertiesConfig();
 
     public BasePage() {
@@ -306,4 +306,12 @@ public class BasePage {
     public boolean isDisplayed(By locator) {
         return Find(locator).isDisplayed();
     }
+
+    public boolean isEnabled(By locator) {
+        return Find(locator).isEnabled();
+    }
+    public String getAttribute (By locator, String attribute){
+        return Find(locator).getAttribute(attribute);
+    }
+
 }

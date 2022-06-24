@@ -1,9 +1,10 @@
-package pages;
+package pages.productor;
 
 import org.openqa.selenium.By;
-import pageobjects.CreditoSolaFirmaPageObject;
+import pageobjects.productor.CreditoSolaFirmaPageObject;
+import pages.BasePage;
 
-public class CreditoSolaFirmaPage extends BasePage{
+public class CreditoSolaFirmaPage extends BasePage {
 
     public CreditoSolaFirmaPage() {
         super();
