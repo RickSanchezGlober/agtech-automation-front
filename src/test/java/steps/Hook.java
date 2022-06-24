@@ -33,29 +33,29 @@ public class Hook {
         log.info("======================================");
         log.info("====== SETUP BROWSER AND DRIVER ======");
         log.info("======================================");
-//        String browser = RunnerTest.BROWSER.get();
-//        switch (browser) {
-//            case "chrome":
+        String browser = RunnerTest.BROWSER.get();
+        switch (browser) {
+            case "chrome":
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.setHeadless(false);
                 driver = new ChromeDriver(chromeOptions);
-//                break;
-//            case "firefox":
-//                WebDriverManager.firefoxdriver().setup();
-//                FirefoxOptions firefoxOptions = new FirefoxOptions();
-//                firefoxOptions.setHeadless(false);
-//                driver = new FirefoxDriver(firefoxOptions);
-//                break;
-//            case "edge":
-//                WebDriverManager.edgedriver().setup();
-//                EdgeOptions edgeOptions = new EdgeOptions();
-//                edgeOptions.setHeadless(false);
-//                driver = new EdgeDriver(edgeOptions);
-//                break;
-//            default:
-//                break;
-//        }
+                break;
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                firefoxOptions.setHeadless(false);
+                driver = new FirefoxDriver(firefoxOptions);
+                break;
+            case "edge":
+                WebDriverManager.edgedriver().setup();
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.setHeadless(false);
+                driver = new EdgeDriver(edgeOptions);
+                break;
+            default:
+                break;
+        }
 
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
