@@ -1,9 +1,16 @@
 package pages.proveedor;
 
+import io.cucumber.datatable.DataTable;
 import org.openqa.selenium.By;
 import pageobjects.proveedor.GenerarOrdenCompraPageObject;
 import pages.BasePage;
+import steps.proveedor.GenerarOrdenCompraSteps;
 import utils.DataGenerator;
+import utils.RestAssuredExtension;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class GenerarOrdenCompraPage extends BasePage {
@@ -66,6 +73,9 @@ public class GenerarOrdenCompraPage extends BasePage {
             case "Continuar":
                 element = GenerarOrdenCompraPageObject.CONTINUAR_BUTTON;
                 break;
+            case "Buscar":
+                element = GenerarOrdenCompraPageObject.BUSCAR_BUTTON;
+                break;
         }
         return isEnabled(element);
     }
@@ -79,4 +89,40 @@ public class GenerarOrdenCompraPage extends BasePage {
         result = getAttribute(webElement, "value").length() == intQuantity;
         return result;
     }
+
+    public boolean checkFieldOnCustomerIDScreen(String field) {
+        explicitWait(GenerarOrdenCompraPageObject.BUSCAR_BUTTON);
+        By element = null;
+        switch (field) {
+            case "Ingresá el CUIT":
+                element = GenerarOrdenCompraPageObject.INGRESA_EL_CUIT_LABEL;
+                break;
+            case "Escribí 11 números":
+                element = GenerarOrdenCompraPageObject.ESCRIBI_11_NUMEROS_TEXT;
+                break;
+            case "Productor Asociado":
+                if (RestAssuredExtension.response.statusCode() == 200) {
+                    element = GenerarOrdenCompraPageObject.DATOS_PRODUCTOR_ASOCIADO_TEXT;
+                    String cuit = GenerarOrdenCompraSteps.cuit;
+                    field = "CUIT " + cuit.substring(0, 2) + "-" + cuit.substring(2, 10) + "-" + cuit.substring(10, 11);
+                    break;
+                } else {
+                    log.info("Productor no disponible en la Base de Datos local");
+                }
+        }
+        return verifyVisibleText(element, field);
+    }
+
+    public boolean verifyCUITFormat(String cuit) {
+        String cuitWithFormat = getAttribute(GenerarOrdenCompraPageObject.INGRESA_EL_CUIT_INPUT, "value");
+        cuit = cuit.substring(0, 2) + "-" + cuit.substring(2, 10) + "-" + cuit.substring(10, 11);
+        return cuit.equals(cuitWithFormat);
+    }
+
+    public void validateCustumerByCUIT(String cuit, String path/*, List<List<String>> table*/) {
+        log.info(path + cuit);
+        RestAssuredExtension.getMethod(path + cuit);
+        RestAssuredExtension.response.getBody().prettyPrint();
+    }
+
 }

@@ -310,8 +310,16 @@ public class BasePage {
     public boolean isEnabled(By locator) {
         return Find(locator).isEnabled();
     }
-    public String getAttribute (By locator, String attribute){
+
+    public String getAttribute(By locator, String attribute) {
         return Find(locator).getAttribute(attribute);
     }
 
+    public void sleep(int halfSecond) {
+        try {
+            Thread.sleep(500 * halfSecond);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
