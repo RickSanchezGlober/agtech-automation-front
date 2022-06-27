@@ -94,10 +94,11 @@ public class ListadoOrdenesPage extends BasePage {
 
     private String getDateFromStringUI(String stringDate) {
         stringDate = stringDate.replaceAll("hrs.", "");
-        stringDate = stringDate.replace(" |", "");
+        stringDate = stringDate.replace(" | ", "");
         stringDate = stringDate.replaceFirst(" ", "/");
         stringDate = stringDate.replaceFirst(" ", "/");
-        return stringDate;
+        stringDate = stringDate.replaceFirst(" ", "");
+        return stringDate.toLowerCase();
     }
 
     private LocalDateTime getLocalDateFromString(String stringDate) {

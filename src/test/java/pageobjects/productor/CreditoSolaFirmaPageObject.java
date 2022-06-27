@@ -11,7 +11,8 @@ public class CreditoSolaFirmaPageObject {
     public static final By.ByXPath DESCRIPCION_TITLE = new By.ByXPath("//p[contains(text(),'Revisá que todo esté bien y confirmá el pago')]");
     public static final By.ByClassName CONFIRMATION_SUBTITLE = new By.ByClassName("confirmation__container__subtitle");
     public static final By.ByXPath ORDER_TEXT = new By.ByXPath("//p[contains(text(),'Orden No.:')]");
-    public static final By.ByXPath PROVEEDOR_TEXT = new By.ByXPath("//p[contains(text(),'Orden No.:')]//following-sibling::p");
+//    public static final By.ByXPath PROVEEDOR_TEXT = new By.ByXPath("//p[contains(text(),'Orden No.:')]//following-sibling::p");
+    public static final By.ByClassName PROVEEDOR_TEXT = new By.ByClassName("confirmation__container__provider");
     public static final By.ByClassName DESCRIPCION_ORDEN_TEXT = new By.ByClassName("confirmation__container__product");
     public static final By.ByXPath AFINANCIARCON_TEXT = new By.ByXPath("//p[contains(text(),'A financiar con:')]//following-sibling::p");
     public static final By.ByXPath MONTO = new By.ByXPath("//p[contains(text(),'Monto')]//following-sibling::p");
