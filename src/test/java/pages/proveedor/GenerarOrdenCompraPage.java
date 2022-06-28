@@ -31,8 +31,12 @@ public class GenerarOrdenCompraPage extends BasePage {
                 element = GenerarOrdenCompraPageObject.BUSCAR_BUTTON;
                 break;
             case "del Productor encontrado":
-                waitVisibility(GenerarOrdenCompraPageObject.PRODUCTOR_ARROW, "7");
+                waitVisibility(GenerarOrdenCompraPageObject.PRODUCTOR_ARROW, "10");
                 element = GenerarOrdenCompraPageObject.PRODUCTOR_ARROW;
+                break;
+            case "Continuar":
+                explicitWait(GenerarOrdenCompraPageObject.CONTINUAR_BUTTON);
+                element = GenerarOrdenCompraPageObject.CONTINUAR_BUTTON;
                 break;
         }
         click(element);
@@ -44,6 +48,14 @@ public class GenerarOrdenCompraPage extends BasePage {
         switch (field) {
             case "Ingresá el CUIT":
                 element = GenerarOrdenCompraPageObject.INGRESA_EL_CUIT_INPUT;
+                break;
+            case "Descripción":
+                element = GenerarOrdenCompraPageObject.DESCRIPCION_INPUT;
+                if (text.contains("Válida")) {
+                    text = DataGenerator.getText(1, 40, true, true);
+                } else {
+                    //Ver cual seria un descripcion no valida
+                }
                 break;
         }
         write(element, text);
@@ -61,6 +73,9 @@ public class GenerarOrdenCompraPage extends BasePage {
                 break;
             case "Hasta 40 caracteres":
                 element = GenerarOrdenCompraPageObject.HASTA_40_CARACTERES_TEXT;
+                break;
+            case "Elegí el medio de pago con el cual el productor va a pagar la orden.":
+                element = GenerarOrdenCompraPageObject.ELEGI_MEDIO_PAGO_TITLE;
                 break;
         }
         return verifyVisibleText(element, text);
@@ -119,9 +134,9 @@ public class GenerarOrdenCompraPage extends BasePage {
         return cuit.equals(cuitWithFormat);
     }
 
-    public void validateCustumerByCUIT(String cuit, String path/*, List<List<String>> table*/) {
+    public void validateCustumerByCUIT(String sourceApi, String path, String cuit/*, List<List<String>> table*/) {
         log.info(path + cuit);
-        RestAssuredExtension.getMethod(path + cuit);
+        RestAssuredExtension.getMethod(sourceApi, path + cuit);
         RestAssuredExtension.response.getBody().prettyPrint();
     }
 

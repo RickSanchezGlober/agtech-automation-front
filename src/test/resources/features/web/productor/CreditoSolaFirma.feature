@@ -24,7 +24,7 @@ Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
     And Se muestra el titulo del detalle
     And Se muestra el campo Orden No.
     And Se muestra el campo Nombre del Proveedor
-#    And Se muestra el campo Descripción de la orden "comento por remapeomvn"
+#    And Se muestra el campo Descripción de la orden "comento por remapeo"
     And Se muestra el campo A financiar con que debe tener por debajo el valor Crédito a sola firma
     #Hacer e2e
     And Se muestra el campo Monto

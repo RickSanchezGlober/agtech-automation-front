@@ -16,4 +16,5 @@ public class GenerarOrdenCompraPageObject {
     public static final By.ByClassName HASTA_40_CARACTERES_TEXT = new By.ByClassName("input__container__helper_text");
     public static final By.ByClassName ESCRIBI_11_NUMEROS_TEXT = new By.ByClassName("input__container__helper_text_");
     public static final By.ByClassName DATOS_PRODUCTOR_ASOCIADO_TEXT = new By.ByClassName("card_icon_description");
+    public static final By.ByClassName ELEGI_MEDIO_PAGO_TITLE = new By.ByClassName("payment_page__title_payment");
 }

@@ -212,8 +212,8 @@ public class BasePage {
         return driver.manage().getCookieNamed(name);
     }
 
-    public void getDataFromApiServices(String path, String body, List<List<String>> t_table) {
-        RestAssuredExtension.response = RestAssuredExtension.postMethod(path, body);
+    public void getDataFromApiServices(String path, String body,String sourceApi, List<List<String>> t_table) {
+        RestAssuredExtension.response = RestAssuredExtension.postMethod(path, body,sourceApi);
         DataTable data = createDataTable(t_table);
         if (data != null) {
             //AtomicInteger i = new AtomicInteger(1);

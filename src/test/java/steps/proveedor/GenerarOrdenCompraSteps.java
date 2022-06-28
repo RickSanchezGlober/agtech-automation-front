@@ -56,9 +56,9 @@ public class GenerarOrdenCompraSteps {
         Assert.assertTrue(generarOrdenCompraPage.verifyCUITFormat(cuit));
     }
 
-    @And("^Recuperar datos de servicios api con ruta (.*) y guardar variables abajo$")
-    public void findCustumerByCUIT(String path/*, List<List<String>> t_table*/) {
-        generarOrdenCompraPage.validateCustumerByCUIT(cuit, path/*, t_table*/);
+    @And("^Recuperar datos de servicios api (.*) con ruta (.*) y guardar variables abajo$")
+    public void findCustumerByCUIT(String sourceApi, String path/*, List<List<String>> t_table*/) {
+        generarOrdenCompraPage.validateCustumerByCUIT(sourceApi, path, cuit/*, t_table*/);
     }
 
 }
