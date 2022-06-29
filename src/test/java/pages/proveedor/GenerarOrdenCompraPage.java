@@ -96,13 +96,11 @@ public class GenerarOrdenCompraPage extends BasePage {
     }
 
     public boolean checkNumberCharacters(String quantity) {
-        boolean result = false;
         int intQuantity = Integer.parseInt(quantity);
         String randomText = DataGenerator.getText(intQuantity + 1, intQuantity + 2, true, true);
         By webElement = GenerarOrdenCompraPageObject.DESCRIPCION_INPUT;
         write(webElement, randomText);
-        result = getAttribute(webElement, "value").length() == intQuantity;
-        return result;
+        return getAttribute(webElement, "value").length() == intQuantity;
     }
 
     public boolean checkFieldOnCustomerIDScreen(String field) {
