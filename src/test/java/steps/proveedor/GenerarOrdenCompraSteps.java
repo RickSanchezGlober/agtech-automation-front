@@ -61,4 +61,8 @@ public class GenerarOrdenCompraSteps {
         generarOrdenCompraPage.validateCustumerByCUIT(sourceApi, path, cuit/*, t_table*/);
     }
 
+    @And("^El proveedor observa (.*)$")
+    public void checkPaymentMethods(String paymentMethods) {
+        Assert.assertTrue(generarOrdenCompraPage.checkPaymentMethods(paymentMethods));
+    }
 }

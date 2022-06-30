@@ -12,8 +12,8 @@ Feature: Generar Orden de Compra
 
   @TEST_ID_AG-529 @TEST_ID_AG-530 @regression
   Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar pantalla nueva orden de compra
-  Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar ingreso de CUIT nueva orden de compra
-  Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar busqueda de productor asociado al CUIT valido
+            Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar ingreso de CUIT nueva orden de compra
+            Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar busqueda de productor asociado al CUIT valido
     Then El proveedor visualiza el boton Buscar Deshabilitado
     And El proveedor visualiza Ingresá el CUIT en la pantalla Identificación de cliente
     And El proveedor visualiza Escribí 11 números en la pantalla Identificación de cliente
@@ -53,3 +53,8 @@ Feature: Generar Orden de Compra
     And El proveedor ingresa Descripción Válida en el campo Descripción
     And El proveedor hace click en el botón Continuar
     Then El proveedor visualiza Elegí el medio de pago con el cual el productor va a pagar la orden. en la pantalla detalle de la orden
+    And El proveedor observa Medios de Pagos Disponibles
+    And El proveedor observa Nombre de Medio de pago
+    And El proveedor observa Descripción del Medio de pago
+    And El proveedor observa Logo de la entidad bancaria
+    And El proveedor observa Nombre de la entidad bancaria

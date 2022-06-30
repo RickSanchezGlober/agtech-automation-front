@@ -35,8 +35,10 @@ public class CreditoSolaFirmaPage extends BasePage {
         click(element);
     }
 
-    public boolean verifyPaymentDetailIsdisplayed() {
-        explicitWait(CreditoSolaFirmaPageObject.CONFIRMATION_TITLE);
+    public boolean
+    verifyPaymentDetailIsdisplayed() {
+//        explicitWait(CreditoSolaFirmaPageObject.CONFIRMATION_TITLE); CONFIRMATION_TITLE no lo veo
+        explicitWait(CreditoSolaFirmaPageObject.DESCRIPCION_TITLE);
         return verifyVisibleText(CreditoSolaFirmaPageObject.DESCRIPCION_TITLE, "Revisá que todo esté bien y confirmá el pago");
     }
 

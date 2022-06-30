@@ -29,6 +29,6 @@ public class CreditoSolaFirmaPageObject {
     public static final By.ByXPath LABEL_TERMINOS = new By.ByXPath("//p[contains(text(),'Al confirmar el pago estás aceptando nuestros')]");
     public static final By.ByPartialLinkText LINK_TERMINOS = new By.ByPartialLinkText("términos y condiciones");
     public static final By.ByClassName LINK_VOLVER = new By.ByClassName("header__container__back");
-    public static final By.ByClassName BIG_CFT = new By.ByClassName("confirmation__container__big_cft");
+    public static final By.ByClassName BIG_CFT = new By.ByClassName("single_signature__container__big_cft");
 
 }

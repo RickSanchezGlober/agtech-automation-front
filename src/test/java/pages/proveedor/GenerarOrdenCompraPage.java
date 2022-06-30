@@ -2,6 +2,8 @@ package pages.proveedor;
 
 import io.cucumber.datatable.DataTable;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import pageobjects.productor.ListadoOrdenesPageObject;
 import pageobjects.proveedor.GenerarOrdenCompraPageObject;
 import pages.BasePage;
 import steps.proveedor.GenerarOrdenCompraSteps;
@@ -138,4 +140,36 @@ public class GenerarOrdenCompraPage extends BasePage {
         RestAssuredExtension.response.getBody().prettyPrint();
     }
 
+    public boolean checkPaymentMethods(String paymentMethods) {
+        explicitWait(GenerarOrdenCompraPageObject.ELEGI_MEDIO_PAGO_TITLE);
+        List<WebElement> elementList = null;
+        boolean result = false;
+        switch (paymentMethods) {
+            case "Medios de Pagos Disponibles":
+                elementList = driver.findElements(GenerarOrdenCompraPageObject.PAYMENT_CARD_CONTAINER);
+                result = (elementList.size() > 0);
+                break;
+            case "Nombre de Medio de pago":
+                elementList = driver.findElements(GenerarOrdenCompraPageObject.PAYMENT_CARD_NAME_CONTAINER);
+                result = (elementList.size() > 0)
+                        && (elementList.get(0).getText().equals("Crédito a sola firma")
+                        || elementList.get(1).getText().equals("Crédito a sola firma"));
+                break;
+            case "Descripción del Medio de pago":
+                elementList = driver.findElements(GenerarOrdenCompraPageObject.PAYMENT_CARD_DESCRIPTION_CONTAINER);
+                result = (elementList.size() > 0);
+                break;
+            case "Logo de la entidad bancaria":
+                elementList = driver.findElements(GenerarOrdenCompraPageObject.PAYMENT_CARD_BANK_LOGO_CONTAINER);
+                result = (elementList.size() > 0);
+                break;
+            case "Nombre de la entidad bancaria":
+                elementList = driver.findElements(GenerarOrdenCompraPageObject.PAYMENT_CARD_BANK_NAME_CONTAINER);
+                result = (elementList.size() > 0)
+                        && (elementList.get(0).getText().equals("Banco Galicia")
+                        || elementList.get(1).getText().equals("Banco Galicia"));
+                break;
+        }
+        return result;
+    }
 }

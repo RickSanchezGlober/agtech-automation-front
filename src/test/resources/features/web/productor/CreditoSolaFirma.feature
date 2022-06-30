@@ -21,9 +21,9 @@ Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
             Productor - Simulación Crédito a sola firma - Validar Cantidad de dígitos y decimales de los valores Monto y Capital
             Detalle Financiación: CFT pie de páginación - Visualización en un tamaño especial en la parte inferior de la pantalla
     Then El sistema redirecciona a la pantalla de Confirmación con todos los detalles de la orden
-    And Se muestra el titulo del detalle
+#    And Se muestra el titulo del detalle comento por remapeo
     And Se muestra el campo Orden No.
-    And Se muestra el campo Nombre del Proveedor
+#    And Se muestra el campo Nombre del Proveedor comento por remapeo
 #    And Se muestra el campo Descripción de la orden "comento por remapeo"
     And Se muestra el campo A financiar con que debe tener por debajo el valor Crédito a sola firma
     #Hacer e2e
@@ -49,7 +49,7 @@ Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
     And Se muestra el boton Confirmar Pago Habilitado
     And El sistema redirecciona a la pantalla de Confirmación con todos los detalles de la orden
     And Se presiona sobre el enlace en la navegación superior de regreso
-    And Se muestra un listado de 4 órdenes
+    And Se muestra un listado de 5 órdenes
     #Método Payments
 
 #  @financing @TEST_ID_AG-44 @TEST_ID_AG-272
