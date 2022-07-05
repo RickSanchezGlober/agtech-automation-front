@@ -14,8 +14,8 @@ public class ManageSteps {
 
     @Given("^Retrieve data from api services with path (.*) from (.*) and save variables bellow$")
     public void dataFromApiServicesAndSaveVariables(
-            String path, String body, List<List<String>> t_table) {
-        managePetsPage.getDataFromApiServices(path, body, t_table);
+            String path, String body, String sourceApi, List<List<String>> t_table) {
+        managePetsPage.getDataFromApiServices(path, body, sourceApi, t_table);
     }
 
     @Given("^Find pet by id (.*) in the service whith path (.*)$")

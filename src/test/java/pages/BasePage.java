@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 //import java.util.concurrent.atomic.AtomicInteger;
 
 import config.WebPropertiesConfig;
@@ -30,7 +31,7 @@ public class BasePage {
     protected WebDriverWait wait;
     public static DataTable data;
     public static Map<String, String> scenarioData = new HashMap<>();
-    Logger log;
+    protected Logger log;
     public static WebPropertiesConfig webPropertiesConfig = new WebPropertiesConfig();
 
     public BasePage() {
@@ -40,8 +41,17 @@ public class BasePage {
         PageFactory.initElements(driver, this);
     }
 
-    public void navigateTo() {
-        driver.get(webPropertiesConfig.getBaseUri());
+    public void navigateTo(String rol) {
+        String url = "";
+        switch (rol) {
+            case "productor":
+                url = webPropertiesConfig.getBaseUriProductor();
+                break;
+            case "proveedor":
+                url = webPropertiesConfig.getBaseUriProveedor();
+                break;
+        }
+        driver.get(url);
     }
 
     public String getPageTitle() {
@@ -203,8 +213,8 @@ public class BasePage {
         return driver.manage().getCookieNamed(name);
     }
 
-    public void getDataFromApiServices(String path, String body, List<List<String>> t_table) {
-        RestAssuredExtension.response = RestAssuredExtension.postMethod(path, body);
+    public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
+        RestAssuredExtension.response = RestAssuredExtension.postMethod(path, body, sourceApi);
         DataTable data = createDataTable(t_table);
         if (data != null) {
             //AtomicInteger i = new AtomicInteger(1);
@@ -225,6 +235,25 @@ public class BasePage {
                                     saveInScenarioContext(KEY, VALUES);
                                 } catch (NullPointerException e) {
                                     log.info(String.format("Path specified doesn't exist: %s", VALUES));
+                                }
+                            });
+        }
+    }
+
+    public void getDataFromApiServices(String path, String sourceApi, List<List<String>> t_table) {
+        RestAssuredExtension.response = RestAssuredExtension.getMethod(sourceApi, path);
+        DataTable data = createDataTable(t_table);
+        if (data != null) {
+            AtomicInteger i = new AtomicInteger(1);
+            data.cells()
+                    .forEach(
+                            value -> {
+                                List<String> rField = Collections.singletonList(value.get(0));
+                                String KEY = rField.get(0);
+                                // SAVE
+                                try {
+                                    saveInScenarioContext(KEY, RestAssuredExtension.response.getBody().jsonPath().get(KEY).toString());
+                                } catch (NullPointerException e) {
                                 }
                             });
         }
@@ -271,6 +300,7 @@ public class BasePage {
     public void explicitWait(By by) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(by));
     }
+
     public boolean waitVisibility(By by, String wt) {
         int time;
         if (wt != null | wt != "") {
@@ -295,5 +325,21 @@ public class BasePage {
 
     public boolean isDisplayed(By locator) {
         return Find(locator).isDisplayed();
+    }
+
+    public boolean isEnabled(By locator) {
+        return Find(locator).isEnabled();
+    }
+
+    public String getAttribute(By locator, String attribute) {
+        return Find(locator).getAttribute(attribute);
+    }
+
+    public void sleep(int halfSecond) {
+        try {
+            Thread.sleep(500 * halfSecond);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

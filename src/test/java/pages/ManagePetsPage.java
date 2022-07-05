@@ -6,7 +6,7 @@ public class ManagePetsPage extends BasePage {
     public void findByPetId(String id, String path) {
         String idContext = getScenarioContextVariables(id);
         log.info(idContext);
-        RestAssuredExtension.getMethod(path + idContext);
+        RestAssuredExtension.getMethod(path + idContext,"bff");
         RestAssuredExtension.response.getBody().prettyPrint();
     }
 
@@ -15,7 +15,7 @@ public class ManagePetsPage extends BasePage {
     }
 
     public void updateExistingPets(String path, String body) {
-        RestAssuredExtension.putMethod(path, body);
+        RestAssuredExtension.putMethod(path, body,"bff");
         RestAssuredExtension.response.getBody().prettyPrint();
     }
 }

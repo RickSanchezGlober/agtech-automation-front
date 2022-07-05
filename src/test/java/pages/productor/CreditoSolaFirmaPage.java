@@ -1,9 +1,10 @@
-package pages;
+package pages.productor;
 
 import org.openqa.selenium.By;
-import pageobjects.CreditoSolaFirmaPageObject;
+import pageobjects.productor.CreditoSolaFirmaPageObject;
+import pages.BasePage;
 
-public class CreditoSolaFirmaPage extends BasePage{
+public class CreditoSolaFirmaPage extends BasePage {
 
     public CreditoSolaFirmaPage() {
         super();
@@ -34,8 +35,10 @@ public class CreditoSolaFirmaPage extends BasePage{
         click(element);
     }
 
-    public boolean verifyPaymentDetailIsdisplayed() {
-        explicitWait(CreditoSolaFirmaPageObject.CONFIRMATION_TITLE);
+    public boolean
+    verifyPaymentDetailIsdisplayed() {
+//        explicitWait(CreditoSolaFirmaPageObject.CONFIRMATION_TITLE); CONFIRMATION_TITLE no lo veo
+        explicitWait(CreditoSolaFirmaPageObject.DESCRIPCION_TITLE);
         return verifyVisibleText(CreditoSolaFirmaPageObject.DESCRIPCION_TITLE, "Revisá que todo esté bien y confirmá el pago");
     }
 

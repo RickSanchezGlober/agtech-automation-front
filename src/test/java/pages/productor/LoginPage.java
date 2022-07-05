@@ -1,7 +1,8 @@
-package pages;
+package pages.productor;
 
 import org.openqa.selenium.By;
-import pageobjects.LoginPageObject;
+import pageobjects.productor.LoginPageObject;
+import pages.BasePage;
 
 public class LoginPage extends BasePage {
 

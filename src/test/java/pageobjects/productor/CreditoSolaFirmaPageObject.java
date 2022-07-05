@@ -1,4 +1,4 @@
-package pageobjects;
+package pageobjects.productor;
 
 import org.openqa.selenium.By;
 
@@ -11,7 +11,7 @@ public class CreditoSolaFirmaPageObject {
     public static final By.ByXPath DESCRIPCION_TITLE = new By.ByXPath("//p[contains(text(),'Revisá que todo esté bien y confirmá el pago')]");
     public static final By.ByClassName CONFIRMATION_SUBTITLE = new By.ByClassName("confirmation__container__subtitle");
     public static final By.ByXPath ORDER_TEXT = new By.ByXPath("//p[contains(text(),'Orden No.:')]");
-    public static final By.ByXPath PROVEEDOR_TEXT = new By.ByXPath("//p[contains(text(),'Orden No.:')]//following-sibling::p");
+    public static final By.ByClassName PROVEEDOR_TEXT = new By.ByClassName("confirmation__container__provider");
     public static final By.ByClassName DESCRIPCION_ORDEN_TEXT = new By.ByClassName("confirmation__container__product");
     public static final By.ByXPath AFINANCIARCON_TEXT = new By.ByXPath("//p[contains(text(),'A financiar con:')]//following-sibling::p");
     public static final By.ByXPath MONTO = new By.ByXPath("//p[contains(text(),'Monto')]//following-sibling::p");
@@ -29,6 +29,6 @@ public class CreditoSolaFirmaPageObject {
     public static final By.ByXPath LABEL_TERMINOS = new By.ByXPath("//p[contains(text(),'Al confirmar el pago estás aceptando nuestros')]");
     public static final By.ByPartialLinkText LINK_TERMINOS = new By.ByPartialLinkText("términos y condiciones");
     public static final By.ByClassName LINK_VOLVER = new By.ByClassName("header__container__back");
-    public static final By.ByClassName BIG_CFT = new By.ByClassName("confirmation__container__big_cft");
+    public static final By.ByClassName BIG_CFT = new By.ByClassName("single_signature__container__big_cft");
 
 }

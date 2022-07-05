@@ -9,6 +9,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.response.ResponseOptions;
 import io.restassured.specification.RequestSpecification;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -29,9 +30,9 @@ public class RestAssuredExtension {
     public static String specificPath = "";
     public static Logger log = Logger.getLogger(String.valueOf(RestAssuredExtension.class));
 
-    public RestAssuredExtension() {
+    public RestAssuredExtension(String sourceApi) {
         try {
-            builder.setBaseUri(configProperties.getBaseUri());
+            builder.setBaseUri(getBaseUri(sourceApi));
             builder.setContentType(ContentType.JSON);
         } catch (IllegalArgumentException e) {
             log.info("Base URI cannot be null, check configProperties");
@@ -65,7 +66,7 @@ public class RestAssuredExtension {
      * @param path to api resource.
      * @return Api responses
      */
-    public static ResponseOptions<Response> postMethod(String path, String body) {
+    public static ResponseOptions<Response> postMethod(String sourceApi, String path, String body) {
         response = null;
         setDefaultHeaders();
         RestAssuredConfig config = RestAssured.config();
@@ -76,7 +77,7 @@ public class RestAssuredExtension {
 
         try {
             configProperties.initConfig();
-            builderMW.setBaseUri(configProperties.getBaseUri());
+            builderMW.setBaseUri(getBaseUri(sourceApi));
             builderMW.setBody(generateBodyFromResource(body)).setContentType(ContentType.TEXT);
             builderMW.setAccept(ContentType.JSON);
             builderMW.setContentType(ContentType.JSON);
@@ -90,9 +91,30 @@ public class RestAssuredExtension {
         return response;
     }
 
-    /** put default header to request */
+    /**
+     * put default header to request
+     */
     private static void setDefaultHeaders() {
         builder.addHeader("Content-Type", "application/json; charset=utf-8");
+    }
+
+    /**
+     * get baseUri from application.properties
+     *
+     * @param sourceApi from feature.
+     * @return baseUri String
+     */
+    private static String getBaseUri(String sourceApi) {
+        String baseUri = "";
+        switch (sourceApi) {
+            case "bff":
+                baseUri = configProperties.getSetBaseUriBff();
+                break;
+            case "agtech":
+                baseUri = configProperties.getSetBaseUriAgtech();
+                break;
+        }
+        return baseUri;
     }
 
     /**
@@ -101,13 +123,13 @@ public class RestAssuredExtension {
      * @param path to api resource.
      * @return Api responses
      */
-    public static ResponseOptions<Response> getMethod(String path) {
+    public static ResponseOptions<Response> getMethod(String sourceApi, String path) {
         specificPath = path;
         response = null;
         setDefaultHeaders();
         try {
             configProperties.initConfig();
-            builderMW.setBaseUri(configProperties.getBaseUri());
+            builderMW.setBaseUri(getBaseUri(sourceApi));
             request = RestAssured.given().spec(builderMW.build());
             response = request.get(new URI(path));
         } catch (URISyntaxException e) {
@@ -123,7 +145,7 @@ public class RestAssuredExtension {
      * @param path to api resource.
      * @return Api responses
      */
-    public static ResponseOptions<Response> putMethod(String path, String body) {
+    public static ResponseOptions<Response> putMethod(String sourceApi, String path, String body) {
         specificPath = path;
         response = null;
         setDefaultHeaders();
@@ -134,7 +156,7 @@ public class RestAssuredExtension {
                         .setParam("http.connection.timeout", 5000));
         try {
             configProperties.initConfig();
-            builderMW.setBaseUri(configProperties.getBaseUri());
+            builderMW.setBaseUri(getBaseUri(sourceApi));
             builderMW.setBody(generateBodyFromResource(body)).setContentType(ContentType.TEXT);
             builderMW.setAccept(ContentType.JSON);
             builderMW.setContentType(ContentType.JSON);
