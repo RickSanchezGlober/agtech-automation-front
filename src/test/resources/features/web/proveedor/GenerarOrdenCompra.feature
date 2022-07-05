@@ -12,8 +12,8 @@ Feature: Generar Orden de Compra
 
   @TEST_ID_AG-529 @TEST_ID_AG-530 @regression
   Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar pantalla nueva orden de compra
-            Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar ingreso de CUIT nueva orden de compra
-            Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar busqueda de productor asociado al CUIT valido
+  Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar ingreso de CUIT nueva orden de compra
+  Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar busqueda de productor asociado al CUIT valido
     Then El proveedor visualiza el boton Buscar Deshabilitado
     And El proveedor visualiza Ingresá el CUIT en la pantalla Identificación de cliente
     And El proveedor visualiza Escribí 11 números en la pantalla Identificación de cliente
@@ -22,17 +22,20 @@ Feature: Generar Orden de Compra
     And El proveedor visualiza el boton Buscar Habilitado
     And El proveedor hace click en el botón Buscar
     And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
-    #Comentado hasta que se muestre el la UI el nombre y demas datos del productor
-#      | Nombre            | name         |
-#      | Sin Deuda         | clean_loan   |
-#      | Sin Deuda forward | forward_loan |
-    And El proveedor visualiza Productor Asociado en la pantalla Identificación de cliente
+      | name |
+#      | clean_loan   |
+#      | forward_loan |
+    And El proveedor visualiza CUIT del Productor Asociado en la pantalla Identificación de cliente
+    And El proveedor puede ver Datos del Productor Asociado
+      | name |
+#      | clean_loan   |
+#      | forward_loan |
 
   @TEST_ID_AG-533 @TEST_ID_AG-534 @TEST_ID_AG-535 @TEST_ID_AG-536 @regression
   Scenario: Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar pantalla de Descripcion de la orden
-            Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar largo del campo alfanumerico descripcion
-            Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar habilitacion del boton Continuar
-            Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar deshabilitacion del boton Continuar
+  Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar largo del campo alfanumerico descripcion
+  Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar habilitacion del boton Continuar
+  Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar deshabilitacion del boton Continuar
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado
@@ -46,7 +49,7 @@ Feature: Generar Orden de Compra
 
   @TEST_ID_AG-537 @TEST_ID_AG-538 @regression
   Scenario: Proveedor - Generar Orden de Compra - Medios de Pago - Validar pantalla de Medios de pago
-            Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar convenios asociados al producto (Crédito a Sola Firma)
+  Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar convenios asociados al producto (Crédito a Sola Firma)
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado

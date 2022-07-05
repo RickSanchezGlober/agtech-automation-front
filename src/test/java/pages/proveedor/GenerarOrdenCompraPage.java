@@ -3,6 +3,7 @@ package pages.proveedor;
 import io.cucumber.datatable.DataTable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import pageobjects.productor.ListadoOrdenesPageObject;
 import pageobjects.proveedor.GenerarOrdenCompraPageObject;
 import pages.BasePage;
@@ -33,7 +34,7 @@ public class GenerarOrdenCompraPage extends BasePage {
                 element = GenerarOrdenCompraPageObject.BUSCAR_BUTTON;
                 break;
             case "del Productor encontrado":
-                waitVisibility(GenerarOrdenCompraPageObject.PRODUCTOR_ARROW, "10");
+                waitVisibility(GenerarOrdenCompraPageObject.PRODUCTOR_ARROW, "15");
                 element = GenerarOrdenCompraPageObject.PRODUCTOR_ARROW;
                 break;
             case "Continuar":
@@ -115,7 +116,7 @@ public class GenerarOrdenCompraPage extends BasePage {
             case "Escribí 11 números":
                 element = GenerarOrdenCompraPageObject.ESCRIBI_11_NUMEROS_TEXT;
                 break;
-            case "Productor Asociado":
+            case "CUIT del Productor Asociado":
                 if (RestAssuredExtension.response.statusCode() == 200) {
                     element = GenerarOrdenCompraPageObject.DATOS_PRODUCTOR_ASOCIADO_TEXT;
                     String cuit = GenerarOrdenCompraSteps.cuit;
@@ -128,16 +129,54 @@ public class GenerarOrdenCompraPage extends BasePage {
         return verifyVisibleText(element, field);
     }
 
+    public void validateProductorName(List<List<String>> table) {
+        DataTable data = createDataTable(table);
+        explicitWait(GenerarOrdenCompraPageObject.DATOS_PRODUCTOR_ASOCIADO_TEXT);
+        if (data != null) {
+            AtomicInteger i = new AtomicInteger(1);
+            data.cells()
+                    .forEach(
+                            value -> {
+                                // TABLE
+                                List<String> rField = Collections.singletonList(value.get(0));
+                                String FIELDS = rField.get(0);
+                                String VALUES = getScenarioContextVariables(rField.get(0));
+
+                                // WEB ELEMENTS
+                                try {
+                                    Thread.sleep(1000);
+                                    By element = null;
+
+                                    switch (FIELDS) {
+                                        case "name":
+                                            element = GenerarOrdenCompraPageObject.NOMBRE_PRODUCTOR_ASOCIADO_TEXT;
+                                            break;
+                                    }
+
+                                    String FIELDS_TEXT = driver.findElement(element).getText();
+                                    log.info(FIELDS + " " + FIELDS_TEXT);
+
+                                    // VALIDATIONS
+                                    Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
+
+                                } catch (InterruptedException | NullPointerException e) {
+                                    e.printStackTrace();
+                                }
+                                i.getAndIncrement();
+                            }
+                    );
+        }
+    }
+
     public boolean verifyCUITFormat(String cuit) {
         String cuitWithFormat = getAttribute(GenerarOrdenCompraPageObject.INGRESA_EL_CUIT_INPUT, "value");
         cuit = cuit.substring(0, 2) + "-" + cuit.substring(2, 10) + "-" + cuit.substring(10, 11);
         return cuit.equals(cuitWithFormat);
     }
 
-    public void validateCustumerByCUIT(String sourceApi, String path, String cuit/*, List<List<String>> table*/) {
+    public void getDataFromApiServices(String sourceApi, String path, String cuit, List<List<String>> table) {
         log.info(path + cuit);
-        RestAssuredExtension.getMethod(sourceApi, path + cuit);
-        RestAssuredExtension.response.getBody().prettyPrint();
+        getDataFromApiServices(path + cuit, sourceApi, table);
     }
 
     public boolean checkPaymentMethods(String paymentMethods) {

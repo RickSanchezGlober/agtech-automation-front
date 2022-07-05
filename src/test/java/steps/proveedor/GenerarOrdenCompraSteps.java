@@ -57,12 +57,17 @@ public class GenerarOrdenCompraSteps {
     }
 
     @And("^Recuperar datos de servicios api (.*) con ruta (.*) y guardar variables abajo$")
-    public void findCustumerByCUIT(String sourceApi, String path/*, List<List<String>> t_table*/) {
-        generarOrdenCompraPage.validateCustumerByCUIT(sourceApi, path, cuit/*, t_table*/);
+    public void getDataFromApiServices(String sourceApi, String path, List<List<String>> t_table) {
+        generarOrdenCompraPage.getDataFromApiServices(sourceApi, path, cuit, t_table);
     }
 
     @And("^El proveedor observa (.*)$")
     public void checkPaymentMethods(String paymentMethods) {
         Assert.assertTrue(generarOrdenCompraPage.checkPaymentMethods(paymentMethods));
+    }
+
+    @And("^El proveedor puede ver Datos del Productor Asociado$")
+    public void validateProductorName( List<List<String>> t_table) {
+        generarOrdenCompraPage.validateProductorName(t_table);
     }
 }

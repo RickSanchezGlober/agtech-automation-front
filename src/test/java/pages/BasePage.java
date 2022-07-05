@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 //import java.util.concurrent.atomic.AtomicInteger;
 
 import config.WebPropertiesConfig;
@@ -212,8 +213,8 @@ public class BasePage {
         return driver.manage().getCookieNamed(name);
     }
 
-    public void getDataFromApiServices(String path, String body,String sourceApi, List<List<String>> t_table) {
-        RestAssuredExtension.response = RestAssuredExtension.postMethod(path, body,sourceApi);
+    public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
+        RestAssuredExtension.response = RestAssuredExtension.postMethod(path, body, sourceApi);
         DataTable data = createDataTable(t_table);
         if (data != null) {
             //AtomicInteger i = new AtomicInteger(1);
@@ -234,6 +235,25 @@ public class BasePage {
                                     saveInScenarioContext(KEY, VALUES);
                                 } catch (NullPointerException e) {
                                     log.info(String.format("Path specified doesn't exist: %s", VALUES));
+                                }
+                            });
+        }
+    }
+
+    public void getDataFromApiServices(String path, String sourceApi, List<List<String>> t_table) {
+        RestAssuredExtension.response = RestAssuredExtension.getMethod(sourceApi, path);
+        DataTable data = createDataTable(t_table);
+        if (data != null) {
+            AtomicInteger i = new AtomicInteger(1);
+            data.cells()
+                    .forEach(
+                            value -> {
+                                List<String> rField = Collections.singletonList(value.get(0));
+                                String KEY = rField.get(0);
+                                // SAVE
+                                try {
+                                    saveInScenarioContext(KEY, RestAssuredExtension.response.getBody().jsonPath().get(KEY).toString());
+                                } catch (NullPointerException e) {
                                 }
                             });
         }
