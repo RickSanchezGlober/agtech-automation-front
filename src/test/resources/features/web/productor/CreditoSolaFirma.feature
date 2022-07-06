@@ -49,7 +49,7 @@ Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
     And Se muestra el boton Confirmar Pago Habilitado
     And El sistema redirecciona a la pantalla de Confirmación con todos los detalles de la orden
     And Se presiona sobre el enlace en la navegación superior de regreso
-    And Se muestra un listado de 5 órdenes
+    And Se muestra un listado de 10 órdenes
     #Método Payments
 
 #  @financing @TEST_ID_AG-44 @TEST_ID_AG-272
