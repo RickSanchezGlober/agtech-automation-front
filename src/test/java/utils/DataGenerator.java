@@ -24,4 +24,7 @@ public class DataGenerator {
         }
         return null;
     }
+    public static String getNumber(int size) {
+        return faker.number().digits(size);
+    }
 }

@@ -61,3 +61,21 @@ Feature: Generar Orden de Compra
     And El proveedor observa Descripción del Medio de pago
     And El proveedor observa Logo de la entidad bancaria
     And El proveedor observa Nombre de la entidad bancaria
+
+  @TEST_ID_AG-1277 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Validar pantalla simular crédito
+    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And El proveedor hace click en el botón del Productor encontrado
+    And El proveedor ingresa Descripción Válida en el campo Descripción
+    And El proveedor hace click en el botón Continuar
+    And El proveedor seleciona medio de pago Crédito a sola firma
+    And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
+    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Septiembre 2022
+    And El proveedor hace click en el botón Simular Crédito
+    And Recuperar datos de servicios api bff con ruta simulation con body bff_simulation.txt
+      | TNA del crédito            | tna         |
+      | CFT                        | cft         |
+      | Interés                    | interest    |
+      | Total Crédito a sola firma | loan_amount |
+#      | Cuota única, vencimiento:  | due_date    |

@@ -58,7 +58,7 @@ public class GenerarOrdenCompraSteps {
 
     @And("^Recuperar datos de servicios api (.*) con ruta (.*) y guardar variables abajo$")
     public void getDataFromApiServices(String sourceApi, String path, List<List<String>> t_table) {
-        generarOrdenCompraPage.getDataFromApiServices(sourceApi, path, cuit, t_table);
+        generarOrdenCompraPage.getDataFromApiServicesValidation(sourceApi, path, cuit, t_table);
     }
 
     @And("^El proveedor observa (.*)$")
@@ -67,7 +67,22 @@ public class GenerarOrdenCompraSteps {
     }
 
     @And("^El proveedor puede ver Datos del Productor Asociado$")
-    public void validateProductorName( List<List<String>> t_table) {
+    public void validateProductorName(List<List<String>> t_table) {
         generarOrdenCompraPage.validateProductorName(t_table);
+    }
+
+    @And("^El proveedor seleciona medio de pago (.*)$")
+    public void selectPaymentMethod(String paymentMethod) {
+        generarOrdenCompraPage.selectPaymentMethod(paymentMethod);
+    }
+
+    @And("^El proveedor selecciona en (.*) opcion (.*)$")
+    public void selectOptionRateSubsidy(String dropDownName, String option) {
+        generarOrdenCompraPage.selectOptionFromDropDownList(dropDownName, option);
+    }
+
+    @And("^Recuperar datos de servicios api (.*) con ruta (.*) con body (.*)")
+    public void getDataFromApiServicesSimulation(String sourceApi, String path, String body, List<List<String>> t_table) {
+        generarOrdenCompraPage.getDataFromApiServicesSimulation(sourceApi, path, body, t_table);
     }
 }
