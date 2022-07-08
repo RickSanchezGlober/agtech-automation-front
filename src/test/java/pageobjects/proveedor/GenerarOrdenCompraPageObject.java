@@ -19,8 +19,13 @@ public class GenerarOrdenCompraPageObject {
     public static final By.ByClassName NOMBRE_PRODUCTOR_ASOCIADO_TEXT = new By.ByClassName("card_icon_title");
     public static final By.ByClassName ELEGI_MEDIO_PAGO_TITLE = new By.ByClassName("payment_page__title_payment");
     public static final By.ByClassName PAYMENT_CARD_CONTAINER = new By.ByClassName("custom_payment_card");
-    public static final By PAYMENT_CARD_NAME_CONTAINER = new By.ByClassName("payment_card__name");
-    public static final By PAYMENT_CARD_DESCRIPTION_CONTAINER = new By.ByClassName("payment_card__description");
-    public static final By PAYMENT_CARD_BANK_LOGO_CONTAINER = new By.ByClassName("payment_card__bank_logo");
-    public static final By PAYMENT_CARD_BANK_NAME_CONTAINER = new By.ByClassName("payment_card__bank_name");
+    public static final By.ByClassName PAYMENT_CARD_NAME_CONTAINER = new By.ByClassName("payment_card__name");
+    public static final By.ByClassName PAYMENT_CARD_DESCRIPTION_CONTAINER = new By.ByClassName("payment_card__description");
+    public static final By.ByClassName PAYMENT_CARD_BANK_LOGO_CONTAINER = new By.ByClassName("payment_card__bank_logo");
+    public static final By.ByClassName PAYMENT_CARD_BANK_NAME_CONTAINER = new By.ByClassName("payment_card__bank_name");
+    public static final By.ByClassName INGRESA_EL_MONTO_CREDITO_INPUT = new By.ByClassName("input__container__input_");
+    public static final By.ByClassName SUBSIDIO_TASA_DROP_DOWN_LIST = new By.ByClassName("select_input__input");
+    public static final By.ByClassName SIMULAR_CREDITO_BUTTON = new By.ByClassName("button__container_secondary");
+    public static final By.ByClassName RESULTADO_SIMULACION_TEXT = new By.ByClassName("single_simulation__result");
+    public static final By.ByClassName SIMULATION_CARD_CONTAINER = new By.ByClassName("single_simulation__card");
 }

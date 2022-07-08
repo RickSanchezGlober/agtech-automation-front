@@ -3,16 +3,21 @@ package pages.proveedor;
 import io.cucumber.datatable.DataTable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import pageobjects.productor.ListadoOrdenesPageObject;
 import pageobjects.proveedor.GenerarOrdenCompraPageObject;
 import pages.BasePage;
 import steps.proveedor.GenerarOrdenCompraSteps;
 import utils.DataGenerator;
 import utils.RestAssuredExtension;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -41,6 +46,10 @@ public class GenerarOrdenCompraPage extends BasePage {
                 explicitWait(GenerarOrdenCompraPageObject.CONTINUAR_BUTTON);
                 element = GenerarOrdenCompraPageObject.CONTINUAR_BUTTON;
                 break;
+            case "Simular Crédito":
+                explicitWait(GenerarOrdenCompraPageObject.SIMULAR_CREDITO_BUTTON);
+                element = GenerarOrdenCompraPageObject.SIMULAR_CREDITO_BUTTON;
+                break;
         }
         click(element);
     }
@@ -58,6 +67,16 @@ public class GenerarOrdenCompraPage extends BasePage {
                     text = DataGenerator.getText(1, 40, true, true);
                 } else {
                     //Ver cual seria un descripcion no valida
+                }
+                break;
+            case "Ingresá el monto del crédito":
+                element = GenerarOrdenCompraPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
+                if (text.contains("mayor a $1.000")) {
+                    text = "1001";
+//                    do {
+//                        text = DataGenerator.getNumber(4);
+//                    } while (Integer.parseInt(text) < 1001);
+                    log.info("Ingresando monto de crédito: " + text);
                 }
                 break;
         }
@@ -174,7 +193,7 @@ public class GenerarOrdenCompraPage extends BasePage {
         return cuit.equals(cuitWithFormat);
     }
 
-    public void getDataFromApiServices(String sourceApi, String path, String cuit, List<List<String>> table) {
+    public void getDataFromApiServicesValidation(String sourceApi, String path, String cuit, List<List<String>> table) {
         log.info(path + cuit);
         getDataFromApiServices(path + cuit, sourceApi, table);
     }
@@ -211,4 +230,74 @@ public class GenerarOrdenCompraPage extends BasePage {
         }
         return result;
     }
+
+    public void selectPaymentMethod(String paymentMethod) {
+        explicitWait(GenerarOrdenCompraPageObject.ELEGI_MEDIO_PAGO_TITLE);
+        List<WebElement> elementList = driver.findElements(GenerarOrdenCompraPageObject.PAYMENT_CARD_CONTAINER);
+        boolean result = false;
+        for (int i = 0; i < elementList.size(); i++) {
+            if (elementList.get(i).getText().contains(paymentMethod)) {
+                result = true;
+                log.info("Haciendo click en el medio de pago :" + paymentMethod);
+                sleep(1);
+                elementList.get(i).findElements(GenerarOrdenCompraPageObject.PAYMENT_CARD_BANK_NAME_CONTAINER).get(0).click();
+                break;
+            }
+        }
+        if (!result) {
+            log.error("No se pudo hacer click en el medio de pago: " + paymentMethod);
+        }
+    }
+
+    public void selectOptionFromDropDownList(String dropDownName, String option) {
+        Select dropDownList = null;
+        switch (dropDownName) {
+            case "subsidio de tasa":
+                dropDownList = new Select(driver.findElement(GenerarOrdenCompraPageObject.SUBSIDIO_TASA_DROP_DOWN_LIST));
+                break;
+        }
+        dropDownList.selectByVisibleText(option);
+    }
+
+    public void getDataFromApiServicesSimulation(String sourceApi, String path, String body, List<List<String>> t_table) {
+        log.info(path);
+        getDataFromApiServices(path, body, sourceApi, t_table);
+        validateSimulationData(t_table);
+    }
+
+    private void validateSimulationData(List<List<String>> t_table) {
+        DataTable data = createDataTable(t_table);
+        explicitWait(GenerarOrdenCompraPageObject.RESULTADO_SIMULACION_TEXT);
+        if (data != null) {
+            AtomicInteger i = new AtomicInteger(1);
+            data.cells()
+                    .forEach(
+                            value -> {
+                                // TABLE
+                                List<String> rField = Collections.singletonList(value.get(0));
+                                List<String> rValue = Collections.singletonList(value.get(1));
+                                String FIELDS = rField.get(0);
+                                String VALUES = getScenarioContextVariables(rField.get(0));
+
+                                // WEB ELEMENTS
+                                String FIELDS_TEXT = driver.findElement(GenerarOrdenCompraPageObject.SIMULATION_CARD_CONTAINER).getText().replaceAll("\n", " ");
+                                log.info(FIELDS + " " + FIELDS_TEXT);
+                                // VALIDATIONS
+                                if (FIELDS.contains("TNA") || FIELDS.contains("CFT") || FIELDS.contains("Interés")) {
+                                    VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + " %";
+                                } else if (FIELDS.contains("Total Crédito a sola firma")) {
+                                    String numberS = parseFromDoubleToString(VALUES, 2);
+                                    VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
+                                }
+                                Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
+                                i.getAndIncrement();
+                            });
+        }
+    }
+
+    private String parseFromDoubleToString(String doubleNumber, int numbersAfterDot) {
+        BigDecimal bd = new BigDecimal(doubleNumber).setScale(numbersAfterDot, RoundingMode.HALF_UP);
+        return String.valueOf(bd).replace(".", ",");
+    }
+
 }

@@ -1,0 +1,5 @@
+{
+    "cuit": "30597962793",
+    "id_convenio": "60dcdfb504b2ee00015fa6e4",
+    "monto":"7430"
+}

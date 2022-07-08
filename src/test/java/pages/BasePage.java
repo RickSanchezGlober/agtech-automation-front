@@ -214,10 +214,10 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
-        RestAssuredExtension.response = RestAssuredExtension.postMethod(path, body, sourceApi);
+        RestAssuredExtension.response = RestAssuredExtension.postMethod(sourceApi,path, body);
         DataTable data = createDataTable(t_table);
         if (data != null) {
-            //AtomicInteger i = new AtomicInteger(1);
+            AtomicInteger i = new AtomicInteger(1);
             data.cells()
                     .forEach(
                             value -> {
