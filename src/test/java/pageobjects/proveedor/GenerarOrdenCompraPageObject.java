@@ -26,6 +26,7 @@ public class GenerarOrdenCompraPageObject {
     public static final By.ByClassName INGRESA_EL_MONTO_CREDITO_INPUT = new By.ByClassName("input__container__input_");
     public static final By.ByClassName SUBSIDIO_TASA_DROP_DOWN_LIST = new By.ByClassName("select_input__input");
     public static final By.ByClassName SIMULAR_CREDITO_BUTTON = new By.ByClassName("button__container_secondary");
-    public static final By.ByClassName RESULTADO_SIMULACION_TEXT = new By.ByClassName("single_simulation__result");
-    public static final By.ByClassName SIMULATION_CARD_CONTAINER = new By.ByClassName("single_simulation__card");
+    public static final By.ByClassName RESULTADO_SIMULACION_TEXT = new By.ByClassName("simulation_voucher__result");
+    public static final By.ByClassName SIMULATION_CARD_CONTAINER = new By.ByClassName("simulation_voucher__card");
+    public static final By.ByCssSelector CONFIRMAR_MEDIO_PAGO_BUTTON = new By.ByCssSelector("div.modalviewer.modalviewer__aside div.modalcontent.modalcontent__aside.modalcontent__aside_active div.aside_modal div.aside_modal__footer > button.button__container.button__container_primary");
 }

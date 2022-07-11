@@ -113,6 +113,12 @@ public class GenerarOrdenCompraPage extends BasePage {
             case "Buscar":
                 element = GenerarOrdenCompraPageObject.BUSCAR_BUTTON;
                 break;
+            case "Confirmar medio de pago":
+                element = GenerarOrdenCompraPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
+                break;
+            case "Simular Crédito":
+                element = GenerarOrdenCompraPageObject.SIMULAR_CREDITO_BUTTON;
+                break;
         }
         return isEnabled(element);
     }
@@ -267,7 +273,9 @@ public class GenerarOrdenCompraPage extends BasePage {
 
     private void validateSimulationData(List<List<String>> t_table) {
         DataTable data = createDataTable(t_table);
-        explicitWait(GenerarOrdenCompraPageObject.RESULTADO_SIMULACION_TEXT);
+        waitVisibility(GenerarOrdenCompraPageObject.RESULTADO_SIMULACION_TEXT, "30");
+        // WEB ELEMENTS
+        String FIELDS_TEXT = driver.findElement(GenerarOrdenCompraPageObject.SIMULATION_CARD_CONTAINER).getText().replaceAll("\n", " ");
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
             data.cells()
@@ -275,12 +283,9 @@ public class GenerarOrdenCompraPage extends BasePage {
                             value -> {
                                 // TABLE
                                 List<String> rField = Collections.singletonList(value.get(0));
-                                List<String> rValue = Collections.singletonList(value.get(1));
                                 String FIELDS = rField.get(0);
                                 String VALUES = getScenarioContextVariables(rField.get(0));
 
-                                // WEB ELEMENTS
-                                String FIELDS_TEXT = driver.findElement(GenerarOrdenCompraPageObject.SIMULATION_CARD_CONTAINER).getText().replaceAll("\n", " ");
                                 log.info(FIELDS + " " + FIELDS_TEXT);
                                 // VALIDATIONS
                                 if (FIELDS.contains("TNA") || FIELDS.contains("CFT") || FIELDS.contains("Interés")) {
@@ -288,6 +293,8 @@ public class GenerarOrdenCompraPage extends BasePage {
                                 } else if (FIELDS.contains("Total Crédito a sola firma")) {
                                     String numberS = parseFromDoubleToString(VALUES, 2);
                                     VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
+                                } else if (FIELDS.contains("Cuota única, vencimiento:")) {
+                                    VALUES = FIELDS + " " + getDateStringFormat(VALUES);
                                 }
                                 Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
                                 i.getAndIncrement();
@@ -300,4 +307,68 @@ public class GenerarOrdenCompraPage extends BasePage {
         return String.valueOf(bd).replace(".", ",");
     }
 
+    private String getDateStringFormat(String stringDate) {
+        LocalDateTime ldt = LocalDateTime.parse(stringDate);
+        //revisar q pasa si la fecha trae 2 cifras
+        return ldt.format(DateTimeFormatter.ofPattern("d/M/yyyy"));
+    }
+
+    public void validateProductor(List<List<String>> t_table) {
+        DataTable data = createDataTable(t_table);
+        explicitWait(GenerarOrdenCompraPageObject.RESULTADO_SIMULACION_TEXT);
+        // WEB ELEMENTS
+        String FIELDS_TEXT = driver.findElement(GenerarOrdenCompraPageObject.SIMULATION_CARD_CONTAINER).getText().replaceAll("\n", " ");
+        if (data != null) {
+            AtomicInteger i = new AtomicInteger(1);
+            data.cells()
+                    .forEach(
+                            value -> {
+                                // TABLE
+                                List<String> rField = Collections.singletonList(value.get(0));
+                                String FIELDS = rField.get(0);
+                                String VALUES = getScenarioContextVariables(rField.get(0));
+
+                                log.info(FIELDS + " " + FIELDS_TEXT);
+                                // VALIDATIONS
+                                Assert.assertTrue(FIELDS_TEXT.contains("Productor " + VALUES));
+                                i.getAndIncrement();
+                            }
+                    );
+        }
+    }
+
+    public void deleteField(String field) {
+        By element = null;
+        switch (field) {
+            case ("Ingresá el monto del crédito"):
+                element = GenerarOrdenCompraPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
+                break;
+        }
+        int cantChar = getAttribute(element, "value").length() - 1;
+        for (int i = 0; i < cantChar; i++) {
+            sendBackSpace(element);
+        }
+    }
+
+    public boolean buttonIsNotDisplayed(String buttonName) {
+        By element = null;
+        switch (buttonName) {
+            case "Confirmar medio de pago":
+                element = GenerarOrdenCompraPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
+                break;
+
+        }
+        return waitVisibility(element, "1");
+    }
+
+    public void changeOptionRateSubsidy(String dropDownName, String option) {
+        Select dropDownList = null;
+        waitVisibility(GenerarOrdenCompraPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON, "20");
+        switch (dropDownName) {
+            case "subsidio de tasa":
+                dropDownList = new Select(driver.findElement(GenerarOrdenCompraPageObject.SUBSIDIO_TASA_DROP_DOWN_LIST));
+                break;
+        }
+        dropDownList.selectByVisibleText(option);
+    }
 }

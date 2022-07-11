@@ -81,8 +81,26 @@ public class GenerarOrdenCompraSteps {
         generarOrdenCompraPage.selectOptionFromDropDownList(dropDownName, option);
     }
 
-    @And("^Recuperar datos de servicios api (.*) con ruta (.*) con body (.*)")
+    @Then("^Validar datos de servicios api (.*) con ruta (.*) con body (.*)")
     public void getDataFromApiServicesSimulation(String sourceApi, String path, String body, List<List<String>> t_table) {
         generarOrdenCompraPage.getDataFromApiServicesSimulation(sourceApi, path, body, t_table);
+    }
+
+    @And("^Validar Nombre del Productor$")
+    public void validateProductor(List<List<String>> t_table) {
+        generarOrdenCompraPage.validateProductor(t_table);
+    }
+    @And("^Se borra el campo (.*)$")
+    public void validateProductor(String field) {
+        generarOrdenCompraPage.deleteField(field);
+    }
+    @Then("^El proveedor no visualiza el boton (.*)$")
+    public void buttonIsNotDisplayed(String buttonName) {
+        Assert.assertFalse(generarOrdenCompraPage.buttonIsNotDisplayed(buttonName));
+    }
+
+    @And("^El proveedor cambia en (.*) opcion (.*)$")
+    public void changeOptionRateSubsidy(String dropDownName, String option) {
+        generarOrdenCompraPage.changeOptionRateSubsidy(dropDownName, option);
     }
 }
