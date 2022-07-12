@@ -273,7 +273,7 @@ public class GenerarOrdenCompraPage extends BasePage {
 
     private void validateSimulationData(List<List<String>> t_table) {
         DataTable data = createDataTable(t_table);
-        waitVisibility(GenerarOrdenCompraPageObject.RESULTADO_SIMULACION_TEXT, "30");
+        waitVisibility(GenerarOrdenCompraPageObject.SIMULATION_CARD_CONTAINER, "30");
         // WEB ELEMENTS
         String FIELDS_TEXT = driver.findElement(GenerarOrdenCompraPageObject.SIMULATION_CARD_CONTAINER).getText().replaceAll("\n", " ");
         if (data != null) {
