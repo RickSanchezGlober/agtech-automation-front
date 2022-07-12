@@ -1,5 +1,5 @@
 @payments @proveedor @generarOrdenCompra
-Feature: Generar Orden de Compra
+Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la orden. Medios de pago.
 
   Background:
     Given Se navega al portal Galicia Rural proveedor
@@ -96,8 +96,9 @@ Feature: Generar Orden de Compra
     And El proveedor no visualiza el boton Confirmar medio de pago
 
 
-  @TEST_ID_AG-1279
+  @TEST_ID_AG-1279 @TEST_ID_AG-1270
   Scenario: Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico modificación en el campo convenio
+  Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar Monto con decimales
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado
@@ -105,6 +106,7 @@ Feature: Generar Orden de Compra
     And El proveedor hace click en el botón Continuar
     And El proveedor seleciona medio de pago Crédito a sola firma
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
+    And Se permite ingresar hasta 2 decimales
     And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Septiembre 2022
     And El proveedor hace click en el botón Simular Crédito
     And El proveedor cambia en subsidio de tasa opcion Sub 8% Vto Septiembre 2022
@@ -127,6 +129,3 @@ Feature: Generar Orden de Compra
     Then Imposible escribir caracteres especiales en el campo Ingresá el monto del crédito
     And El proveedor hace click en el botón X
     And El proveedor no visualiza el boton Simular Crédito
-
-  #@TEST_ID_AG-1270 Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar Monto con decimales
-  #no se puede automatizar por bug 1272

@@ -52,6 +52,10 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "X":
                 element = GenerarOrdenCompraSolaFirmaPageObject.X_BUTTON;
                 break;
+            case "Confirmar medio de pago":
+                element = GenerarOrdenCompraSolaFirmaPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
+                waitVisibility(element, "30");
+                break;
         }
         click(element);
     }
@@ -74,7 +78,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "Ingresá el monto del crédito":
                 element = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
                 if (text.contains("mayor a $1.000")) {
-                    text = "1001";
+                    text = "100100";
 //                    do {
 //                        text = DataGenerator.getNumber(4);
 //                    } while (Integer.parseInt(text) < 1001);
@@ -106,7 +110,6 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public boolean verifyButtonState(String buttonName) {
-        explicitWait(GenerarOrdenCompraSolaFirmaPageObject.DESCRIPCION_LABEL);
         By element = null;
         switch (buttonName) {
             case "Continuar":
@@ -122,6 +125,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 element = GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON;
                 break;
         }
+        waitVisibility(element, "5");
         return isEnabled(element);
     }
 
@@ -402,5 +406,15 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
         String special = DataGenerator.getPassword(8, 12, false, true, false);
         write(webElement, special);
         return getAttribute(webElement, "value").length() == 0;
+    }
+
+    public boolean checkEnterDecimalPLaces(String quantity) {
+        By webElement = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
+        String[] splitChainArray = getAttribute(webElement, "value").split("\\,");
+        int cantDecimalPlaces = 0;
+        for (int i = 1; i <= splitChainArray[1].length(); i++) {
+            cantDecimalPlaces = i;
+        }
+        return cantDecimalPlaces == Integer.parseInt(quantity);
     }
 }

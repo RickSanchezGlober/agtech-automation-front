@@ -114,4 +114,8 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     public void checkNumberQuantity( String field) {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkWritingSpecialCharacters(field));
     }
+    @And("^Se permite ingresar hasta (.*) decimales$")
+    public void checkEnterDecimalPLaces(String quantity) {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkEnterDecimalPLaces(quantity));
+    }
 }
