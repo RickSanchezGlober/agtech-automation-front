@@ -1,4 +1,4 @@
-@payments @proveedor
+@payments @proveedor @generarOrdenCompra
 Feature: Generar Orden de Compra
 
   Background:
@@ -62,8 +62,11 @@ Feature: Generar Orden de Compra
     And El proveedor observa Logo de la entidad bancaria
     And El proveedor observa Nombre de la entidad bancaria
 
-  @TEST_ID_AG-1277 @regression
+  @TEST_ID_AG-1277 @TEST_ID_AG-1278 @TEST_ID_AG-1280 @TEST_ID_AG-1281 @regression
   Scenario: Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Validar pantalla simular crédito
+  Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico modificación en el campo monto
+  Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico monto actualizado en la simulación
+  Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico convenio actualizado en la simulación
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado
@@ -73,9 +76,32 @@ Feature: Generar Orden de Compra
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
     And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Septiembre 2022
     And El proveedor hace click en el botón Simular Crédito
-    And Recuperar datos de servicios api bff con ruta simulation con body bff_simulation.txt
+    Then Validar datos de servicios api bff con ruta simulation con body bff_simulation.txt
       | TNA del crédito            | tna         |
       | CFT                        | cft         |
       | Interés                    | interest    |
       | Total Crédito a sola firma | loan_amount |
-#      | Cuota única, vencimiento:  | due_date    |
+      | Cuota única, vencimiento:  | due_date    |
+    And El proveedor visualiza el boton Confirmar medio de pago Habilitado
+    #usando la respuesta del servicio custumer-validation usado en el caso @TEST_ID_AG-529
+    And Validar Nombre del Productor
+      | name |
+    And Se borra el campo Ingresá el monto del crédito
+    And El proveedor visualiza el boton Simular Crédito Deshabilitado
+    And El proveedor no visualiza el boton Confirmar medio de pago
+
+
+  @TEST_ID_AG-1279 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico modificación en el campo convenio
+    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And El proveedor hace click en el botón del Productor encontrado
+    And El proveedor ingresa Descripción Válida en el campo Descripción
+    And El proveedor hace click en el botón Continuar
+    And El proveedor seleciona medio de pago Crédito a sola firma
+    And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
+    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Septiembre 2022
+    And El proveedor hace click en el botón Simular Crédito
+    And El proveedor cambia en subsidio de tasa opcion Sub 8% Vto Septiembre 2022
+    And El proveedor visualiza el boton Simular Crédito Habilitado
+    Then El proveedor no visualiza el boton Confirmar medio de pago
