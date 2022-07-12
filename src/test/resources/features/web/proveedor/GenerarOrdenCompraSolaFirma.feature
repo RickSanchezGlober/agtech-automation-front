@@ -62,21 +62,26 @@ Feature: Generar Orden de Compra
     And El proveedor observa Logo de la entidad bancaria
     And El proveedor observa Nombre de la entidad bancaria
 
-  @TEST_ID_AG-1277 @TEST_ID_AG-1278 @TEST_ID_AG-1280 @TEST_ID_AG-1281 @regression
+  @TEST_ID_AG-1277 @TEST_ID_AG-1278 @TEST_ID_AG-1280 @TEST_ID_AG-1281 @TEST_ID_AG-539
+  @TEST_ID_AG-540 @TEST_ID_AG-541 @regression
   Scenario: Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Validar pantalla simular crédito
   Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico modificación en el campo monto
   Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico monto actualizado en la simulación
   Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico convenio actualizado en la simulación
+  Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar pantalla Monto de la Orden
+  Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar habilitacion del boton Simular Crédito
+  Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar deshabilitacion del boton Simular Crédito
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado
     And El proveedor ingresa Descripción Válida en el campo Descripción
     And El proveedor hace click en el botón Continuar
     And El proveedor seleciona medio de pago Crédito a sola firma
+    Then El proveedor visualiza el boton Simular Crédito Deshabilitado
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
     And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Septiembre 2022
     And El proveedor hace click en el botón Simular Crédito
-    Then Validar datos de servicios api bff con ruta simulation con body bff_simulation.txt
+    And Validar datos de servicios api bff con ruta simulation con body bff_simulation.txt
       | TNA del crédito            | tna         |
       | CFT                        | cft         |
       | Interés                    | interest    |
@@ -91,7 +96,7 @@ Feature: Generar Orden de Compra
     And El proveedor no visualiza el boton Confirmar medio de pago
 
 
-  @TEST_ID_AG-1279 @regression
+  @TEST_ID_AG-1279
   Scenario: Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico modificación en el campo convenio
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
@@ -105,3 +110,23 @@ Feature: Generar Orden de Compra
     And El proveedor cambia en subsidio de tasa opcion Sub 8% Vto Septiembre 2022
     And El proveedor visualiza el boton Simular Crédito Habilitado
     Then El proveedor no visualiza el boton Confirmar medio de pago
+
+  @TEST_ID_AG-542 @TEST_ID_AG-622 @TEST_ID_AG-1379
+  Scenario: Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar largo del campo numerico Monto
+  Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar Monto negativo
+  Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar botón cerrar
+    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And El proveedor hace click en el botón del Productor encontrado
+    And El proveedor ingresa Descripción Válida en el campo Descripción
+    And El proveedor hace click en el botón Continuar
+    And El proveedor seleciona medio de pago Crédito a sola firma
+    #en este paso se intentan ingresar 13 o 14 digitos
+    # bug 1271 reportado
+#    And No se puede ingresar mas de 12 digitos en el campo Ingresá el monto del crédito
+    Then Imposible escribir caracteres especiales en el campo Ingresá el monto del crédito
+    And El proveedor hace click en el botón X
+    And El proveedor no visualiza el boton Simular Crédito
+
+  #@TEST_ID_AG-1270 Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar Monto con decimales
+  #no se puede automatizar por bug 1272

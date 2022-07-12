@@ -90,10 +90,12 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     public void validateProductor(List<List<String>> t_table) {
         generarOrdenCompraSolaFirmaPage.validateProductor(t_table);
     }
+
     @And("^Se borra el campo (.*)$")
     public void validateProductor(String field) {
         generarOrdenCompraSolaFirmaPage.deleteField(field);
     }
+
     @Then("^El proveedor no visualiza el boton (.*)$")
     public void buttonIsNotDisplayed(String buttonName) {
         Assert.assertFalse(generarOrdenCompraSolaFirmaPage.buttonIsNotDisplayed(buttonName));
@@ -102,5 +104,14 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     @And("^El proveedor cambia en (.*) opcion (.*)$")
     public void changeOptionRateSubsidy(String dropDownName, String option) {
         generarOrdenCompraSolaFirmaPage.changeOptionRateSubsidy(dropDownName, option);
+    }
+
+    @And("^No se puede ingresar mas de (.*) digitos en el campo (.*)$")
+    public void checkNumberQuantity(String quantity, String field) {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkNumberQuantity(quantity, field));
+    }
+    @And("^Imposible escribir caracteres especiales en el campo (.*)$")
+    public void checkNumberQuantity( String field) {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkWritingSpecialCharacters(field));
     }
 }

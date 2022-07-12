@@ -49,6 +49,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 explicitWait(GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON);
                 element = GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON;
                 break;
+            case "X":
+                element = GenerarOrdenCompraSolaFirmaPageObject.X_BUTTON;
+                break;
         }
         click(element);
     }
@@ -355,6 +358,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraSolaFirmaPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
                 break;
+            case "Simular Crédito":
+                element = GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON;
+                break;
 
         }
         return waitVisibility(element, "1");
@@ -369,5 +375,32 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 break;
         }
         dropDownList.selectByVisibleText(option);
+    }
+
+    public boolean checkNumberQuantity(String quantity, String field) {
+        int intQuantity = Integer.parseInt(quantity);
+        String randomNumbers = DataGenerator.getNumber(intQuantity + 1);
+        By webElement = null;
+        switch (field) {
+            case "Ingresá el monto del crédito":
+                webElement = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
+                break;
+        }
+        write(webElement, randomNumbers);
+        //restamos 3 pq se autocompleta con 3 comas
+        return getAttribute(webElement, "value").length() - 3 == intQuantity;
+    }
+
+    public boolean checkWritingSpecialCharacters(String field) {
+        By webElement = null;
+        switch (field) {
+            case "Ingresá el monto del crédito":
+                webElement = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
+                break;
+        }
+        clear(webElement);
+        String special = DataGenerator.getPassword(8, 12, false, true, false);
+        write(webElement, special);
+        return getAttribute(webElement, "value").length() == 0;
     }
 }
