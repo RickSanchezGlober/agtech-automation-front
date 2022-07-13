@@ -267,7 +267,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void getDataFromApiServicesSimulation(String sourceApi, String path, String body, List<List<String>> t_table) {
-        log.info(path);
+        log.info("Consumiendo API " + sourceApi + path + " con body " + body);
         getDataFromApiServices(path, body, sourceApi, t_table);
         validateSimulationData(t_table);
     }
@@ -290,7 +290,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                 log.info(FIELDS + " " + FIELDS_TEXT);
                                 // VALIDATIONS
                                 if (FIELDS.contains("TNA") || FIELDS.contains("CFT") || FIELDS.contains("Interés")) {
-                                    VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + " %";
+                                    VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + "%";
                                 } else if (FIELDS.contains("Total Crédito a sola firma")) {
                                     String numberS = parseFromDoubleToString(VALUES, 2);
                                     VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
