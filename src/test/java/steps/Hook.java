@@ -41,12 +41,13 @@ public class Hook {
                 chromeOptions.setHeadless(true);
                 driver = new ChromeDriver(chromeOptions);
                 break;
-            case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                FirefoxOptions firefoxOptions = new FirefoxOptions();
-                firefoxOptions.setHeadless(true);
-                driver = new FirefoxDriver(firefoxOptions);
-                break;
+//comentamos firefox, hay bugs para reportar y para MVP no es prioridad
+//            case "firefox":
+//                WebDriverManager.firefoxdriver().setup();
+//                FirefoxOptions firefoxOptions = new FirefoxOptions();
+//                firefoxOptions.setHeadless(true);
+//                driver = new FirefoxDriver(firefoxOptions);
+//                break;
             case "edge":
                 WebDriverManager.edgedriver().setup();
                 EdgeOptions edgeOptions = new EdgeOptions();

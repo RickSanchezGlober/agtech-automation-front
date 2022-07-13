@@ -68,6 +68,10 @@ public class BasePage {
         driver.findElement(locator).sendKeys(Keys.TAB);
     }
 
+    public void sendBackSpace(By locator) {
+        driver.findElement(locator).sendKeys(Keys.BACK_SPACE);
+    }
+
     public String getText(By locator) {
         String displayedText = driver.findElement(locator).getText();
         if (displayedText.isEmpty()) {
@@ -214,7 +218,7 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
-        RestAssuredExtension.response = RestAssuredExtension.postMethod(sourceApi,path, body);
+        RestAssuredExtension.response = RestAssuredExtension.postMethod(sourceApi, path, body);
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
@@ -291,6 +295,10 @@ public class BasePage {
     public void write(By locator, String textToWrite) {
         Find(locator).clear();
         Find(locator).sendKeys(textToWrite);
+    }
+
+    public void clear(By locator) {
+        Find(locator).clear();
     }
 
     private WebElement Find(By locator) {

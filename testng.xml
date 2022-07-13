@@ -2,10 +2,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Multi Browser Test" verbose="1">
     <test name="Firefox Test">
-        <parameter name="browser" value="firefox"></parameter>
-        <classes>
-            <class name="runners.RunnerTest"></class>
-        </classes>
+<!--        comentamos firefox, hay bugs para reportar y para MVP no es prioridad-->
+<!--        <parameter name="browser" value="firefox"></parameter>-->
+<!--        <classes>-->
+<!--            <class name="runners.RunnerTest"></class>-->
+<!--        </classes>-->
     </test>
     <test name="Chrome Test">
         <parameter name="browser" value="chrome"></parameter>
