@@ -9,5 +9,7 @@ public class LoginPageObject {
     public static final By.ById PASSWORD_INPUT = new By.ById("password");
     public static final By.ByXPath INICIAR_SESION_BUTTON = new By.ByXPath("//button[contains(text(),'Iniciar sesión')]");
     public static final By.ByClassName MENSAJE_BIENVENIDA_TEXT = new By.ByClassName("home__container__subtitle");
-
+    public static final By.ByCssSelector MENSAJE_ERROR_LOGIN = new By.ByCssSelector("p.login__container__error_message_first_line");
+    public static final By.ByCssSelector CERRAR_SESION_BUTTON = new By.ByCssSelector("button.button__container_secondary");
+    public static final By.ByClassName MENSAJE_INICIO_SESION_TEXT = new By.ByClassName("login__container__subtitle");
 }
