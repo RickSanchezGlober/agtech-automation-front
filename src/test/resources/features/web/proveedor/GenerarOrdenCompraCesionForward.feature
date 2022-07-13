@@ -16,14 +16,14 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
 
   @TEST_ID_AG-970 @regression
   Scenario: Proveedor - Generar Orden de Compra - Visualizar el medio de pago en la lista de los disponibles credito forward
-    Then El proveedor visualiza Elegí el medio de pago con el cual el productor va a pagar la orden.
-    And El proveedor visualiza Medios de Pagos Disponibles
-    And El proveedor visualiza Nombre de Medio de pago
-    And El proveedor visualiza Descripción del Medio de pago
-    And El proveedor visualiza Logo de la entidad bancaria
-    And El proveedor visualiza Nombre de la entidad bancaria
+    Then El proveedor verifica que se muestre Elegí el medio de pago con el cual el productor va a pagar la orden.
+    And El proveedor verifica que se muestre Medios de Pagos Disponibles
+    And El proveedor verifica que se muestre Nombre de Medio de pago
+    And El proveedor verifica que se muestre Descripción del Medio de pago
+    And El proveedor verifica que se muestre Logo de la entidad bancaria
+    And El proveedor verifica que se muestre Nombre de la entidad bancaria
     And El proveedor seleciona medio de pago Cesión de forward
-    And El proveedor visualiza Tipo de Convenio
+    And El proveedor verifica que se muestre Tipo de Convenio
     And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2022
 
   @TEST_ID_AG-788 @regression

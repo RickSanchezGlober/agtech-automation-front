@@ -23,7 +23,7 @@ public class GenerarOrdenCompraCesionForwardSteps {
         generarOrdenCompraCesionForwardPage.clickOnButtonOrder(buttonName);
     }
 
-    @Then("^El proveedor visualiza (.*)$")
+    @Then("^El proveedor verifica que se muestre (.*)$")
     public void elProveedorVisualiza(String text) {
         Assert.assertTrue(generarOrdenCompraCesionForwardPage.viewItem(text));
     }
