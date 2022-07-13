@@ -30,26 +30,28 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
         By element = null;
         switch (buttonName) {
             case "Crear Orden":
-                explicitWait(GenerarOrdenCompraSolaFirmaPageObject.CREAR_ORDEN_BUTTON);
                 element = GenerarOrdenCompraSolaFirmaPageObject.CREAR_ORDEN_BUTTON;
                 break;
             case "Buscar":
-                explicitWait(GenerarOrdenCompraSolaFirmaPageObject.BUSCAR_BUTTON);
                 element = GenerarOrdenCompraSolaFirmaPageObject.BUSCAR_BUTTON;
                 break;
             case "del Productor encontrado":
-                waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.PRODUCTOR_ARROW, "15");
                 element = GenerarOrdenCompraSolaFirmaPageObject.PRODUCTOR_ARROW;
                 break;
             case "Continuar":
-                explicitWait(GenerarOrdenCompraSolaFirmaPageObject.CONTINUAR_BUTTON);
                 element = GenerarOrdenCompraSolaFirmaPageObject.CONTINUAR_BUTTON;
                 break;
             case "Simular Crédito":
-                explicitWait(GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON);
                 element = GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON;
                 break;
+            case "X":
+                element = GenerarOrdenCompraSolaFirmaPageObject.X_BUTTON;
+                break;
+            case "Confirmar medio de pago":
+                element = GenerarOrdenCompraSolaFirmaPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
+                break;
         }
+        waitVisibility(element, "30");
         click(element);
     }
 
@@ -71,7 +73,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "Ingresá el monto del crédito":
                 element = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
                 if (text.contains("mayor a $1.000")) {
-                    text = "1001";
+                    text = "100100";
 //                    do {
 //                        text = DataGenerator.getNumber(4);
 //                    } while (Integer.parseInt(text) < 1001);
@@ -103,7 +105,6 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public boolean verifyButtonState(String buttonName) {
-        explicitWait(GenerarOrdenCompraSolaFirmaPageObject.DESCRIPCION_LABEL);
         By element = null;
         switch (buttonName) {
             case "Continuar":
@@ -119,6 +120,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 element = GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON;
                 break;
         }
+        waitVisibility(element, "5");
         return isEnabled(element);
     }
 
@@ -355,6 +357,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraSolaFirmaPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
                 break;
+            case "Simular Crédito":
+                element = GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON;
+                break;
 
         }
         return waitVisibility(element, "1");
@@ -369,5 +374,42 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 break;
         }
         dropDownList.selectByVisibleText(option);
+    }
+
+    public boolean checkNumberQuantity(String quantity, String field) {
+        int intQuantity = Integer.parseInt(quantity);
+        String randomNumbers = DataGenerator.getNumber(intQuantity + 1);
+        By webElement = null;
+        switch (field) {
+            case "Ingresá el monto del crédito":
+                webElement = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
+                break;
+        }
+        write(webElement, randomNumbers);
+        //restamos 3 pq se autocompleta con 3 comas
+        return getAttribute(webElement, "value").length() - 3 == intQuantity;
+    }
+
+    public boolean checkWritingSpecialCharacters(String field) {
+        By webElement = null;
+        switch (field) {
+            case "Ingresá el monto del crédito":
+                webElement = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
+                break;
+        }
+        clear(webElement);
+        String special = DataGenerator.getPassword(8, 12, false, true, false);
+        write(webElement, special);
+        return getAttribute(webElement, "value").length() == 0;
+    }
+
+    public boolean checkEnterDecimalPLaces(String quantity) {
+        By webElement = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
+        String[] splitChainArray = getAttribute(webElement, "value").split("\\,");
+        int cantDecimalPlaces = 0;
+        for (int i = 1; i <= splitChainArray[1].length(); i++) {
+            cantDecimalPlaces = i;
+        }
+        return cantDecimalPlaces == Integer.parseInt(quantity);
     }
 }
