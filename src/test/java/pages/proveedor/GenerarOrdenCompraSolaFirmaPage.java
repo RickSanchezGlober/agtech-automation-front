@@ -30,23 +30,18 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
         By element = null;
         switch (buttonName) {
             case "Crear Orden":
-                explicitWait(GenerarOrdenCompraSolaFirmaPageObject.CREAR_ORDEN_BUTTON);
                 element = GenerarOrdenCompraSolaFirmaPageObject.CREAR_ORDEN_BUTTON;
                 break;
             case "Buscar":
-                explicitWait(GenerarOrdenCompraSolaFirmaPageObject.BUSCAR_BUTTON);
                 element = GenerarOrdenCompraSolaFirmaPageObject.BUSCAR_BUTTON;
                 break;
             case "del Productor encontrado":
-                waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.PRODUCTOR_ARROW, "15");
                 element = GenerarOrdenCompraSolaFirmaPageObject.PRODUCTOR_ARROW;
                 break;
             case "Continuar":
-                explicitWait(GenerarOrdenCompraSolaFirmaPageObject.CONTINUAR_BUTTON);
                 element = GenerarOrdenCompraSolaFirmaPageObject.CONTINUAR_BUTTON;
                 break;
             case "Simular Crédito":
-                explicitWait(GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON);
                 element = GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON;
                 break;
             case "X":
@@ -54,9 +49,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 break;
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraSolaFirmaPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
-                waitVisibility(element, "30");
                 break;
         }
+        waitVisibility(element, "30");
         click(element);
     }
 
