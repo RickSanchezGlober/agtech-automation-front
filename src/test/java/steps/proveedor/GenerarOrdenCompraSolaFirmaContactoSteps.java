@@ -35,4 +35,16 @@ public class GenerarOrdenCompraSolaFirmaContactoSteps {
     public void checkNumberCharactersContactData(String quantity,String field) {
         Assert.assertTrue(generarOrdenCompraSolaFirmaContactoPage.checkNumberCharactersContactData(quantity,field));
     }
+    @And("^Se muestra la pantalla confirmacion datos del contacto (.*)$")
+    public void checkConfirmationScreenContactData(String fieldText) {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaContactoPage.checkConfirmationScreenContactData(fieldText));
+    }
+    @And("^El proveedor hace click sobre botón (.*)$")
+    public void clickOnButtonConfirmationScreen(String buttonName) {
+        generarOrdenCompraSolaFirmaContactoPage.clickOnButtonConfirmationScreen(buttonName);
+    }
+    @Then("^El proveedor no visualiza el botón (.*)$")
+    public void buttonIsNotDisplayedConfirmationScreen(String buttonName) {
+        Assert.assertFalse(generarOrdenCompraSolaFirmaContactoPage.buttonIsNotDisplayedConfirmationScreen(buttonName));
+    }
 }

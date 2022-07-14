@@ -21,6 +21,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
+    public static String orderDescription = "";
+    public static String paymentMethod = "";
 
     public GenerarOrdenCompraSolaFirmaPage() {
         super();
@@ -66,6 +68,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 element = GenerarOrdenCompraSolaFirmaPageObject.DESCRIPCION_INPUT;
                 if (text.contains("Válida")) {
                     text = DataGenerator.getText(1, 40, true, true);
+                    this.orderDescription = text;
                 } else {
                     //Ver cual seria un descripcion no valida
                 }
@@ -239,6 +242,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void selectPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
         explicitWait(GenerarOrdenCompraSolaFirmaPageObject.ELEGI_MEDIO_PAGO_TITLE);
         List<WebElement> elementList = driver.findElements(GenerarOrdenCompraSolaFirmaPageObject.PAYMENT_CARD_CONTAINER);
         boolean result = false;
