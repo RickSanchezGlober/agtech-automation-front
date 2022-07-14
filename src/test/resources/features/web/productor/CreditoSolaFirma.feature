@@ -1,11 +1,9 @@
-@productor
+@productor @creditosolofirma
 Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
 
   Background:
-    Given Se navega al portal Galicia Rural productor
-    And Se hace click sobre el botón Logueate
-    And Se ingresa con usuario cristian.duque@globant.com y password Colombia123
-    And Se hace click sobre el botón Iniciar sesión
+    Given Se navega al portal New Agro productor
+    And Usuario logueado en el portal New Agro
     When Se hace click en el botón Ver órdenes
     And Se hace click sobre el detalle de una orden
     And Selecciona el medio de pago Credito a sola firma
@@ -49,7 +47,7 @@ Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
     And Se muestra el boton Confirmar Pago Habilitado
     And El sistema redirecciona a la pantalla de Confirmación con todos los detalles de la orden
     And Se presiona sobre el enlace en la navegación superior de regreso
-    And Se muestra un listado de 10 órdenes
+    And Se muestra un listado de 11 órdenes
     #Método Payments
 
 #  @financing @TEST_ID_AG-44 @TEST_ID_AG-272

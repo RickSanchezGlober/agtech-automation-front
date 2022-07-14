@@ -328,6 +328,8 @@ public class BasePage {
     }
 
     public boolean verifyVisibleText(By locator, String textToCompare) {
+
+        explicitWait(locator);
         return Find(locator).getText().equals(textToCompare);
     }
 
@@ -338,6 +340,20 @@ public class BasePage {
     public boolean isEnabled(By locator) {
         return Find(locator).isEnabled();
     }
+
+    public boolean isAttributePresent(By locator, String attribute) {
+        Boolean result = false;
+        try {
+            String value = getAttribute(locator,attribute);
+            if (value != null){
+                result = true;
+            }
+        } catch (Exception e) {}
+
+        return result;
+    }
+
+
 
     public String getAttribute(By locator, String attribute) {
         return Find(locator).getAttribute(attribute);

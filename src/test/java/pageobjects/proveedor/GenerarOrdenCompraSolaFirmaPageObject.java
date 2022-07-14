@@ -3,7 +3,7 @@ package pageobjects.proveedor;
 import org.openqa.selenium.By;
 
 public class GenerarOrdenCompraSolaFirmaPageObject {
-    public static final By.ByLinkText CREAR_ORDEN_BUTTON = new By.ByLinkText("Crear nueva orden de pago");
+    public static final By.ByCssSelector CREAR_ORDEN_BUTTON = new By.ByCssSelector("p.home__first_section__action_text");
     public static final By.ByClassName NUEVA_ORDEN_PAGO_HEADER = new By.ByClassName("step_layout__main_title");
     public static final By.ById INGRESA_EL_CUIT_INPUT = new By.ById("cuit");
     public static final By.ByClassName INGRESA_EL_CUIT_LABEL = new By.ByClassName("input__container__label_");

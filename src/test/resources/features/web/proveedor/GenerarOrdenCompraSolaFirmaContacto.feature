@@ -2,10 +2,8 @@
 Feature: Generar Orden de Compra. Información del Contacto
 
   Background:
-    Given Se navega al portal Galicia Rural proveedor
-    And Se hace click sobre el botón Logueate
-    When Se ingresa con usuario cristian.duque@globant.com y password Colombia123
-    And Se hace click sobre el botón Iniciar sesión
+    Given Se navega al portal New Agro proveedor
+    And Usuario logueado en el portal New Agro
     And El proveedor hace click en el botón Crear Orden
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
