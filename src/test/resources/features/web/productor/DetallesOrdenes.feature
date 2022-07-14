@@ -2,10 +2,8 @@
 Feature:  Productor - Detalle de Órdenes
 
   Background:
-    Given Se navega al portal Galicia Rural productor
-    And Se hace click sobre el botón Logueate
-    When Se ingresa con usuario cristian.duque@globant.com y password Colombia123
-    And Se hace click sobre el botón Iniciar sesión
+    Given Se navega al portal New Agro productor
+    And Usuario logueado en el portal New Agro
     When Se hace click en el botón Ver órdenes
 
   @TEST_ID_AG-279 @TEST_ID_AG-280 @regression

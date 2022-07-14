@@ -18,7 +18,7 @@ public class LoginSteps {
         Assert.assertEquals(actualPageTitle, "AgTech");
     }
 
-    @Given("^Usuario logueado en el portal New Agro productor")
+    @Given("^Usuario logueado en el portal New Agro")
     public void loginFixedUser() {
         loginPage.loginWithUserPasswd("cristian.duque@globant.com", "Colombia123");
     }

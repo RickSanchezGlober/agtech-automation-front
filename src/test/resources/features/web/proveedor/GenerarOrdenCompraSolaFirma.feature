@@ -2,10 +2,8 @@
 Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la orden. Medios de pago.
 
   Background:
-    Given Se navega al portal Galicia Rural proveedor
-    And Se hace click sobre el botón Logueate
-    When Se ingresa con usuario cristian.duque@globant.com y password Colombia123
-    And Se hace click sobre el botón Iniciar sesión
+    Given Se navega al portal New Agro proveedor
+    And Usuario logueado en el portal New Agro
     And El proveedor hace click en el botón Crear Orden
 
   @TEST_ID_AG-529 @TEST_ID_AG-530 @regression
