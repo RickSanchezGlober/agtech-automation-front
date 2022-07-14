@@ -63,10 +63,15 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
                 element = GenerarOrdenCompraCesionForwardPageObject.ELEGIR_MEDIO_PAGO_TEXT;
                 result = verifyVisibleText(element, text);
                 break;
+            case "Ingresá el Monto del Crédito":
+                waitVisibility(GenerarOrdenCompraCesionForwardPageObject.MONTO_CREDITO_INPUT, "5");
+                element = GenerarOrdenCompraCesionForwardPageObject.MONTO_CREDITO_INPUT;
+                result = isDisplayed(element);
+                break;
             case "Tipo de Convenio":
-                waitVisibility(GenerarOrdenCompraCesionForwardPageObject.TIPO_CONVENIO_SELECT, "2");
+                waitVisibility(GenerarOrdenCompraCesionForwardPageObject.TIPO_CONVENIO_SELECT, "5");
                 element = GenerarOrdenCompraCesionForwardPageObject.TIPO_CONVENIO_SELECT;
-                result = verifyVisibleText(element, text);
+                result = isDisplayed(element);
                 break;
             case "Medios de Pagos Disponibles":
                 waitVisibility(GenerarOrdenCompraCesionForwardPageObject.CARD_CONTAINER, "2");
