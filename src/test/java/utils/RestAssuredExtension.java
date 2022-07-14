@@ -131,6 +131,7 @@ public class RestAssuredExtension {
         specificPath = path;
         response = null;
         setDefaultHeaders();
+        generateBearerToken();
         try {
             configProperties.initConfig();
             builderMW.setBaseUri(getBaseUri(sourceApi));
@@ -153,6 +154,7 @@ public class RestAssuredExtension {
         specificPath = path;
         response = null;
         setDefaultHeaders();
+        generateBearerToken();
         RestAssuredConfig config = RestAssured.config();
         config.httpClient(
                 HttpClientConfig.httpClientConfig()
@@ -203,7 +205,7 @@ public class RestAssuredExtension {
     public static void generateBearerToken() {
         try {
             token = String.format("Bearer %s", "29tIiwicGVybWlzc2lvbnMiOlsicHJjY3IiLCJwZnZmbyIsInBndmFzdCIsInByY2FyYyIsInByY2NyYSIsInBlc2RjIiwibm90aSIsInBlc2RlIiwicHJjYWJtdSIsInByY21yIiwicGZzZiJdLCJpYXQiOjE2NTc3MzMwMzQsImV4cCI6MTY2MDMyNTAzNH0.Ukftvr32A2HJnLRhiaDp-IH88KrNBW7TVXDetTa3017tLIph8BmAewI2HXL1VusXmXOefaMFx1UXkF8uffNhTdl-fh_hdyZNWzfWZ9f71EzhiUXq8T8nKiKyL89gQ3IERU1GuDXEnx78zyLSPFjBywtwJJ7N35woFmtG28x9zjw");
-            builder.addHeader("Authorization", token);
+            builderMW.addHeader("Authorization", token);
         } catch (Exception e) {
             e.printStackTrace();
         }

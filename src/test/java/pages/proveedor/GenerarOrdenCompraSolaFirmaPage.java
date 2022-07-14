@@ -204,7 +204,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void getDataFromApiServicesValidation(String sourceApi, String path, String cuit, List<List<String>> table) {
-        log.info(path + cuit);
+        log.info("Consumiendo API " + sourceApi + path);
         getDataFromApiServices(path + cuit, sourceApi, table);
     }
 
