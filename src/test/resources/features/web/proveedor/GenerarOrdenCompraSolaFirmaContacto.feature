@@ -1,4 +1,4 @@
-@payments @proveedor @generarOrdenCompra
+@payments @proveedor @generarOrdenCompraSolaFirmaContacto
 Feature: Generar Orden de Compra. Información del Contacto
 
   Background:

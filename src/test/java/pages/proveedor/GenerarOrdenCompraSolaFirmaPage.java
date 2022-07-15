@@ -1,6 +1,7 @@
 package pages.proveedor;
 
 import io.cucumber.datatable.DataTable;
+import io.netty.util.internal.StringUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -145,15 +146,6 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "Escribí 11 números":
                 element = GenerarOrdenCompraSolaFirmaPageObject.ESCRIBI_11_NUMEROS_TEXT;
                 break;
-            case "CUIT del Productor Asociado":
-                if (RestAssuredExtension.response.statusCode() == 200) {
-                    element = GenerarOrdenCompraSolaFirmaPageObject.DATOS_PRODUCTOR_ASOCIADO_TEXT;
-                    String cuit = GenerarOrdenCompraSolaFirmaSteps.cuit;
-                    field = "CUIT " + cuit.substring(0, 2) + "-" + cuit.substring(2, 10) + "-" + cuit.substring(10, 11);
-                    break;
-                } else {
-                    log.info("Productor no disponible en la Base de Datos local");
-                }
         }
         return verifyVisibleText(element, field);
     }
@@ -180,6 +172,10 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                         case "name":
                                             element = GenerarOrdenCompraSolaFirmaPageObject.NOMBRE_PRODUCTOR_ASOCIADO_TEXT;
                                             break;
+                                        case "cuit_teradata":
+                                            element = GenerarOrdenCompraSolaFirmaPageObject.DATOS_PRODUCTOR_ASOCIADO_TEXT;
+                                            VALUES = "CUIT " + getCuitWithFormat(VALUES);
+                                            break;
                                     }
 
                                     String FIELDS_TEXT = driver.findElement(element).getText();
@@ -199,7 +195,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
     public boolean verifyCUITFormat(String cuit) {
         String cuitWithFormat = getAttribute(GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_CUIT_INPUT, "value");
-        cuit = cuit.substring(0, 2) + "-" + cuit.substring(2, 10) + "-" + cuit.substring(10, 11);
+        cuit = getCuitWithFormat(cuit);
         return cuit.equals(cuitWithFormat);
     }
 
