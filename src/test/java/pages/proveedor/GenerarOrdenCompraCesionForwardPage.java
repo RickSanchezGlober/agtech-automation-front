@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pageobjects.proveedor.GenerarOrdenCompraCesionForwardPageObject;
 import pages.BasePage;
+import utils.DataGenerator;
+
 import java.util.List;
 
 
@@ -115,5 +117,38 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
         }
         waitVisibility(element, "5");
         return isEnabled(element);
+    }
+
+    public boolean checkCorrectNumberAmount() {
+        By webElement = GenerarOrdenCompraCesionForwardPageObject.MONTO_CREDITO_INPUT;
+        clear(webElement);
+        String specialValue = DataGenerator.getPassword(8, 12, false, true, false);
+        write(webElement, specialValue);
+        log.info("===> checkCorrectNumberAmount: <" + getAttribute(webElement, "value") + "> ===");
+        return getAttribute(webElement, "value").length() == 0;
+    }
+
+    public boolean checkCorrectMinorAmount() {
+        By webElement = GenerarOrdenCompraCesionForwardPageObject.MONTO_CREDITO_INPUT;
+        By webElementError = GenerarOrdenCompraCesionForwardPageObject.ERROR_ICON;
+        clear(webElement);
+        //Monto no debería ser aceptado porque el valor mínimo aceptado es 1.500.001,00
+        String specialValue = "1500000,99";
+        write(webElement, specialValue);
+        //Si aparece el ícono de advertencia, es porque se muestra en pantalla el mensaje en color rojo
+        log.info("===> checkCorrectMinorAmount: <" + getAttribute(webElement, "value") + "> ===");
+        return isDisplayed(webElementError);
+    }
+
+    public boolean checkCorrectMaximumAmount() {
+        By webElement = GenerarOrdenCompraCesionForwardPageObject.MONTO_CREDITO_INPUT;
+        clear(webElement);
+        //No debe aceptar 13 digitos, lo maximo son 12 dígitos permitido
+        String specialValue = "1234567890123456";
+        write(webElement, specialValue);
+        sleep(3);
+        //El valor esperado es $ 1.234.567.890,12 y no $ 12.345.678.901,23
+        log.info("===> checkCorrectMaximumAmount: <" + getAttribute(webElement, "value") + "> ===");
+        return getText(webElement).length() == 18;
     }
 }

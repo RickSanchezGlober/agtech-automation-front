@@ -14,4 +14,6 @@ public class GenerarOrdenCompraCesionForwardPageObject {
     public static final By.ByClassName CARD_DESCRIPTION_CONTAINER = new By.ByClassName("payment_card__description");
     public static final By.ByClassName CARD_BANK_LOGO_CONTAINER = new By.ByClassName("payment_card__bank_logo");
     public static final By.ByClassName CARD_BANK_NAME_CONTAINER = new By.ByClassName("payment_card__bank_name");
+
+    public static final By.ByClassName ERROR_ICON = new By.ByClassName("input__container__wrapper__icon");
 }
