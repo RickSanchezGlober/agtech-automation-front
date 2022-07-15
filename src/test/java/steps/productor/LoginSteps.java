@@ -38,6 +38,22 @@ public class LoginSteps {
         Assert.assertTrue(loginPage.verifyMessageIsdisplayed(action,message));
     }
 
+    @Then("^Ocurre un error en el proceso de (.*)$")
+    public void anErrorOccurs(String proceso) {
+        loginPage.navigateToError("productor", proceso);
+    }
+
+    @Then("^Debería ver la página de error del (.*)$")
+    public void verifyErrorPageDisplayed(String process) {
+        Assert.assertTrue(loginPage.verifyErrorPageDisplayed(process));
+    }
+
+    @Then("^Después de darle click en el botón (.*) Debería ser redirigido a la página del (.*)")
+    public void verifyRedirectErrorPage(String button,String action) {
+        loginPage.clickOnButtonByName(button);
+        Assert.assertTrue(loginPage.verifyMessageIsdisplayed(action,""));
+    }
+
     @Then("^Se espera que se deniegue el acceso con (.*)$")
     public void verifyAcessDenied(String reason) {
         Assert.assertTrue(loginPage.verifyAccesDenied(reason));

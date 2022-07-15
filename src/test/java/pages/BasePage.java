@@ -54,6 +54,33 @@ public class BasePage {
         driver.get(url);
     }
 
+    public void navigateToError(String rol,String proceso) {
+        String url = "";
+
+        switch (rol) {
+            case "productor":
+
+                if(proceso.equals("login") ){
+                    url = webPropertiesConfig.getBaseLoginErrorUriProductor();
+                    break;
+                }
+                if (proceso.equals("signup")){
+                    url = webPropertiesConfig.getBaseSignupErrorUriProductor();
+                    break;
+                }
+            case "proveedor":
+                if(proceso.equals("login")){
+                    url = webPropertiesConfig.getBaseLoginErrorUriProveedor();
+                    break;
+                }
+                if (proceso.equals("signup")){
+                    url = webPropertiesConfig.getBaseSignupErrorUriProveedor();
+                    break;
+                }
+        }
+        driver.get(url);
+    }
+
     public String getPageTitle() {
         return driver.getTitle();
     }
@@ -328,7 +355,6 @@ public class BasePage {
     }
 
     public boolean verifyVisibleText(By locator, String textToCompare) {
-
         explicitWait(locator);
         return Find(locator).getText().equals(textToCompare);
     }
