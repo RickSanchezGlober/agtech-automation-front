@@ -54,6 +54,33 @@ public class BasePage {
         driver.get(url);
     }
 
+    public void navigateToError(String rol,String proceso) {
+        String url = "";
+
+        switch (rol) {
+            case "productor":
+
+                if(proceso.equals("login") ){
+                    url = webPropertiesConfig.getBaseLoginErrorUriProductor();
+                    break;
+                }
+                if (proceso.equals("signup")){
+                    url = webPropertiesConfig.getBaseSignupErrorUriProductor();
+                    break;
+                }
+            case "proveedor":
+                if(proceso.equals("login")){
+                    url = webPropertiesConfig.getBaseLoginErrorUriProveedor();
+                    break;
+                }
+                if (proceso.equals("signup")){
+                    url = webPropertiesConfig.getBaseSignupErrorUriProveedor();
+                    break;
+                }
+        }
+        driver.get(url);
+    }
+
     public String getPageTitle() {
         return driver.getTitle();
     }
@@ -328,7 +355,6 @@ public class BasePage {
     }
 
     public boolean verifyVisibleText(By locator, String textToCompare) {
-
         explicitWait(locator);
         return Find(locator).getText().equals(textToCompare);
     }
@@ -344,16 +370,19 @@ public class BasePage {
     public boolean isAttributePresent(By locator, String attribute) {
         Boolean result = false;
         try {
-            String value = getAttribute(locator,attribute);
-            if (value != null){
+            String value = getAttribute(locator, attribute);
+            if (value != null) {
                 result = true;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         return result;
     }
 
-
+    public String getCuitWithFormat(String cuit) {
+        return cuit.substring(0, 2) + "-" + cuit.substring(2, 10) + "-" + cuit.substring(10, 11);
+    }
 
     public String getAttribute(By locator, String attribute) {
         return Find(locator).getAttribute(attribute);

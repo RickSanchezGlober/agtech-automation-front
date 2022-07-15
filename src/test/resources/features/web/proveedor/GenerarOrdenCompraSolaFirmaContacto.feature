@@ -1,4 +1,4 @@
-@payments @proveedor @generarOrdenCompra
+@payments @proveedor @generarOrdenCompraSolaFirmaContacto
 Feature: Generar Orden de Compra. Información del Contacto
 
   Background:
@@ -41,3 +41,20 @@ Feature: Generar Orden de Compra. Información del Contacto
     And El proveedor no puede ingresar más de 8 caracteres en el campo Número de celular
     And Se llena el campo Correo electrónico con valor Inválido
     And El proveedor visualiza el botón Continuar Deshabilitado
+
+  @TEST_ID_AG-1499 @TEST_ID_AG-1500 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Resumen - Validar pantalla de Confirmación
+  Proveedor - Generar Orden de Compra - Resumen - Verificar botón volver
+    And Se llena el campo Nombre y Apellido con valor Válidos
+    And Se llena el campo Correo electrónico con valor Válido
+    And Se llena el campo Cód de área con valor Válido
+    And Se llena el campo Número de celular con valor Válido
+    And El proveedor hace click en el botón Continuar
+    Then Se muestra la pantalla confirmacion datos del contacto Revisá que la solicitud esté completa
+    And Se muestra la pantalla confirmacion datos del contacto Información del cliente
+    And Se muestra la pantalla confirmacion datos del contacto Detalles de la orden
+    And Se muestra la pantalla confirmacion datos del contacto Información de contacto
+    And Se muestra la pantalla confirmacion datos del contacto Medio de pago
+    And El proveedor visualiza el botón Enviar orden de compra Habilitado
+    And El proveedor hace click sobre botón Volver
+    And El proveedor no visualiza el botón Enviar orden de compra

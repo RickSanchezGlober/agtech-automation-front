@@ -1,5 +1,6 @@
 package utils;
 
+import com.google.gson.JsonObject;
 import config.RestAssuredPropertiesConfig;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
@@ -29,6 +30,8 @@ public class RestAssuredExtension {
     private static Properties prop = new Properties();
     public static String specificPath = "";
     public static Logger log = Logger.getLogger(String.valueOf(RestAssuredExtension.class));
+    public static JsonObject collectionVariables = new JsonObject();
+    public static String token;
 
     public RestAssuredExtension(String sourceApi) {
         try {
@@ -69,6 +72,7 @@ public class RestAssuredExtension {
     public static ResponseOptions<Response> postMethod(String sourceApi, String path, String body) {
         response = null;
         setDefaultHeaders();
+        generateBearerToken();
         RestAssuredConfig config = RestAssured.config();
         config.httpClient(
                 HttpClientConfig.httpClientConfig()
@@ -127,6 +131,7 @@ public class RestAssuredExtension {
         specificPath = path;
         response = null;
         setDefaultHeaders();
+        generateBearerToken();
         try {
             configProperties.initConfig();
             builderMW.setBaseUri(getBaseUri(sourceApi));
@@ -149,6 +154,7 @@ public class RestAssuredExtension {
         specificPath = path;
         response = null;
         setDefaultHeaders();
+        generateBearerToken();
         RestAssuredConfig config = RestAssured.config();
         config.httpClient(
                 HttpClientConfig.httpClientConfig()
@@ -194,5 +200,14 @@ public class RestAssuredExtension {
                 break;
         }
         return content;
+    }
+    /** Get bearer token and put in header request */
+    public static void generateBearerToken() {
+        try {
+            token = String.format("Bearer %s", "29tIiwicGVybWlzc2lvbnMiOlsicHJjY3IiLCJwZnZmbyIsInBndmFzdCIsInByY2FyYyIsInByY2NyYSIsInBlc2RjIiwibm90aSIsInBlc2RlIiwicHJjYWJtdSIsInByY21yIiwicGZzZiJdLCJpYXQiOjE2NTc3MzMwMzQsImV4cCI6MTY2MDMyNTAzNH0.Ukftvr32A2HJnLRhiaDp-IH88KrNBW7TVXDetTa3017tLIph8BmAewI2HXL1VusXmXOefaMFx1UXkF8uffNhTdl-fh_hdyZNWzfWZ9f71EzhiUXq8T8nKiKyL89gQ3IERU1GuDXEnx78zyLSPFjBywtwJJ7N35woFmtG28x9zjw");
+            builderMW.addHeader("Authorization", token);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -17,11 +17,15 @@ public class LoginPage extends BasePage {
             case "Logueate":
                 element = LoginPageObject.LOGUEATE_BUTTON;
                 break;
-            case "Iniciar sesión":
+            case "Iniciar sesion":
                 element = LoginPageObject.INICIAR_SESION_BUTTON;
                 break;
             case "Cerrar sesión":
                 element = LoginPageObject.CERRAR_SESION_BUTTON;
+                break;
+            case "Registrarse":
+                element = LoginPageObject.REGISTRARSE_BUTTON;
+                break;
         }
         explicitWait(element);
         click(element);
@@ -37,12 +41,26 @@ public class LoginPage extends BasePage {
     }
 
     public boolean verifyMessageIsdisplayed(String action,String message) {
+        log.info("***********************************************");
+        log.info(action) ;
         switch (action) {
             case "logueo":
                 return verifyVisibleText(LoginPageObject.MENSAJE_BIENVENIDA_TEXT, message);
 
             case "deslogueo":
                 return verifyVisibleText(LoginPageObject.MENSAJE_INICIO_SESION_TEXT, message);
+
+            case "login":
+                message = "Inicio de sesión";
+                return verifyVisibleText(LoginPageObject.MENSAJE_INICIO_SESION_TEXT, message);
+
+            case "signup":
+                message = "Creá tu cuenta";
+                log.info("***********************************************");
+                log.info(message);
+                log.info(LoginPageObject.MENSAJE_REGISTRO_TEXT);
+                return verifyVisibleText(LoginPageObject.MENSAJE_REGISTRO_TEXT, message);
+
         }
         return false;
     }
@@ -58,6 +76,20 @@ public class LoginPage extends BasePage {
               String attribute = "disabled";
               return isAttributePresent(LoginPageObject.INICIAR_SESION_BUTTON,attribute);
       }
+        return false;
+    }
+
+    public boolean verifyErrorPageDisplayed(String process) {
+        String message ="";
+        switch (process) {
+            case "login":
+                message = "Algo sucedió y no pudimos completar tu login";
+                return verifyVisibleText(LoginPageObject.PAGINA_ERROR,message);
+
+            case "signup":
+                message = "Algo sucedió y no pudimos completar tu registro";
+                return verifyVisibleText(LoginPageObject.PAGINA_ERROR,message);
+        }
         return false;
     }
 
