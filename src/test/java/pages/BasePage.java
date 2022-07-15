@@ -370,16 +370,19 @@ public class BasePage {
     public boolean isAttributePresent(By locator, String attribute) {
         Boolean result = false;
         try {
-            String value = getAttribute(locator,attribute);
-            if (value != null){
+            String value = getAttribute(locator, attribute);
+            if (value != null) {
                 result = true;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         return result;
     }
 
-
+    public String getCuitWithFormat(String cuit) {
+        return cuit.substring(0, 2) + "-" + cuit.substring(2, 10) + "-" + cuit.substring(10, 11);
+    }
 
     public String getAttribute(By locator, String attribute) {
         return Find(locator).getAttribute(attribute);

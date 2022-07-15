@@ -1,4 +1,4 @@
-@payments @proveedor @generarOrdenCompra
+@payments @proveedor @generarOrdenCompraSolaFirma
 Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la orden. Medios de pago.
 
   Background:
@@ -18,14 +18,14 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor visualiza el boton Buscar Habilitado
     And El proveedor hace click en el botón Buscar
     And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
-      | name |
-#      | clean_loan   |
-#      | forward_loan |
-    And El proveedor visualiza CUIT del Productor Asociado en la pantalla Identificación de cliente
+      | id_producer   |
+      | cuit_teradata |
+      | name          |
+      | clean_loan    |
+      | forward_loan  |
     And El proveedor puede ver Datos del Productor Asociado
-      | name |
-#      | clean_loan   |
-#      | forward_loan |
+      | name          |
+      | cuit_teradata |
 
   @TEST_ID_AG-533 @TEST_ID_AG-534 @TEST_ID_AG-535 @TEST_ID_AG-536 @regression
   Scenario: Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar pantalla de Descripcion de la orden
