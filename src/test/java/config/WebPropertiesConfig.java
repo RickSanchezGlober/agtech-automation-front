@@ -11,6 +11,10 @@ public class WebPropertiesConfig {
             "src/test/resources/application.properties";
     public static String setBaseUriProductor;
     public static String setBaseUriProveedor;
+    public static String setBaseLoginErrorUriProductor;
+    public static String setBaseLoginErrorUriProveedor;
+    public static String setBaseSignupErrorUriProductor;
+    public static String setBaseSignupErrorUriProveedor;
     public static String environment;
 
     public WebPropertiesConfig() {
@@ -40,6 +44,26 @@ public class WebPropertiesConfig {
                         != null)
                         ? setBaseUriProveedor
                         : prop.getProperty("web.setBaseUriProveedor");
+        setBaseLoginErrorUriProductor =
+                ((setBaseLoginErrorUriProductor = prop.getProperty(String.format("%s.web.setBaseLoginErrorUriProductor", environment)))
+                        != null)
+                        ? setBaseUriProveedor
+                        : prop.getProperty("web.setBaseLoginErrorUriProductor");
+        setBaseSignupErrorUriProductor=
+                ((setBaseSignupErrorUriProductor = prop.getProperty(String.format("%s.web.setBaseSignupErrorUriProductor", environment)))
+                        != null)
+                        ? setBaseSignupErrorUriProductor
+                        : prop.getProperty("web.setBaseSignupErrorUriProductor");
+        setBaseLoginErrorUriProveedor=
+                ((setBaseLoginErrorUriProveedor = prop.getProperty(String.format("%s.web.setBaseLoginErrorUriProveedor", environment)))
+                        != null)
+                        ? setBaseLoginErrorUriProveedor
+                        : prop.getProperty("web.setBaseLoginErrorUriProveedor");
+        setBaseSignupErrorUriProveedor=
+                ((setBaseSignupErrorUriProveedor = prop.getProperty(String.format("%s.web.setBaseSignupErrorUriProveedor", environment)))
+                        != null)
+                        ? setBaseSignupErrorUriProveedor
+                        : prop.getProperty("web.setBaseSignupErrorUriProveedor");
     }
 
     public String getEnvironment() {
@@ -51,5 +75,13 @@ public class WebPropertiesConfig {
     }
 
     public String getBaseUriProveedor() { return setBaseUriProveedor; }
+
+    public String getBaseLoginErrorUriProductor() { return setBaseLoginErrorUriProductor; }
+
+    public String getBaseSignupErrorUriProductor() { return setBaseSignupErrorUriProductor; }
+
+    public String getBaseLoginErrorUriProveedor() { return setBaseLoginErrorUriProveedor; }
+
+    public String getBaseSignupErrorUriProveedor() { return setBaseSignupErrorUriProveedor; }
 
 }

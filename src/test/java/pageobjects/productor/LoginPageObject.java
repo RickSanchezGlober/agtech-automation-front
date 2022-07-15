@@ -12,4 +12,7 @@ public class LoginPageObject {
     public static final By.ByCssSelector MENSAJE_ERROR_LOGIN = new By.ByCssSelector("p.login__container__error_message_first_line");
     public static final By.ByCssSelector CERRAR_SESION_BUTTON = new By.ByCssSelector("button.button__container_secondary");
     public static final By.ByClassName MENSAJE_INICIO_SESION_TEXT = new By.ByClassName("login__container__subtitle");
+    public static final By.ByClassName MENSAJE_REGISTRO_TEXT = new By.ByClassName("register__container__subtitle");
+    public static final By.ByCssSelector PAGINA_ERROR= new By.ByCssSelector(".confirmation_page__container__title");
+    public static final By.ByCssSelector REGISTRARSE_BUTTON = new By.ByCssSelector("a.button__container.button__container_primary");
 }
