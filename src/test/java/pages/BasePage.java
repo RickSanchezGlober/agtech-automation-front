@@ -349,7 +349,7 @@ public class BasePage {
             wait.until(ExpectedConditions.elementToBeClickable(by));
             return true;
         } catch (NoSuchElementException | TimeoutException e) {
-            log.info("Element is not present");
+            log.info("===> Element: "+ by +" is not present ===");
             return false;
         }
     }
