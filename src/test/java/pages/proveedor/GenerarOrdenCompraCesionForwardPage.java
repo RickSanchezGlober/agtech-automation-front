@@ -146,9 +146,20 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
         //No debe aceptar 13 digitos, lo maximo son 12 dígitos permitido
         String specialValue = "1234567890123456";
         write(webElement, specialValue);
-        sleep(3);
         //El valor esperado es $ 1.234.567.890,12 y no $ 12.345.678.901,23
         log.info("===> checkCorrectMaximumAmount: <" + getAttribute(webElement, "value") + "> ===");
         return getText(webElement).length() == 18;
+    }
+
+    public Boolean sinCorredorisNotDisplayed(String option) {
+        boolean result = false;
+        explicitWait(GenerarOrdenCompraCesionForwardPageObject.GESTION_FORWARD_SELECT);
+        List<WebElement> elementList = driver.findElements(GenerarOrdenCompraCesionForwardPageObject.GESTION_FORWARD_SELECT);
+        result = (elementList.size() > 0)
+                && (elementList.get(0).getText().contains(option));
+
+        log.info("===> Contiene opción: <" + option + ">? ---->  " +result+ " ===");
+
+        return result;
     }
 }

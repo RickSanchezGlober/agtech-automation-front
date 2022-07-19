@@ -39,6 +39,24 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And El proveedor percibe el boton Simular Crédito Habilitado
 
 
+    @TEST_ID_AG-1119 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Visualizar campo desplegable Gestión del Forward al ingresar con usuario sin/con negocio directo
+    #Se valida que con este usuario <Si contenga> la opción de negocio directo - Sin Corredor
+    Then El proveedor seleciona medio de pago Cesión de forward
+    And El proveedor presiona el campo desplegable de Gestion del forward y se muestra la opción Sin corredor
+    #Se valida que con este usuario <No contenga> la opción de negocio directo - Sin Corredor
+    Then Se navega al portal New Agro proveedor
+    And Se ingresa con usuario ronaldinho@yopmail.com y password Brasil123
+    And El proveedor hace click en el botón Crear Orden
+    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And El proveedor hace click en el botón del Productor encontrado
+    And El proveedor ingresa Descripción Válida en el campo Descripción
+    And El proveedor hace click en el botón Continuar
+    And El proveedor seleciona medio de pago Cesión de forward
+    And El proveedor presiona el campo desplegable de Gestion del forward y no se muestra la opción Sin Corredor
+    #Cuando se desarrolle el MS que devuelva los datos del usuario hay que verificar el valor withbroker que indica true si tiene negocio directo
+
 #  @TEST_ID_AG-877 @regression
 #  Scenario: Proveedor - Generar Orden de Compra - Respuesta a la Consulta de Márgenes Cesión de Forward (Paso 3)
 #    Then El proveedor seleciona medio de pago Cesión de forward
