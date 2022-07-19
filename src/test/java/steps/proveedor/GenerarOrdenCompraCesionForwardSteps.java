@@ -54,4 +54,16 @@ public class GenerarOrdenCompraCesionForwardSteps {
     public void checkMayorAmount() {
         Assert.assertTrue(generarOrdenCompraCesionForwardPage.checkCorrectMaximumAmount());
     }
+
+    @And("^El proveedor presiona el campo desplegable de Gestion del forward y (.*) la opción (.*)$")
+    public void verifySinCorredor(String verificarOpcion, String sOpcion) {
+        switch (verificarOpcion){
+            case "no se muestra":
+                Assert.assertFalse(generarOrdenCompraCesionForwardPage.sinCorredorisNotDisplayed(sOpcion));
+                break;
+            case "se muestra":
+                Assert.assertTrue(generarOrdenCompraCesionForwardPage.sinCorredorisNotDisplayed(sOpcion));
+                break;
+        }
+    }
 }
