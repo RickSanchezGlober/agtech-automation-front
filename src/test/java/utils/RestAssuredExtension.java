@@ -130,6 +130,7 @@ public class RestAssuredExtension {
     public static ResponseOptions<Response> getMethod(String sourceApi, String path) {
         specificPath = path;
         response = null;
+        request = null;
         setDefaultHeaders();
         generateBearerToken();
         try {

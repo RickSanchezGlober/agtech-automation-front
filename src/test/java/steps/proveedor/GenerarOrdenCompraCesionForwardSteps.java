@@ -5,6 +5,8 @@ import io.cucumber.java.en.Then;
 import org.testng.Assert;
 import pages.proveedor.GenerarOrdenCompraCesionForwardPage;
 
+import java.util.List;
+
 public class GenerarOrdenCompraCesionForwardSteps {
     GenerarOrdenCompraCesionForwardPage generarOrdenCompraCesionForwardPage = new GenerarOrdenCompraCesionForwardPage();
 
@@ -65,5 +67,10 @@ public class GenerarOrdenCompraCesionForwardSteps {
                 Assert.assertTrue(generarOrdenCompraCesionForwardPage.sinCorredorisNotDisplayed(sOpcion));
                 break;
         }
+    }
+
+    @And("^Obtener datos de endpoint en (.*) con ruta (.*) y guardar valores en variables")
+    public void getDataFromApiServicesAndSave(String sourceApi, String path, List<List<String>> t_table) {
+        generarOrdenCompraCesionForwardPage.getDataFromApiServicesValidateCForward(sourceApi, path, t_table);
     }
 }

@@ -33,11 +33,16 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And La plataforma no permite ingresar monto mayor a 12 digitos incluídos 2 decimales
     And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
     And El proveedor percibe el boton Simular Crédito Deshabilitado
-    And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2022
+    #Obtener el Id del proveedor de otro endpoint
+    And Obtener datos de endpoint en bff con ruta agreement?payment_method=2&provider_id=116 y guardar valores en variables
+      | agreement_type_desc |
+    And El proveedor escoge en tipo de convenio la opcion agreement_type_desc
     And El proveedor percibe el boton Simular Crédito Deshabilitado
-    And El proveedor escoge en gestión del forward la opcion Intagro
-    And El proveedor percibe el boton Simular Crédito Habilitado
-
+#    And Obtener datos de endpoint en bff con ruta organization/broker y guardar valores en variables
+#      | name |
+#    And El proveedor escoge en gestión del forward la opcion name
+#    And El proveedor percibe el boton Simular Crédito Habilitado
+#    Consultar...
 
     @TEST_ID_AG-1119 @regression
   Scenario: Proveedor - Generar Orden de Compra - Visualizar campo desplegable Gestión del Forward al ingresar con usuario sin/con negocio directo
