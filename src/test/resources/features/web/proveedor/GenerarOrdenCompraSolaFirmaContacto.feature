@@ -91,3 +91,6 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And El proveedor hace click en el botón Enviar orden de compra
     #Cuando el servicio Confirm respponda con 200 agregar la validacion
     Then Se visualiza la pantalla de Orden generada y enviada exitosamente
+    And El proveedor hace click en el botón Ir a órdenes
+    #Al presionar el boton "Ir a órdenes" deberia ir a a la home, bug reportado en la 525
+  

@@ -57,6 +57,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "Enviar orden de compra":
                 element = GenerarOrdenCompraSolaFirmaContactoPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
                 break;
+            case "Ir a ódenes":
+                element = GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON;
+                break;
         }
         waitVisibility(element, "30");
         click(element);
