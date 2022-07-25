@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 //import java.util.concurrent.atomic.AtomicInteger;
 
 import config.WebPropertiesConfig;
+import io.restassured.response.Response;
+import io.restassured.response.ResponseOptions;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -33,6 +35,7 @@ public class BasePage {
     public static Map<String, String> scenarioData = new HashMap<>();
     protected Logger log;
     public static WebPropertiesConfig webPropertiesConfig = new WebPropertiesConfig();
+    public static ResponseOptions<Response> response = null;
 
     public BasePage() {
         driver = Hook.driver;
@@ -54,26 +57,26 @@ public class BasePage {
         driver.get(url);
     }
 
-    public void navigateToError(String rol,String proceso) {
+    public void navigateToError(String rol, String proceso) {
         String url = "";
 
         switch (rol) {
             case "productor":
 
-                if(proceso.equals("login") ){
+                if (proceso.equals("login")) {
                     url = webPropertiesConfig.getBaseLoginErrorUriProductor();
                     break;
                 }
-                if (proceso.equals("signup")){
+                if (proceso.equals("signup")) {
                     url = webPropertiesConfig.getBaseSignupErrorUriProductor();
                     break;
                 }
             case "proveedor":
-                if(proceso.equals("login")){
+                if (proceso.equals("login")) {
                     url = webPropertiesConfig.getBaseLoginErrorUriProveedor();
                     break;
                 }
-                if (proceso.equals("signup")){
+                if (proceso.equals("signup")) {
                     url = webPropertiesConfig.getBaseSignupErrorUriProveedor();
                     break;
                 }
@@ -245,7 +248,8 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
-        RestAssuredExtension.response = RestAssuredExtension.postMethod(sourceApi, path, body);
+        response = null;
+        response = RestAssuredExtension.postMethod(sourceApi, path, body);
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
@@ -257,7 +261,7 @@ public class BasePage {
                                 String VALUES = null;
                                 try {
                                     String KEY = rField.get(0);
-                                    VALUES = RestAssuredExtension.response
+                                    VALUES = response
                                             .getBody()
                                             .jsonPath()
                                             .get(rValue.get(0))
@@ -272,7 +276,8 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String sourceApi, List<List<String>> t_table) {
-        RestAssuredExtension.response = RestAssuredExtension.getMethod(sourceApi, path);
+        response = null;
+        response = RestAssuredExtension.getMethod(sourceApi, path);
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);

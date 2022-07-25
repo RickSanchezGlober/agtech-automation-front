@@ -14,12 +14,6 @@ public class ConfigurationTest {
     public static ResponseOptions<Response> response = null;
 
     @Test
-    public void testConfigProperties() {
-        Assert.assertEquals(restAssuredPropertiesConfig.getContentType(), "application/x-amz-json-1.1");
-    }
-
-
-    @Test
     public void testGenerateBearerToken() {
         rest.generateBearerToken();
     }
@@ -42,9 +36,33 @@ public class ConfigurationTest {
         response = RestAssuredExtension.getMethod("bff", "customer-validation/30597962793");
         try {
             response.getBody().prettyPrint();
+            System.out.println(response.getBody().jsonPath().get("name").toString());
         } catch (NullPointerException e) {
             e.printStackTrace();
             System.out.println("Path is invalid");
         }
+    }
+
+    @Test
+    public void testGetValidationCustomerCuitPostSimulationSolaFirma() {
+        response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation.txt");
+        try {
+            response.getBody().prettyPrint();
+            System.out.println(response.getBody().jsonPath().get("id").toString());
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.out.println("Path is invalid");
+        }
+
+        response = RestAssuredExtension.getMethod("bff", "customer-validation/30597962793");
+        try {
+            response.getBody().prettyPrint();
+            System.out.println(response.getBody().jsonPath().get("name").toString());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.out.println("Path is invalid");
+        }
+
     }
 }
