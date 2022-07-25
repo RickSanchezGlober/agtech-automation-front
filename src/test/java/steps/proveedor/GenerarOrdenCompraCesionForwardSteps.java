@@ -40,4 +40,30 @@ public class GenerarOrdenCompraCesionForwardSteps {
         }
     }
 
+    @And("^La plataforma no permite ingresar ningún valor que sea distinto a numérico$")
+    public void checkAmount() {
+        Assert.assertTrue(generarOrdenCompraCesionForwardPage.checkCorrectNumberAmount());
+    }
+
+    @And("^La plataforma no permite ingresar monto menor a 1.500.001$")
+    public void checkMinorAmount() {
+        Assert.assertTrue(generarOrdenCompraCesionForwardPage.checkCorrectMinorAmount());
+    }
+
+    @And("^La plataforma no permite ingresar monto mayor a 12 digitos incluídos 2 decimales$")
+    public void checkMayorAmount() {
+        Assert.assertTrue(generarOrdenCompraCesionForwardPage.checkCorrectMaximumAmount());
+    }
+
+    @And("^El proveedor presiona el campo desplegable de Gestion del forward y (.*) la opción (.*)$")
+    public void verifySinCorredor(String verificarOpcion, String sOpcion) {
+        switch (verificarOpcion){
+            case "no se muestra":
+                Assert.assertFalse(generarOrdenCompraCesionForwardPage.sinCorredorisNotDisplayed(sOpcion));
+                break;
+            case "se muestra":
+                Assert.assertTrue(generarOrdenCompraCesionForwardPage.sinCorredorisNotDisplayed(sOpcion));
+                break;
+        }
+    }
 }
