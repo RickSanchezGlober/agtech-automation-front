@@ -267,6 +267,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     public boolean verifyOrderGeneratedScreen() {
         return verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "Orden generada y enviada exitosamente")
                 && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto Productor S.A acepte la orden.")
-                && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON);
+                && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
+                && isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON);
     }
 }
