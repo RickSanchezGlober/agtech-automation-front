@@ -25,7 +25,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2022
 
   @TEST_ID_AG-788 @regression
-  Scenario: Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado
+  Scenario: Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado Cesion de Forward
     Then El proveedor seleciona medio de pago Cesión de forward
     And El proveedor percibe el boton Simular Crédito Deshabilitado
     And La plataforma no permite ingresar ningún valor que sea distinto a numérico
@@ -38,11 +38,11 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
       | agreement_type_desc |
     And El proveedor escoge en tipo de convenio la opcion agreement_type_desc
     And El proveedor percibe el boton Simular Crédito Deshabilitado
-#    And Obtener datos de endpoint en bff con ruta organization/broker y guardar valores en variables
-#      | name |
-#    And El proveedor escoge en gestión del forward la opcion name
-#    And El proveedor percibe el boton Simular Crédito Habilitado
-#    Consultar...
+    And Obtener datos de endpoint en bff con ruta organization/broker y guardar valores en variables
+      | name |
+    And El proveedor escoge en gestión del forward la opcion name
+    And El proveedor percibe el boton Simular Crédito Habilitado
+
 
     @TEST_ID_AG-1119 @regression
   Scenario: Proveedor - Generar Orden de Compra - Visualizar campo desplegable Gestión del Forward al ingresar con usuario sin/con negocio directo
