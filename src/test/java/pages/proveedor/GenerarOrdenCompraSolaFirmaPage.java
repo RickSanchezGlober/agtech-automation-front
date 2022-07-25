@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import pageobjects.proveedor.GenerarOrdenCompraSolaFirmaContactoPageObject;
 import pageobjects.proveedor.GenerarOrdenCompraSolaFirmaPageObject;
 import pages.BasePage;
 import steps.proveedor.GenerarOrdenCompraSolaFirmaSteps;
@@ -52,6 +53,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 break;
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraSolaFirmaPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
+                break;
+            case "Enviar orden de compra":
+                element = GenerarOrdenCompraSolaFirmaContactoPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
                 break;
         }
         waitVisibility(element, "30");
@@ -301,11 +305,6 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                 i.getAndIncrement();
                             });
         }
-    }
-
-    private String parseFromDoubleToString(String doubleNumber, int numbersAfterDot) {
-        BigDecimal bd = new BigDecimal(doubleNumber).setScale(numbersAfterDot, RoundingMode.HALF_UP);
-        return String.valueOf(bd).replace(".", ",");
     }
 
     private String getDateStringFormat(String stringDate) {

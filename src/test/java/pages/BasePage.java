@@ -2,6 +2,8 @@ package pages;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -248,7 +250,6 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
-        response = null;
         response = RestAssuredExtension.postMethod(sourceApi, path, body);
         DataTable data = createDataTable(t_table);
         if (data != null) {
@@ -256,6 +257,7 @@ public class BasePage {
             data.cells()
                     .forEach(
                             value -> {
+
                                 List<String> rField = Collections.singletonList(value.get(0));
                                 List<String> rValue = Collections.singletonList(value.get(1));
                                 String VALUES = null;
@@ -276,7 +278,6 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String sourceApi, List<List<String>> t_table) {
-        response = null;
         response = RestAssuredExtension.getMethod(sourceApi, path);
         DataTable data = createDataTable(t_table);
         if (data != null) {
@@ -399,5 +400,9 @@ public class BasePage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public String parseFromDoubleToString(String doubleNumber, int numbersAfterDot) {
+        BigDecimal bd = new BigDecimal(doubleNumber).setScale(numbersAfterDot, RoundingMode.HALF_UP);
+        return String.valueOf(bd).replace(".", ",");
     }
 }

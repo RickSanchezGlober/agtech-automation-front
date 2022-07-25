@@ -14,4 +14,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPageObject {
     public static final By.ByClassName SOLICITUD_COMPLETA_CONTAINER = new By.ByClassName("step_layout__container");
     public static final By.ByClassName VOLVER_BUTTON = new By.ByClassName("goback_button__container");
     public static final By.ByCssSelector ENVIAR_ORDEN_COMPRA_BUTTON = new By.ByCssSelector("div:nth-child(1) main.layout__container.light div.step_layout__container div.confirmation__button_wrapper_desktop > button.button__container.button__container_primary");
+    public static final By.ByClassName ORDEN_GENERADA_ENVIADA_TITLE = new By.ByClassName("confirmation_page__container__title");
+    public static final By.ByClassName RECIBIRAS_NOTIFICACION_SUBTITLE = new By.ByClassName("confirmation_page__container__subtitle");
+    public static final By.ByTagName CONFIRMATION_ICON = new By.ByTagName("i");
 }
