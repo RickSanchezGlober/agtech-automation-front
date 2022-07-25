@@ -297,7 +297,7 @@ public class BasePage {
 
     public DataTable createDataTable(List<List<String>> table) {
         data = DataTable.create(table);
-        log.info(String.valueOf(data));
+        log.info("===> DataTable: " + String.valueOf(data) + " ===");
         return data;
     }
 
