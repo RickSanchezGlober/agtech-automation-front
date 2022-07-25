@@ -22,7 +22,6 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And El proveedor seleciona medio de pago Cesión de forward
     And El proveedor verifica que se muestre Ingresá el Monto del Crédito
     And El proveedor verifica que se muestre Tipo de Convenio
-    And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2022
 
   @TEST_ID_AG-788 @regression
   Scenario: Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado Cesion de Forward
