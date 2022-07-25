@@ -94,18 +94,3 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And El proveedor hace click en el botón Ir a órdenes
     #Al presionar el boton "Ir a órdenes" deberia ir a a la home, bug reportado en la 525
   
-
-  @TEST_SET_ID_AG-1543 @regression
-  Scenario: Proveedor - Generar Orden de Compra - Confirmar - Verificar Loader
-  Proveedor - Generar Orden de Compra - Confirmar - Verificar pantalla de éxito
-    And Se llena el campo Nombre y Apellido con valor Válidos
-    And Se llena el campo Correo electrónico con valor Válido
-    And Se llena el campo Cód de área con valor Válido
-    And Se llena el campo Número de celular con valor Válido
-    And El proveedor hace click en el botón Continuar
-    And El proveedor hace click en el botón Enviar orden de compra
-    #Cuando el servicio Confirm respponda con 200 agregar la validacion
-    Then Se visualiza la pantalla de Orden generada y enviada exitosamente
-    And El proveedor hace click en el botón Ir a órdenes
-    #Al presionar el boton "Ir a órdenes" deberia ir a a la home, bug reportado en la 525
-  
