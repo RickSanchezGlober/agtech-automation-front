@@ -65,4 +65,17 @@ public class ConfigurationTest {
         }
 
     }
+
+    @Test
+    public void testPostSimulationSolaFirmaValidationOrder() {
+        response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation.txt");
+        try {
+            response.getBody().prettyPrint();
+            System.out.println(response.getBody().jsonPath().get("installments[0].amount").toString());
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.out.println("Path is invalid");
+        }
+    }
 }

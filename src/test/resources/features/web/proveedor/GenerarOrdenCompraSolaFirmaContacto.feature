@@ -1,5 +1,5 @@
 @payments @proveedor @generarOrdenCompraSolaFirmaContacto
-Feature: Generar Orden de Compra. Información del Contacto
+Feature: Generar Orden de Compra. Información del Contacto. Confimación.
 
   Background:
     Given Se navega al portal New Agro proveedor
@@ -14,6 +14,17 @@ Feature: Generar Orden de Compra. Información del Contacto
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
     And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Septiembre 2022
     And El proveedor hace click en el botón Simular Crédito
+    And Recuperar datos de servicios api bff con ruta simulation con body bff_simulation.txt
+      | producer_cuit  |
+      | loan_amount    |
+      | financing_type |
+      | fees           |
+      | tna            |
+      | cft            |
+      | interest       |
+      | interest_iva   |
+      | sealed         |
+      | end_to_pay     |
     And El proveedor hace click en el botón Confirmar medio de pago
 
   @TEST_ID_AG-1390 @TEST_ID_AG-1391 @TEST_ID_AG-1393 @TEST_ID_AG-1394 @TEST_ID_AG-1395
@@ -50,11 +61,36 @@ Feature: Generar Orden de Compra. Información del Contacto
     And Se llena el campo Cód de área con valor Válido
     And Se llena el campo Número de celular con valor Válido
     And El proveedor hace click en el botón Continuar
-    Then Se muestra la pantalla confirmacion datos del contacto Revisá que la solicitud esté completa
-    And Se muestra la pantalla confirmacion datos del contacto Información del cliente
-    And Se muestra la pantalla confirmacion datos del contacto Detalles de la orden
-    And Se muestra la pantalla confirmacion datos del contacto Información de contacto
-    And Se muestra la pantalla confirmacion datos del contacto Medio de pago
+    Then Se visualiza el título Revisá que la solicitud esté completa
+    And Se visualiza el título Detalles de la orden
+    And Se visualiza el título Información de contacto
+    And Se visualiza el título Medio de pago
+    And Se muestra la pantalla confirmacion datos del contacto
+      | producer_cuit  |
+      | loan_amount    |
+      | financing_type |
+      | fees           |
+      | tna            |
+      | cft            |
+      | interest       |
+      | interest_iva   |
+      | sealed         |
+      | end_to_pay     |
     And El proveedor visualiza el botón Enviar orden de compra Habilitado
     And El proveedor hace click sobre botón Volver
     And El proveedor no visualiza el botón Enviar orden de compra
+
+  @TEST_SET_ID_AG-1543 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Confirmar - Verificar Loader
+  Proveedor - Generar Orden de Compra - Confirmar - Verificar pantalla de éxito
+    And Se llena el campo Nombre y Apellido con valor Válidos
+    And Se llena el campo Correo electrónico con valor Válido
+    And Se llena el campo Cód de área con valor Válido
+    And Se llena el campo Número de celular con valor Válido
+    And El proveedor hace click en el botón Continuar
+    And El proveedor hace click en el botón Enviar orden de compra
+    #Cuando el servicio Confirm respponda con 200 agregar la validacion
+    Then Se visualiza la pantalla de Orden generada y enviada exitosamente
+    And El proveedor hace click en el botón Ir a órdenes
+    #Al presionar el boton "Ir a órdenes" deberia ir a a la home, bug reportado en la 525
+  

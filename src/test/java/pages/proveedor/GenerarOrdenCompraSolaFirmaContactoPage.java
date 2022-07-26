@@ -1,14 +1,20 @@
 package pages.proveedor;
 
+import io.cucumber.datatable.DataTable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import pageobjects.proveedor.GenerarOrdenCompraSolaFirmaContactoPageObject;
 import pageobjects.proveedor.GenerarOrdenCompraSolaFirmaPageObject;
 import pages.BasePage;
 import steps.proveedor.GenerarOrdenCompraSolaFirmaSteps;
 import utils.DataGenerator;
+import utils.RestAssuredExtension;
 
+import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
@@ -127,38 +133,63 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
         return getAttribute(element, "value").length() == intQuantity;
     }
 
-    public boolean checkConfirmationScreenContactData(String fieldText) {
-        log.info("Verificando que se muestre '" + fieldText + "' en la pantalla Confirmación");
-        By titleElement = GenerarOrdenCompraSolaFirmaContactoPageObject.REVISA_SOLICITUD_COMPLETA_TITLE;
+    public void checkConfirmationScreenContactData(List<List<String>> t_table) {
+        DataTable data = createDataTable(t_table);
         By containerElement = GenerarOrdenCompraSolaFirmaContactoPageObject.SOLICITUD_COMPLETA_CONTAINER;
-        String textFromUI = "";
-        waitVisibility(titleElement, "30");
-        switch (fieldText) {
-            case "Revisá que la solicitud esté completa":
-                textFromUI = driver.findElement(titleElement).getText();
-                break;
-            case "Información del cliente":
-                textFromUI = driver.findElement(containerElement).getText().replaceAll("\n", " ");
-                String cuit = GenerarOrdenCompraSolaFirmaSteps.cuit;
-                fieldText = "CUIT " + cuit.substring(0, 2) + "-" + cuit.substring(2, 10) + "-" + cuit.substring(10, 11);
-                break;
-            case "Detalles de la orden":
-                textFromUI = driver.findElement(containerElement).getText().replaceAll("\n", " ");
-                fieldText = fieldText + " Descripción " + GenerarOrdenCompraSolaFirmaPage.orderDescription;
-                break;
-            case "Información de contacto":
-                textFromUI = driver.findElement(containerElement).getText().replaceAll("\n", " ");
-                fieldText = fieldText + " Nombre y Apellido " + fullNameContactGenereted
-                        + " Correo electrónico " + emailContactGenereted
-                        + " Número de celular " + areaCodeGenereted + " " + cellNumberGenereted;
-                break;
-            case "Medio de pago":
-                textFromUI = driver.findElement(containerElement).getText().replaceAll("\n", " ");
-                fieldText = fieldText + " Banco Banco Galicia "
-                        + fieldText + " " + GenerarOrdenCompraSolaFirmaPage.paymentMethod;
-                break;
+        explicitWait(containerElement);
+        String FIELDS_TEXT = driver.findElement(containerElement).getText().replaceAll("\n", " ");
+        if (data != null) {
+            AtomicInteger i = new AtomicInteger(1);
+            data.cells()
+                    .forEach(
+                            value -> {
+                                // TABLE
+                                List<String> rField = Collections.singletonList(value.get(0));
+                                String FIELDS = rField.get(0);
+                                String VALUES = getScenarioContextVariables(rField.get(0));
+
+                                // WEB ELEMENTS
+                                switch (FIELDS) {
+                                    case "producer_cuit":
+                                        VALUES = "CUIT " + getCuitWithFormat(VALUES);
+                                        break;
+                                    case "loan_amount":
+                                        String numberS = parseFromDoubleToString(VALUES, 2);
+                                        VALUES = "Monto a acreditar " + "$" + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
+                                        break;
+                                    case "financing_type":
+                                        VALUES = "Tipo de convenio " + VALUES;
+                                        break;
+                                    case "fees":
+                                        String cuotaFormat = String.format("%02d", Integer.parseInt(VALUES));
+                                        VALUES = "Cantidad de cuotas " + cuotaFormat;
+                                        break;
+                                    case "tna":
+                                    case "cft":
+                                        //no verifico este texto "CFT" y "TNA del crédito" pq para mapear no esta por filas sino por columnas
+                                        VALUES = parseFromDoubleToString(VALUES, 2) + "%";
+                                        break;
+                                    case "interest":
+                                    case "interest_iva":
+                                    case "sealed":
+                                        //no verifico este texto "Sellado"
+                                        // "IVA s/ interés" "Sellado" pq para mapear
+                                        // no esta por filas sino por columnas
+                                        VALUES = "$ " + VALUES;
+                                        break;
+                                    case "end_to_pay":
+                                        String amount = parseFromDoubleToString(VALUES, 2);
+                                        VALUES = "$ " + amount.substring(0, 1) + "." + amount.substring(1, 7);
+                                        break;
+                                }
+                                log.info(FIELDS + " " + FIELDS_TEXT);
+
+                                // VALIDATIONS
+                                Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
+                                i.getAndIncrement();
+                            }
+                    );
         }
-        return textFromUI.contains(fieldText);
     }
 
     public void clickOnButtonConfirmationScreen(String buttonName) {
@@ -181,5 +212,62 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
         }
         return waitVisibility(element, "2");
+    }
+
+    public void getDataFromApiServicesSimulation(String sourceApi, String path, String body, List<List<String>> t_table) {
+        response = RestAssuredExtension.postMethod(sourceApi, path, body);
+        DataTable data = createDataTable(t_table);
+        if (data != null) {
+            AtomicInteger i = new AtomicInteger(1);
+            data.cells()
+                    .forEach(
+                            value -> {
+                                List<String> rField = Collections.singletonList(value.get(0));
+                                String KEY = rField.get(0);
+                                // SAVE
+                                try {
+                                    saveInScenarioContext(KEY, response.getBody().jsonPath().get(KEY).toString());
+                                } catch (NullPointerException e) {
+                                }
+                            });
+        }
+    }
+
+    public boolean verifyTitleIsDisplayed(String title) {
+        By titleElement = GenerarOrdenCompraSolaFirmaContactoPageObject.REVISA_SOLICITUD_COMPLETA_TITLE;
+        By containerElement = GenerarOrdenCompraSolaFirmaContactoPageObject.SOLICITUD_COMPLETA_CONTAINER;
+        waitVisibility(titleElement, "30");
+        String textFromUI = driver.findElement(containerElement).getText().replaceAll("\n", " ");
+        String fieldText = "";
+        boolean result = false;
+        switch (title) {
+            case "Revisá que la solicitud esté completa":
+                textFromUI = driver.findElement(titleElement).getText();
+                result = textFromUI.contains(title);
+                break;
+            case "Detalles de la orden":
+                fieldText = " Descripción " + GenerarOrdenCompraSolaFirmaPage.orderDescription;
+                result = textFromUI.contains(title) && textFromUI.contains(fieldText);
+                break;
+            case "Información de contacto":
+                fieldText = fieldText + " Nombre y Apellido " + fullNameContactGenereted
+                        + " Correo electrónico " + emailContactGenereted
+                        + " Número de celular " + areaCodeGenereted + " " + cellNumberGenereted;
+                result = textFromUI.contains(title) && textFromUI.contains(fieldText);
+                break;
+            case "Medio de pago":
+                fieldText = "Banco Banco Galicia " + title + " "
+                        + GenerarOrdenCompraSolaFirmaPage.paymentMethod;
+                result = textFromUI.contains(title) && textFromUI.contains(fieldText);
+                break;
+        }
+        return result;
+    }
+
+    public boolean verifyOrderGeneratedScreen() {
+        return verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "Orden generada y enviada exitosamente")
+                && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto Productor S.A acepte la orden.")
+                && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
+                && isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON);
     }
 }
