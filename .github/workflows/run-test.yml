@@ -50,7 +50,12 @@ jobs:
         if: always()
         run: mvn clean install
         continue-on-error: true
-        
+
+      - name: Step To run on failure
+        if: failure()
+        run: |
+          curl -X POST -H "Content-Type: application/json" -d "{'text': \":alert: Ocurrio un error en el automation $GITHUB_REPOSITORY [$GITHUB_REF_NAME] - Para ver el error ingresen aquí $GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID \"}" ${{ secrets.SLACK_URL }}
+
       - name: Get Allure history
         uses: actions/checkout@v2
         if: always()
