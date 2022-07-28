@@ -47,12 +47,13 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and Execute Test
+        id: build_execute_test
         if: always()
         run: mvn clean install
         continue-on-error: true
 
       - name: Step To run on failure
-        if: failure()
+        if: steps.build_execute_test.outcome != 'success'
         run: |
           curl -X POST -H "Content-Type: application/json" -d "{'text': \":alert: Ocurrio un error en el automation $GITHUB_REPOSITORY [$GITHUB_REF_NAME] - Para ver el error ingresen aquí $GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID \"}" ${{ secrets.SLACK_URL }}
 
@@ -81,12 +82,13 @@ jobs:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: allure-history
-      - name: Step To run on failure
-        if: ${{ failure() }}
-        run: |
-          curl -X POST -H "Content-Type: application/json" -d "{'text': \":alert: Ocurrio un error en el proyecto $GITHUB_REPOSITORY [$GITHUB_REF_NAME] - Para ver el error ingresen aquí $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID \"}" ${{ secrets.SLACK_URL }}
 
-      - name: Step To run on success
-        if: ${{ success() }}
-        run: |
-          curl -X POST -H "Content-Type: application/json" -d "{'text': \":amaze: Se desplegó exitosamente $GITHUB_REPOSITORY. \"}" ${{ secrets.SLACK_URL }}
+#      - name: Step To run on failure
+#        if: ${{ failure() }}
+#        run: |
+#          curl -X POST -H "Content-Type: application/json" -d "{'text': \":alert: Ocurrio un error en el proyecto $GITHUB_REPOSITORY [$GITHUB_REF_NAME] - Para ver el error ingresen aquí $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID \"}" ${{ secrets.SLACK_URL }}
+#
+#      - name: Step To run on success
+#        if: ${{ success() }}
+#        run: |
+#          curl -X POST -H "Content-Type: application/json" -d "{'text': \":amaze: Se desplegó exitosamente $GITHUB_REPOSITORY. \"}" ${{ secrets.SLACK_URL }}
