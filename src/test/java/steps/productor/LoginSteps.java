@@ -21,6 +21,7 @@ public class LoginSteps {
     @Given("^Usuario logueado en el portal New Agro")
     public void loginFixedUser() {
         loginPage.loginWithUserPasswd("cristian.duque@globant.com", "Colombia123");
+        loginPage.getAccesTokenFromApiServicesValidation("bff", "auth/login");
     }
 
     @And("^Se hace click sobre el botón (.*)$")

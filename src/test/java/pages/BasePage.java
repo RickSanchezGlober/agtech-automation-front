@@ -29,6 +29,7 @@ import utils.RestAssuredExtension;
 public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+    protected String access_token ="";
     public static DataTable data;
     public static Map<String, String> scenarioData = new HashMap<>();
     protected Logger log;
@@ -245,7 +246,7 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
-        RestAssuredExtension.response = RestAssuredExtension.postMethod(sourceApi, path, body);
+        RestAssuredExtension.response = RestAssuredExtension.postMethod(sourceApi, path, body,this.access_token);
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
@@ -272,7 +273,7 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String sourceApi, List<List<String>> t_table) {
-        RestAssuredExtension.response = RestAssuredExtension.getMethod(sourceApi, path);
+        RestAssuredExtension.response = RestAssuredExtension.getMethod(sourceApi, path,this.access_token);
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
@@ -288,6 +289,14 @@ public class BasePage {
                                 }
                             });
         }
+    }
+
+    public void getAcessTokenFromApiServices(String sourceApi, String path) {
+        log.info("Consumiendo API " + sourceApi + path);
+        RestAssuredExtension.response = RestAssuredExtension.postMethodLogin(sourceApi, path,"login.txt");
+        this.access_token = RestAssuredExtension.response.getBody().jsonPath().getString("id_token");
+        log.info(this.access_token);
+
     }
 
     public DataTable createDataTable(List<List<String>> table) {

@@ -69,10 +69,9 @@ public class RestAssuredExtension {
      * @param path to api resource.
      * @return Api responses
      */
-    public static ResponseOptions<Response> postMethod(String sourceApi, String path, String body) {
+    public static ResponseOptions<Response> postMethod(String sourceApi, String path, String body,String access_token) {
         response = null;
         setDefaultHeaders();
-        generateBearerToken();
         RestAssuredConfig config = RestAssured.config();
         config.httpClient(
                 HttpClientConfig.httpClientConfig()
@@ -82,12 +81,39 @@ public class RestAssuredExtension {
         try {
             configProperties.initConfig();
             builderMW.setBaseUri(getBaseUri(sourceApi));
+            builderMW.addHeader("Authorization","Bearer " + access_token);
             builderMW.setBody(generateBodyFromResource(body)).setContentType(ContentType.TEXT);
             builderMW.setAccept(ContentType.JSON);
             builderMW.setContentType(ContentType.JSON);
             builderMW.setConfig(config);
             request = RestAssured.given().spec(builderMW.build());
             response = request.post(new URI(path));
+            log.info(response.getBody().prettyPrint());
+        } catch (URISyntaxException e) {
+            log.info("* Error in postMethod *");
+            e.printStackTrace();
+        }
+        return response;
+    }
+
+    public static ResponseOptions<Response> postMethodLogin(String sourceApi, String path, String body) {
+        response = null;
+        setDefaultHeaders();
+        RestAssuredConfig config = RestAssured.config();
+        config.httpClient(
+                HttpClientConfig.httpClientConfig()
+                        .setParam("http.socket.timeout", 5000)
+                        .setParam("http.connection.timeout", 5000));
+        try {
+            configProperties.initConfig();
+            builderMW.setBaseUri(getBaseUri(sourceApi));
+            builderMW.setBody(generateBodyFromResource(body)).setContentType(ContentType.TEXT);
+            builderMW.setAccept(ContentType.JSON);
+            builderMW.setContentType(ContentType.JSON);
+            builderMW.setConfig(config);
+            request = RestAssured.given().spec(builderMW.build());
+            response = request.post(new URI(path));
+            log.info(response.getBody().prettyPrint());
         } catch (URISyntaxException e) {
             log.info("* Error in postMethod *");
             e.printStackTrace();
@@ -127,14 +153,14 @@ public class RestAssuredExtension {
      * @param path to api resource.
      * @return Api responses
      */
-    public static ResponseOptions<Response> getMethod(String sourceApi, String path) {
+    public static ResponseOptions<Response> getMethod(String sourceApi, String path,String access_token) {
         specificPath = path;
         response = null;
         setDefaultHeaders();
-        generateBearerToken();
         try {
             configProperties.initConfig();
             builderMW.setBaseUri(getBaseUri(sourceApi));
+            builderMW.addHeader("Authorization","Bearer " + access_token);
             request = RestAssured.given().spec(builderMW.build());
             response = request.get(new URI(path));
         } catch (URISyntaxException e) {
@@ -150,11 +176,10 @@ public class RestAssuredExtension {
      * @param path to api resource.
      * @return Api responses
      */
-    public static ResponseOptions<Response> putMethod(String sourceApi, String path, String body) {
+    public static ResponseOptions<Response> putMethod(String sourceApi, String path, String body,String access_token) {
         specificPath = path;
         response = null;
         setDefaultHeaders();
-        generateBearerToken();
         RestAssuredConfig config = RestAssured.config();
         config.httpClient(
                 HttpClientConfig.httpClientConfig()
@@ -163,6 +188,7 @@ public class RestAssuredExtension {
         try {
             configProperties.initConfig();
             builderMW.setBaseUri(getBaseUri(sourceApi));
+            builderMW.addHeader("Authorization","Bearer " + access_token);
             builderMW.setBody(generateBodyFromResource(body)).setContentType(ContentType.TEXT);
             builderMW.setAccept(ContentType.JSON);
             builderMW.setContentType(ContentType.JSON);

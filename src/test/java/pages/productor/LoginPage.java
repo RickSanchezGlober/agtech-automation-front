@@ -3,12 +3,17 @@ package pages.productor;
 import org.openqa.selenium.By;
 import pageobjects.productor.LoginPageObject;
 import pages.BasePage;
+import pages.proveedor.GenerarOrdenCompraSolaFirmaPage;
+
+import java.util.List;
 
 public class LoginPage extends BasePage {
 
     public LoginPage() {
         super();
     }
+
+    public static String accessToken;
 
     public void clickOnButtonByName(String buttonName) {
         By element = null;
@@ -38,7 +43,10 @@ public class LoginPage extends BasePage {
         write(LoginPageObject.USERNAME_INPUT, user);
         write(LoginPageObject.PASSWORD_INPUT, password);
         click(LoginPageObject.INICIAR_SESION_BUTTON);
+
     }
+
+
 
     public boolean verifyMessageIsdisplayed(String action,String message) {
         log.info("***********************************************");
@@ -65,6 +73,9 @@ public class LoginPage extends BasePage {
         return false;
     }
 
+    public void getAccesTokenFromApiServicesValidation(String sourceApi, String path) {
+        getAcessTokenFromApiServices(sourceApi,path);
+    }
     public boolean verifyAccesDenied(String reason) {
       switch (reason) {
           case "credenciales_incorrectas":
@@ -93,5 +104,13 @@ public class LoginPage extends BasePage {
         return false;
     }
 
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAcessToken(String acessToken) {
+        this.accessToken=accessToken;
+
+    }
 
 }
