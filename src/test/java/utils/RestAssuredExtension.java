@@ -88,7 +88,6 @@ public class RestAssuredExtension {
             builderMW.setConfig(config);
             request = RestAssured.given().spec(builderMW.build());
             response = request.post(new URI(path));
-            log.info(response.getBody().prettyPrint());
         } catch (URISyntaxException e) {
             log.info("* Error in postMethod *");
             e.printStackTrace();
@@ -113,7 +112,6 @@ public class RestAssuredExtension {
             builderMW.setConfig(config);
             request = RestAssured.given().spec(builderMW.build());
             response = request.post(new URI(path));
-            log.info(response.getBody().prettyPrint());
         } catch (URISyntaxException e) {
             log.info("* Error in postMethod *");
             e.printStackTrace();

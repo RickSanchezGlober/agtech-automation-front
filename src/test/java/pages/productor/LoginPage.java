@@ -73,9 +73,6 @@ public class LoginPage extends BasePage {
         return false;
     }
 
-    public void getAccesTokenFromApiServicesValidation(String sourceApi, String path) {
-        getAcessTokenFromApiServices(sourceApi,path);
-    }
     public boolean verifyAccesDenied(String reason) {
       switch (reason) {
           case "credenciales_incorrectas":
@@ -104,13 +101,5 @@ public class LoginPage extends BasePage {
         return false;
     }
 
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAcessToken(String acessToken) {
-        this.accessToken=accessToken;
-
-    }
 
 }
