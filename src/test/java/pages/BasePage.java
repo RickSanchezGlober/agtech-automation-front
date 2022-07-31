@@ -2,6 +2,8 @@ package pages;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,6 +15,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 //import java.util.concurrent.atomic.AtomicInteger;
 
 import config.WebPropertiesConfig;
+import io.restassured.response.Response;
+import io.restassured.response.ResponseOptions;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.*;
@@ -34,6 +38,7 @@ public class BasePage {
     public static Map<String, String> scenarioData = new HashMap<>();
     protected Logger log;
     public static WebPropertiesConfig webPropertiesConfig = new WebPropertiesConfig();
+    public static ResponseOptions<Response> response = null;
 
     public BasePage() {
         driver = Hook.driver;
@@ -55,26 +60,26 @@ public class BasePage {
         driver.get(url);
     }
 
-    public void navigateToError(String rol,String proceso) {
+    public void navigateToError(String rol, String proceso) {
         String url = "";
 
         switch (rol) {
             case "productor":
 
-                if(proceso.equals("login") ){
+                if (proceso.equals("login")) {
                     url = webPropertiesConfig.getBaseLoginErrorUriProductor();
                     break;
                 }
-                if (proceso.equals("signup")){
+                if (proceso.equals("signup")) {
                     url = webPropertiesConfig.getBaseSignupErrorUriProductor();
                     break;
                 }
             case "proveedor":
-                if(proceso.equals("login")){
+                if (proceso.equals("login")) {
                     url = webPropertiesConfig.getBaseLoginErrorUriProveedor();
                     break;
                 }
-                if (proceso.equals("signup")){
+                if (proceso.equals("signup")) {
                     url = webPropertiesConfig.getBaseSignupErrorUriProveedor();
                     break;
                 }
@@ -246,20 +251,23 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
+
         getAcessTokenFromApiServices("bff","auth/login");
         RestAssuredExtension.response = RestAssuredExtension.postMethod(sourceApi, path, body,getAccess_token());
+
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
             data.cells()
                     .forEach(
                             value -> {
+
                                 List<String> rField = Collections.singletonList(value.get(0));
                                 List<String> rValue = Collections.singletonList(value.get(1));
                                 String VALUES = null;
                                 try {
                                     String KEY = rField.get(0);
-                                    VALUES = RestAssuredExtension.response
+                                    VALUES = response
                                             .getBody()
                                             .jsonPath()
                                             .get(rValue.get(0))
@@ -274,6 +282,7 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String sourceApi, List<List<String>> t_table) {
+
         getAcessTokenFromApiServices("bff","auth/login");
         RestAssuredExtension.response = RestAssuredExtension.getMethod(sourceApi, path,getAccess_token());
         DataTable data = createDataTable(t_table);
@@ -303,7 +312,7 @@ public class BasePage {
 
     public DataTable createDataTable(List<List<String>> table) {
         data = DataTable.create(table);
-        log.info(String.valueOf(data));
+        log.info("===> DataTable: " + String.valueOf(data) + " ===");
         return data;
     }
 
@@ -412,5 +421,9 @@ public class BasePage {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    public String parseFromDoubleToString(String doubleNumber, int numbersAfterDot) {
+        BigDecimal bd = new BigDecimal(doubleNumber).setScale(numbersAfterDot, RoundingMode.HALF_UP);
+        return String.valueOf(bd).replace(".", ",");
     }
 }

@@ -33,6 +33,8 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
 
     public void selectOptionInOrder(String dropDownName, String option) {
         Select dropDownList = null;
+        String sOption = getScenarioContextVariables(option);
+        String[] arrOptions = sOption.split(",");
         switch (dropDownName) {
             case "tipo de convenio":
                 dropDownList = new Select(driver.findElement(GenerarOrdenCompraCesionForwardPageObject.TIPO_CONVENIO_SELECT));
@@ -41,7 +43,8 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
                 dropDownList = new Select(driver.findElement(GenerarOrdenCompraCesionForwardPageObject.GESTION_FORWARD_SELECT));
                 break;
         }
-        dropDownList.selectByVisibleText(option);
+
+        dropDownList.selectByVisibleText(arrOptions[1]);
     }
 
     public void clickOnButtonOrder(String buttonName) {
@@ -146,9 +149,25 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
         //No debe aceptar 13 digitos, lo maximo son 12 dígitos permitido
         String specialValue = "1234567890123456";
         write(webElement, specialValue);
-        sleep(3);
         //El valor esperado es $ 1.234.567.890,12 y no $ 12.345.678.901,23
         log.info("===> checkCorrectMaximumAmount: <" + getAttribute(webElement, "value") + "> ===");
         return getText(webElement).length() == 18;
+    }
+
+    public Boolean sinCorredorisNotDisplayed(String option) {
+        boolean result = false;
+        waitVisibility(GenerarOrdenCompraCesionForwardPageObject.GESTION_FORWARD_SELECT, "30");
+        List<WebElement> elementList = driver.findElements(GenerarOrdenCompraCesionForwardPageObject.GESTION_FORWARD_SELECT);
+        result = (elementList.size() > 0)
+                && (elementList.get(0).getText().contains(option));
+
+        log.info("===> Contiene opción: <" + option + ">? ---->  " +result+ " ===");
+
+        return result;
+    }
+
+    public void getDataFromApiServicesValidateCForward(String sourceApi, String path, List<List<String>> table) {
+        log.info("===> Ejecutando MS en <" + sourceApi + "> y path: <" + path + "> ===");
+        getDataFromApiServices(path, sourceApi, table);
     }
 }

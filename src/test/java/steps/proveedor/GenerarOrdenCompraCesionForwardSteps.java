@@ -5,6 +5,8 @@ import io.cucumber.java.en.Then;
 import org.testng.Assert;
 import pages.proveedor.GenerarOrdenCompraCesionForwardPage;
 
+import java.util.List;
+
 public class GenerarOrdenCompraCesionForwardSteps {
     GenerarOrdenCompraCesionForwardPage generarOrdenCompraCesionForwardPage = new GenerarOrdenCompraCesionForwardPage();
 
@@ -53,5 +55,22 @@ public class GenerarOrdenCompraCesionForwardSteps {
     @And("^La plataforma no permite ingresar monto mayor a 12 digitos incluídos 2 decimales$")
     public void checkMayorAmount() {
         Assert.assertTrue(generarOrdenCompraCesionForwardPage.checkCorrectMaximumAmount());
+    }
+
+    @And("^El proveedor presiona el campo desplegable de Gestion del forward y (.*) la opción (.*)$")
+    public void verifySinCorredor(String verificarOpcion, String sOpcion) {
+        switch (verificarOpcion){
+            case "no se muestra":
+                Assert.assertFalse(generarOrdenCompraCesionForwardPage.sinCorredorisNotDisplayed(sOpcion));
+                break;
+            case "se muestra":
+                Assert.assertTrue(generarOrdenCompraCesionForwardPage.sinCorredorisNotDisplayed(sOpcion));
+                break;
+        }
+    }
+
+    @And("^Obtener datos de endpoint en (.*) con ruta (.*) y guardar valores en variables")
+    public void getDataFromApiServicesAndSave(String sourceApi, String path, List<List<String>> t_table) {
+        generarOrdenCompraCesionForwardPage.getDataFromApiServicesValidateCForward(sourceApi, path, t_table);
     }
 }
