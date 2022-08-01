@@ -308,7 +308,6 @@ public class BasePage {
         RestAssuredExtension.response = RestAssuredExtension.postMethodLogin(sourceApi, path,"login.txt");
         setAccess_token(RestAssuredExtension.response.getBody().jsonPath().getString("id_token"));
 
-
     }
 
     public DataTable createDataTable(List<List<String>> table) {

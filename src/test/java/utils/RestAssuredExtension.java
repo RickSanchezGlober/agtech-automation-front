@@ -2,6 +2,7 @@ package utils;
 
 import com.google.gson.JsonObject;
 import config.RestAssuredPropertiesConfig;
+import io.netty.util.internal.StringUtil;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.config.HttpClientConfig;
@@ -70,8 +71,6 @@ public class RestAssuredExtension {
      * @return Api responses
      */
     public static ResponseOptions<Response> postMethod(String sourceApi, String path, String body,String access_token) {
-        response = null;
-        request = null;
         builderMW = new RequestSpecBuilder();
         setDefaultHeaders();
         RestAssuredConfig config = RestAssured.config();
@@ -99,7 +98,6 @@ public class RestAssuredExtension {
     }
 
     public static ResponseOptions<Response> postMethodLogin(String sourceApi, String path, String body) {
-        response = null;
         setDefaultHeaders();
         builderMW = new RequestSpecBuilder();
         RestAssuredConfig config = RestAssured.config();
@@ -157,7 +155,6 @@ public class RestAssuredExtension {
      */
     public static ResponseOptions<Response> getMethod(String sourceApi, String path,String access_token) {
         specificPath = path;
-        response = null;
         builderMW = new RequestSpecBuilder();
         setDefaultHeaders();
         try {
@@ -232,11 +229,13 @@ public class RestAssuredExtension {
     }
     /** Get bearer token and put in header request */
     public static void generateBearerToken() {
-        try {
-            token = String.format("Bearer %s", "29tIiwicGVybWlzc2lvbnMiOlsicHJjY3IiLCJwZnZmbyIsInBndmFzdCIsInByY2FyYyIsInByY2NyYSIsInBlc2RjIiwibm90aSIsInBlc2RlIiwicHJjYWJtdSIsInByY21yIiwicGZzZiJdLCJpYXQiOjE2NTc3MzMwMzQsImV4cCI6MTY2MDMyNTAzNH0.Ukftvr32A2HJnLRhiaDp-IH88KrNBW7TVXDetTa3017tLIph8BmAewI2HXL1VusXmXOefaMFx1UXkF8uffNhTdl-fh_hdyZNWzfWZ9f71EzhiUXq8T8nKiKyL89gQ3IERU1GuDXEnx78zyLSPFjBywtwJJ7N35woFmtG28x9zjw");
-            builderMW.addHeader("Authorization", token);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (StringUtil.isNullOrEmpty(token)) {
+            try {
+                token = String.format("Bearer %s", "29tIiwicGVybWlzc2lvbnMiOlsicHJjY3IiLCJwZnZmbyIsInBndmFzdCIsInByY2FyYyIsInByY2NyYSIsInBlc2RjIiwibm90aSIsInBlc2RlIiwicHJjYWJtdSIsInByY21yIiwicGZzZiJdLCJpYXQiOjE2NTc3MzMwMzQsImV4cCI6MTY2MDMyNTAzNH0.Ukftvr32A2HJnLRhiaDp-IH88KrNBW7TVXDetTa3017tLIph8BmAewI2HXL1VusXmXOefaMFx1UXkF8uffNhTdl-fh_hdyZNWzfWZ9f71EzhiUXq8T8nKiKyL89gQ3IERU1GuDXEnx78zyLSPFjBywtwJJ7N35woFmtG28x9zjw");
+                builderMW.addHeader("Authorization", token);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
