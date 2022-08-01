@@ -7,7 +7,8 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
 
 
   @TEST_SET_ID_AG-1667 @regression
-  Scenario: Proveedor - Home - Últimas Operaciones Realizadas - Validar pantalla Últimas Operaciones Realizadas
+  Scenario: eedor - Home - Últimas Operaciones Realizadas - Validar máximas Operaciones mostradas
+    Then Se visualizan no más de 4 órdenes
 
   @TEST_SET_ID_AG-1851 @regression
   Scenario: Proveedor - Listado de Órdenes - CTA "Crear Orden" - Validar botón "Crear Orden"

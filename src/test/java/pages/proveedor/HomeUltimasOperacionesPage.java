@@ -26,26 +26,26 @@ public class HomeUltimasOperacionesPage extends BasePage {
     }
 
     public void clicOnButtonByNameHome(String buttonName) {
-        By element = null;
-        switch (buttonName) {
-            case "Ver todas":
-                element = HomeUltimasOperacionesPageObject.VER_TODAS_BUTTON;
+        explicitWait(HomeUltimasOperacionesPageObject.ULTIMAS_REALIZADAS_TITTLE);
+        List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.HOME_BUTTON_CONTAINER);
+        for (int i = 0; i < elementList.size(); i++) {
+            if (elementList.get(i).getText().contains(buttonName)) {
+                elementList.get(i).click();
                 break;
+            }
         }
-        waitVisibility(element, "30");
-        click(element);
     }
 
 
     public void clicOnButtonByNameOrders(String buttonName) {
-        By element = null;
-        switch (buttonName) {
-            case "Crear orden":
-                element = HomeUltimasOperacionesPageObject.CREAR_ORDEN_BUTTON;
+        explicitWait(HomeUltimasOperacionesPageObject.ORDENES_TITTLE);
+        List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.ORDERS_BUTTON_CONTAINER);
+        for (int i = 0; i < elementList.size(); i++) {
+            if (elementList.get(i).getText().contains(buttonName)) {
+                elementList.get(i).click();
                 break;
+            }
         }
-        waitVisibility(element, "30");
-        click(element);
     }
 
     public boolean verifyScreenNewOrder() {
@@ -56,5 +56,11 @@ public class HomeUltimasOperacionesPage extends BasePage {
                 verifyVisibleText(HomeUltimasOperacionesPageObject.ESCRIBI_11_NUMEROS_TEXT, "Escribí 11 números") &&
                 !isEnabled(HomeUltimasOperacionesPageObject.BUSCAR_BUTTON) &&
                 isDisplayed(HomeUltimasOperacionesPageObject.LUPA_ICONO);
+    }
+
+    public boolean verifyMaxNumberOrders(String orderQuantity) {
+        explicitWait(HomeUltimasOperacionesPageObject.ORDENES_CONTAINER);
+        List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.ORDENES_CONTAINER);
+        return (elementList.size() == Integer.parseInt(orderQuantity));
     }
 }

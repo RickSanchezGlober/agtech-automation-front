@@ -22,7 +22,13 @@ public class HomeUltimasOperacionesSteps {
     }
 
     @Then("^Se muestran los elementos de la pantalla Nueva Orden$")
-    public void verifyErrorPageDisplayed() {
+    public void verifyScreenNewOrder() {
         Assert.assertTrue(homeUltimasOperacionesPage.verifyScreenNewOrder());
     }
+
+    @Then("^Se visualizan no más de (.*) órdenes$")
+    public void verifyMaxNumberOrders(String orderQuantity) {
+        Assert.assertTrue(homeUltimasOperacionesPage.verifyMaxNumberOrders(orderQuantity));
+    }
+
 }
