@@ -33,6 +33,7 @@ import utils.RestAssuredExtension;
 public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
+    public String access_token;
     public static DataTable data;
     public static Map<String, String> scenarioData = new HashMap<>();
     protected Logger log;
@@ -44,6 +45,7 @@ public class BasePage {
         wait = Hook.wait;
         log = Hook.log;
         PageFactory.initElements(driver, this);
+        access_token ="";
     }
 
     public void navigateTo(String rol) {
@@ -250,7 +252,10 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
-        response = RestAssuredExtension.postMethod(sourceApi, path, body);
+
+        getAcessTokenFromApiServices("bff","auth/login");
+        RestAssuredExtension.response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
+
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
@@ -278,7 +283,9 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String sourceApi, List<List<String>> t_table) {
-        response = RestAssuredExtension.getMethod(sourceApi, path);
+
+        getAcessTokenFromApiServices("bff","auth/login");
+        RestAssuredExtension.response = RestAssuredExtension.getMethod(sourceApi, path,getAccess_token());
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
@@ -294,6 +301,13 @@ public class BasePage {
                                 }
                             });
         }
+    }
+
+    public void getAcessTokenFromApiServices(String sourceApi, String path) {
+        log.info("Consumiendo API " + sourceApi + path);
+        RestAssuredExtension.response = RestAssuredExtension.postMethodLogin(sourceApi, path,"login.txt");
+        setAccess_token(RestAssuredExtension.response.getBody().jsonPath().getString("id_token"));
+
     }
 
     public DataTable createDataTable(List<List<String>> table) {
@@ -388,6 +402,13 @@ public class BasePage {
 
     public String getCuitWithFormat(String cuit) {
         return cuit.substring(0, 2) + "-" + cuit.substring(2, 10) + "-" + cuit.substring(10, 11);
+    }
+
+    public String getAccess_token(){
+        return access_token;
+    }
+    public void setAccess_token(String access_token){
+        this.access_token=access_token;
     }
 
     public String getAttribute(By locator, String attribute) {
