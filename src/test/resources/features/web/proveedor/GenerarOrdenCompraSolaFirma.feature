@@ -6,7 +6,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And Usuario logueado en el portal New Agro
     And El proveedor hace click en el botón Crear Orden
 
-  @TEST_ID_AG-529 @TEST_ID_AG-530 @regression
+  @TEST_ID_AG-529 @TEST_ID_AG-530 @regression @prueba
   Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar pantalla nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar ingreso de CUIT nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar busqueda de productor asociado al CUIT valido
@@ -17,7 +17,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And Se lee el cuit en formato correcto
     And El proveedor visualiza el boton Buscar Habilitado
     And El proveedor hace click en el botón Buscar
-    And Recuperar datos de servicios api bff con ruta customer- validation/ y guardar variables abajo
+    And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
       | id_producer   |
       | cuit_teradata |
       | name          |
@@ -57,7 +57,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor observa Nombre de la entidad bancaria
 
   @TEST_ID_AG-1277 @TEST_ID_AG-1278 @TEST_ID_AG-1280 @TEST_ID_AG-1281 @TEST_ID_AG-539
-  @TEST_ID_AG-540 @TEST_ID_AG-541 @regression @prueba
+  @TEST_ID_AG-540 @TEST_ID_AG-541 @regression
   Scenario: Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Validar pantalla simular crédito
   Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico modificación en el campo monto
   Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico monto actualizado en la simulación

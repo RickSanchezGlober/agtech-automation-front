@@ -33,7 +33,7 @@ import utils.RestAssuredExtension;
 public class BasePage {
     protected WebDriver driver;
     protected WebDriverWait wait;
-    public String access_token ="";
+    public String access_token;
     public static DataTable data;
     public static Map<String, String> scenarioData = new HashMap<>();
     protected Logger log;
@@ -45,6 +45,7 @@ public class BasePage {
         wait = Hook.wait;
         log = Hook.log;
         PageFactory.initElements(driver, this);
+        access_token ="";
     }
 
     public void navigateTo(String rol) {
@@ -253,7 +254,7 @@ public class BasePage {
     public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
 
         getAcessTokenFromApiServices("bff","auth/login");
-        RestAssuredExtension.response = RestAssuredExtension.postMethod(sourceApi, path, body,getAccess_token());
+        RestAssuredExtension.response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
 
         DataTable data = createDataTable(t_table);
         if (data != null) {
