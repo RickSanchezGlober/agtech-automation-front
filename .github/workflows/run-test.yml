@@ -19,7 +19,7 @@ jobs:
     
       - name: Step Init
         run: |
-          curl -X POST -H "Content-Type: application/json" -d "{'text': \":timesup: Se solicito el despliegue de una nueva version de $GITHUB_REPOSITORY.  \"}" ${{ secrets.SLACK_URL }}
+          curl -X POST -H "Content-Type: application/json" -d "{'text': \":timesup: Se solicito el despliegue de una nueva version de $GITHUB_REPOSITORY.  \"}" ${{ secrets.SLACK_AUTOMATION_URL }}
 
       - uses: browser-actions/setup-firefox@latest
       - name: Install Firefox Browser
