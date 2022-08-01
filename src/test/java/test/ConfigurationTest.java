@@ -45,7 +45,7 @@ public class ConfigurationTest {
 
     @Test
     public void testGetValidationCustomerCuitPostSimulationSolaFirma() {
-        response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation.txt");
+        response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation.txt","");
         try {
             response.getBody().prettyPrint();
             System.out.println(response.getBody().jsonPath().get("id").toString());
@@ -55,7 +55,7 @@ public class ConfigurationTest {
             System.out.println("Path is invalid");
         }
 
-        response = RestAssuredExtension.getMethod("bff", "customer-validation/30597962793");
+        response = RestAssuredExtension.getMethod("bff", "customer-validation/30597962793","");
         try {
             response.getBody().prettyPrint();
             System.out.println(response.getBody().jsonPath().get("name").toString());
@@ -68,7 +68,7 @@ public class ConfigurationTest {
 
     @Test
     public void testPostSimulationSolaFirmaValidationOrder() {
-        response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation.txt");
+        response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation.txt","");
         try {
             response.getBody().prettyPrint();
             System.out.println(response.getBody().jsonPath().get("installments[0].amount").toString());

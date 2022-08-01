@@ -215,7 +215,8 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     }
 
     public void getDataFromApiServicesSimulation(String sourceApi, String path, String body, List<List<String>> t_table) {
-        response = RestAssuredExtension.postMethod(sourceApi, path, body);
+        getAcessTokenFromApiServices("bff","auth/login");
+        response = RestAssuredExtension.postMethod(sourceApi, path, body,getAccess_token());
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);

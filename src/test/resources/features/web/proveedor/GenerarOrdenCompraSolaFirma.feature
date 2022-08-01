@@ -57,7 +57,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor observa Nombre de la entidad bancaria
 
   @TEST_ID_AG-1277 @TEST_ID_AG-1278 @TEST_ID_AG-1280 @TEST_ID_AG-1281 @TEST_ID_AG-539
-  @TEST_ID_AG-540 @TEST_ID_AG-541 @regression
+  @TEST_ID_AG-540 @TEST_ID_AG-541 @regression @prueba
   Scenario: Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Validar pantalla simular crédito
   Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico modificación en el campo monto
   Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico monto actualizado en la simulación
