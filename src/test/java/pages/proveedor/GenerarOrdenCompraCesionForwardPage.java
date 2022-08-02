@@ -64,6 +64,9 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
             case "Simular Crédito":
                 element = GenerarOrdenCompraCesionForwardPageObject.SIMULAR_CREDITO_FORWARD_BUTTON;
                 break;
+            case "Confirmar medio de pago":
+                element = GenerarOrdenCompraCesionForwardPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
+                break;
         }
         waitVisibility(element, "30");
         click(element);
@@ -131,6 +134,9 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraCesionForwardPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
                 break;
+            case "Enviar orden de compra":
+                element = GenerarOrdenCompraCesionForwardPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
+                break;
         }
         waitVisibility(element, "5");
         return isEnabled(element);
@@ -190,6 +196,9 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
         switch (buttonName) {
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraCesionForwardPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
+                break;
+            case "Enviar orden de compra":
+                element = GenerarOrdenCompraCesionForwardPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
                 break;
         }
         return waitVisibility(element, "1");

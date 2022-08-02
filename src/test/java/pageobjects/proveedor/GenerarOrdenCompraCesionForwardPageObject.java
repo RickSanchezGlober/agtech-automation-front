@@ -15,5 +15,6 @@ public class GenerarOrdenCompraCesionForwardPageObject {
     public static final By.ByClassName CARD_BANK_LOGO_CONTAINER = new By.ByClassName("payment_card__bank_logo");
     public static final By.ByClassName CARD_BANK_NAME_CONTAINER = new By.ByClassName("payment_card__bank_name");
     public static final By.ByClassName ERROR_ICON = new By.ByClassName("input__container__wrapper__icon");
-    public static final By.ByCssSelector CONFIRMAR_MEDIO_PAGO_BUTTON = new By.ByCssSelector("div.modalviewer.modalviewer__aside div.modalcontent.modalcontent__aside.modalcontent__aside_active div.aside_modal div.aside_modal__footer > button.button__container.button__container_primary");
+    public static final By.ByClassName CONFIRMAR_MEDIO_PAGO_BUTTON = new By.ByClassName("button__container_primary");
+    public static final By.ByClassName ENVIAR_ORDEN_COMPRA_BUTTON = new By.ByClassName("button__container_primary");
 }

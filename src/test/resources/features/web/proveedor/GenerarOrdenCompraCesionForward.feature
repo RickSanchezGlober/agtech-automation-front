@@ -81,3 +81,21 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
   @TEST_ID_AG-1148 @regression
   Scenario: Proveedor - Generar Orden de Compra - Resumen/Simulación P.D. Crédito c/Cesión de Forward (Paso 5)
     Then El proveedor seleciona medio de pago Cesión de forward
+    And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
+    And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2022
+    And El proveedor escoge en gestión del forward la opcion Intagro
+    And El proveedor presiona el botón Simular Crédito
+    And El proveedor presiona el botón Confirmar medio de pago
+    And Se llena el campo Nombre y Apellido con valor Válidos
+    And Se llena el campo Correo electrónico con valor Válido
+    And Se llena el campo Cód de área con valor Válido
+    And Se llena el campo Número de celular con valor Válido
+    And El proveedor hace click en el botón Continuar
+    Then Se visualiza el título Revisá que la solicitud esté completa
+    And Se visualiza el título Detalles de la orden
+    And Se visualiza el título Información de contacto
+    And Se visualiza el título Medio de pago
+    #Esperar por Servicio para hacer validación de datos e2e
+    And El proveedor percibe el boton Enviar orden de compra Habilitado
+    And El proveedor hace click sobre botón Volver
+    And El proveedor no visualiza el botón Enviar orden de compra
