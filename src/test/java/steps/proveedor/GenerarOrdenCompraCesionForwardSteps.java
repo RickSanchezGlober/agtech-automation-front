@@ -73,4 +73,14 @@ public class GenerarOrdenCompraCesionForwardSteps {
     public void getDataFromApiServicesAndSave(String sourceApi, String path, List<List<String>> t_table) {
         generarOrdenCompraCesionForwardPage.getDataFromApiServicesValidateCForward(sourceApi, path, t_table);
     }
+
+    @Then("^El proveedor no percibe el boton (.*)$")
+    public void buttonIsNotDisplayedYet(String buttonName) {
+        Assert.assertFalse(generarOrdenCompraCesionForwardPage.buttonIsNotDisplayedYet(buttonName));
+    }
+
+    @And("^El proveedor borra el contenido del campo (.*)$")
+    public void cleanField(String field) {
+        generarOrdenCompraCesionForwardPage.cleanField(field);
+    }
 }

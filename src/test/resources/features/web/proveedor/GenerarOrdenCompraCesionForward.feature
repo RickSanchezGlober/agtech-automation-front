@@ -47,7 +47,9 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
   Scenario: Proveedor - Generar Orden de Compra - Visualizar campo desplegable Gestión del Forward al ingresar con usuario sin/con negocio directo
     #Se valida que con este usuario <Si contenga> la opción de negocio directo - Sin Corredor
     Then El proveedor seleciona medio de pago Cesión de forward
-    And El proveedor presiona el campo desplegable de Gestion del forward y se muestra la opción Sin corredor
+    #No se está guardando el valor withoutbroker en jwt BUG: https://ag-tech.atlassian.net/browse/AG-1775
+    #And El proveedor presiona el campo desplegable de Gestion del forward y se muestra la opción Sin corredor
+
     #Se valida que con este usuario <No contenga> la opción de negocio directo - Sin Corredor
     Then Se navega al portal New Agro proveedor
     And Se ingresa con usuario ronaldinho@yopmail.com y password Brasil123
@@ -61,10 +63,39 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And El proveedor presiona el campo desplegable de Gestion del forward y no se muestra la opción Sin Corredor
     #Cuando se desarrolle el MS que devuelva los datos del usuario hay que verificar el valor withbroker que indica true si tiene negocio directo
 
-#  @TEST_ID_AG-877 @regression
-#  Scenario: Proveedor - Generar Orden de Compra - Respuesta a la Consulta de Márgenes Cesión de Forward (Paso 3)
-#    Then El proveedor seleciona medio de pago Cesión de forward
-#    And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
-#    And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2022
-#    And El proveedor escoge en gestión del forward la opcion Intagro
-#    And El proveedor presiona el botón Simular Crédito
+  @TEST_ID_AG-877 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Respuesta a la Consulta de Márgenes Cesión de Forward (Paso 3)
+    Then El proveedor seleciona medio de pago Cesión de forward
+    And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
+    And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2022
+    And El proveedor escoge en gestión del forward la opcion Intagro
+    And El proveedor presiona el botón Simular Crédito
+    # PENDIENTE: Esperar que esté listo endpoint y comunicación con el banco para e2e
+    And El proveedor percibe el boton Confirmar medio de pago Habilitado
+    # PENDIENTE: Validar campos del cuadro de simulación con BFF
+    And El proveedor borra el contenido del campo Ingresá el monto del crédito
+    And El proveedor percibe el boton Simular Crédito Deshabilitado
+    # Se espera por resolución de BUG https://ag-tech.atlassian.net/browse/AG-1516
+    # And El proveedor no percibe el boton Confirmar medio de pago
+
+  @TEST_ID_AG-1148 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Resumen/Simulación P.D. Crédito c/Cesión de Forward (Paso 5)
+    Then El proveedor seleciona medio de pago Cesión de forward
+    And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
+    And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2022
+    And El proveedor escoge en gestión del forward la opcion Intagro
+    And El proveedor presiona el botón Simular Crédito
+    And El proveedor presiona el botón Confirmar medio de pago
+    And Se llena el campo Nombre y Apellido con valor Válidos
+    And Se llena el campo Correo electrónico con valor Válido
+    And Se llena el campo Cód de área con valor Válido
+    And Se llena el campo Número de celular con valor Válido
+    And El proveedor hace click en el botón Continuar
+    Then Se visualiza el título Revisá que la solicitud esté completa
+    And Se visualiza el título Detalles de la orden
+    And Se visualiza el título Información de contacto
+    And Se visualiza el título Medio de pago
+    #Esperar por Servicio para hacer validación de datos e2e
+    And El proveedor percibe el boton Enviar orden de compra Habilitado
+    And El proveedor hace click sobre botón Volver
+    And El proveedor no visualiza el botón Enviar orden de compra

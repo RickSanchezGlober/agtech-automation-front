@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import pageobjects.proveedor.GenerarOrdenCompraCesionForwardPageObject;
+import pageobjects.proveedor.GenerarOrdenCompraSolaFirmaPageObject;
 import pages.BasePage;
 import utils.DataGenerator;
 
@@ -33,8 +34,18 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
 
     public void selectOptionInOrder(String dropDownName, String option) {
         Select dropDownList = null;
-        String sOption = getScenarioContextVariables(option);
-        String[] arrOptions = sOption.split(",");
+        String sOption = "";
+        String[] arrOptions;
+        String selectedOption = "";
+
+        if(getScenarioContextVariables(option) == null){
+            selectedOption = option;
+        }else{
+            sOption = getScenarioContextVariables(option);
+            arrOptions = sOption.split(",");
+            selectedOption = arrOptions[2];
+        }
+
         switch (dropDownName) {
             case "tipo de convenio":
                 dropDownList = new Select(driver.findElement(GenerarOrdenCompraCesionForwardPageObject.TIPO_CONVENIO_SELECT));
@@ -44,7 +55,7 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
                 break;
         }
 
-        dropDownList.selectByVisibleText(arrOptions[1]);
+        dropDownList.selectByVisibleText(selectedOption);
     }
 
     public void clickOnButtonOrder(String buttonName) {
@@ -52,6 +63,9 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
         switch (buttonName) {
             case "Simular Crédito":
                 element = GenerarOrdenCompraCesionForwardPageObject.SIMULAR_CREDITO_FORWARD_BUTTON;
+                break;
+            case "Confirmar medio de pago":
+                element = GenerarOrdenCompraCesionForwardPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
                 break;
         }
         waitVisibility(element, "30");
@@ -117,6 +131,12 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
             case "Simular Crédito":
                 element = GenerarOrdenCompraCesionForwardPageObject.SIMULAR_CREDITO_FORWARD_BUTTON;
                 break;
+            case "Confirmar medio de pago":
+                element = GenerarOrdenCompraCesionForwardPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
+                break;
+            case "Enviar orden de compra":
+                element = GenerarOrdenCompraCesionForwardPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
+                break;
         }
         waitVisibility(element, "5");
         return isEnabled(element);
@@ -169,5 +189,31 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
     public void getDataFromApiServicesValidateCForward(String sourceApi, String path, List<List<String>> table) {
         log.info("===> Ejecutando MS en <" + sourceApi + "> y path: <" + path + "> ===");
         getDataFromApiServices(path, sourceApi, table);
+    }
+
+    public boolean buttonIsNotDisplayedYet(String buttonName) {
+        By element = null;
+        switch (buttonName) {
+            case "Confirmar medio de pago":
+                element = GenerarOrdenCompraCesionForwardPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
+                break;
+            case "Enviar orden de compra":
+                element = GenerarOrdenCompraCesionForwardPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
+                break;
+        }
+        return waitVisibility(element, "1");
+    }
+
+    public void cleanField(String field) {
+        By element = null;
+        switch (field) {
+            case ("Ingresá el monto del crédito"):
+                element = GenerarOrdenCompraCesionForwardPageObject.MONTO_CREDITO_INPUT;
+                break;
+        }
+        int cantChar = getAttribute(element, "value").length() - 1;
+        for (int i = 0; i < cantChar; i++) {
+            sendBackSpace(element);
+        }
     }
 }
