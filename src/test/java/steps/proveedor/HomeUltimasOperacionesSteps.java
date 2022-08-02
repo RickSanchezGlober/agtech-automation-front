@@ -2,6 +2,7 @@ package steps.proveedor;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pages.proveedor.GenerarOrdenCompraSolaFirmaPage;
 import pages.proveedor.HomeUltimasOperacionesPage;
@@ -31,4 +32,17 @@ public class HomeUltimasOperacionesSteps {
         Assert.assertTrue(homeUltimasOperacionesPage.verifyMaxNumberOrders(orderQuantity));
     }
 
+    @When("^Validar datos de servicios api (.*) con ruta (.*) y parametros$")
+    public void getDataFromApiServicesOrders(String sourceApi, String path, List<List<String>> t_table) {
+        homeUltimasOperacionesPage.getDataFromApiServicesOrders(sourceApi, path, t_table);
+    }
+
+    @When("^Se viaualizan los elementos$")
+    public void verifyVisibleElements(List<List<String>> t_table) {
+        Assert.assertTrue(homeUltimasOperacionesPage.verifyVisibleElements(t_table));
+    }
+    @When("^Se visualiza el titulo (.*)")
+    public void verifyVisibleTittle(String tittle) {
+        Assert.assertTrue(homeUltimasOperacionesPage.verifyVisibleTittle(tittle));
+    }
 }

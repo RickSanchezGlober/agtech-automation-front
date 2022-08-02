@@ -297,7 +297,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                 log.info(FIELDS + " " + FIELDS_TEXT);
                                 // VALIDATIONS
                                 if (FIELDS.contains("TNA") || FIELDS.contains("CFT") || FIELDS.contains("Interés")) {
-                                    VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + " %";
+                                    VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + "%";
                                 } else if (FIELDS.contains("Total Crédito a sola firma")) {
                                     String numberS = parseFromDoubleToString(VALUES, 2);
                                     VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
