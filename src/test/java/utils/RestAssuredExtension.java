@@ -18,6 +18,8 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -70,7 +72,7 @@ public class RestAssuredExtension {
      * @param path to api resource.
      * @return Api responses
      */
-    public static ResponseOptions<Response> postMethod(String sourceApi, String path, String body,String access_token) {
+    public static ResponseOptions<Response> postMethod(String sourceApi, String path, String body, String access_token) {
         builderMW = new RequestSpecBuilder();
         setDefaultHeaders();
         RestAssuredConfig config = RestAssured.config();
@@ -81,7 +83,7 @@ public class RestAssuredExtension {
         try {
             configProperties.initConfig();
             builderMW.setBaseUri(getBaseUri(sourceApi));
-            builderMW.addHeader("Authorization","Bearer " + access_token);
+            builderMW.addHeader("Authorization", "Bearer " + access_token);
             builderMW.setBody(generateBodyFromResource(body)).setContentType(ContentType.TEXT);
             builderMW.setAccept(ContentType.JSON);
             builderMW.setContentType(ContentType.JSON);
@@ -153,14 +155,14 @@ public class RestAssuredExtension {
      * @param path to api resource.
      * @return Api responses
      */
-    public static ResponseOptions<Response> getMethod(String sourceApi, String path,String access_token) {
+    public static ResponseOptions<Response> getMethod(String sourceApi, String path, String access_token) {
         specificPath = path;
         builderMW = new RequestSpecBuilder();
         setDefaultHeaders();
         try {
             configProperties.initConfig();
             builderMW.setBaseUri(getBaseUri(sourceApi));
-            builderMW.addHeader("Authorization","Bearer " + access_token);
+            builderMW.addHeader("Authorization", "Bearer " + access_token);
             request = RestAssured.given().spec(builderMW.build());
             response = request.get(new URI(path));
         } catch (URISyntaxException e) {
@@ -176,7 +178,7 @@ public class RestAssuredExtension {
      * @param path to api resource.
      * @return Api responses
      */
-    public static ResponseOptions<Response> putMethod(String sourceApi, String path, String body,String access_token) {
+    public static ResponseOptions<Response> putMethod(String sourceApi, String path, String body, String access_token) {
         specificPath = path;
         response = null;
         setDefaultHeaders();
@@ -188,7 +190,7 @@ public class RestAssuredExtension {
         try {
             configProperties.initConfig();
             builderMW.setBaseUri(getBaseUri(sourceApi));
-            builderMW.addHeader("Authorization","Bearer " + access_token);
+            builderMW.addHeader("Authorization", "Bearer " + access_token);
             builderMW.setBody(generateBodyFromResource(body)).setContentType(ContentType.TEXT);
             builderMW.setAccept(ContentType.JSON);
             builderMW.setContentType(ContentType.JSON);
@@ -227,7 +229,10 @@ public class RestAssuredExtension {
         }
         return content;
     }
-    /** Get bearer token and put in header request */
+
+    /**
+     * Get bearer token and put in header request
+     */
     public static void generateBearerToken() {
         if (StringUtil.isNullOrEmpty(token)) {
             try {
@@ -237,5 +242,46 @@ public class RestAssuredExtension {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static ResponseOptions<Response> getMethodWithParams(String sourceApi, String path, List<List<String>> t_table, String access_token) {
+        specificPath = path;
+        builderMW = new RequestSpecBuilder();
+        setDefaultHeaders();
+        //Add params
+        for (int i = 0; i < t_table.size(); i++) {
+            String paramName = t_table.get(i).get(0);
+            String paramValue = "";
+            switch (paramName) {
+                case "fields":
+                    paramValue = "create_date,producer,payment_methods.financial_entity,payment_methods.financial_line,status,payment_methods.conditions.loan_amount";
+                    break;
+                case "skip":
+                    paramValue = "0";
+                    break;
+                case "count":
+                    paramValue = "4";
+                    break;
+                case "type_sort":
+                    paramValue = "DESC";
+                    break;
+                case "sort":
+                    paramValue = "create_date";
+                    break;
+
+            }
+            builderMW.addQueryParam(paramName, paramValue);
+        }
+
+        try {
+            configProperties.initConfig();
+            builderMW.setBaseUri(getBaseUri(sourceApi));
+            builderMW.addHeader("Authorization", "Bearer " + access_token);
+            request = RestAssured.given().spec(builderMW.build());
+            response = request.get(new URI(path));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 }
