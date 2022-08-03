@@ -19,7 +19,7 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
       | sort      |
     Then Se visualizan no más de 4 órdenes
     And Se viaualizan los elementos
-      | titulo Últimas realizadas |
+      | título Últimas realizadas |
       | el boton Ver todas        |
     And El proveedor hace click en el boton Ver todas del home
     And Se visualiza el titulo Órdenes
@@ -30,3 +30,13 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
     When El proveedor hace click en el boton Ver todas del home
     And El proveedor hace click en el boton Crear orden de la pantalla ordenes
     Then Se muestran los elementos de la pantalla Nueva Orden
+
+  @TEST_SET_ID_AG-1674 @regression
+  Scenario: Proveedor - Home - Operaciones Próximas a Vencer - Validar pantalla Operaciones próximas a vencer
+  Proveedor - Home - Operaciones Próximas a Vencer - Validar botón ">"
+    Then Se visualiza el titulo Ordenes próximas a vencer
+    And Se visualiza el icono contador de Ordenes próximas a vencer
+    And Se visualiza el icono >
+    And Validar datos de servicio api bff con ruta orders/counter/nexttowin
+    And El proveedor hace click en el boton > de Ordenes próximas a vencer del home
+    And El botón > funciona correctamente

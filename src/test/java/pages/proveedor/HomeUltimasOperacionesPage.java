@@ -40,11 +40,17 @@ public class HomeUltimasOperacionesPage extends BasePage {
 
     public void clicOnButtonByNameHome(String buttonName) {
         explicitWait(HomeUltimasOperacionesPageObject.ULTIMAS_REALIZADAS_TITTLE);
-        List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.HOME_BUTTON_CONTAINER);
-        for (int i = 0; i < elementList.size(); i++) {
-            if (elementList.get(i).getText().contains(buttonName)) {
-                elementList.get(i).click();
-                break;
+        if (buttonName.contains("> de Ordenes próximas a vencer")) {
+            List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
+            //La 1era > que aparece es la de Ordenes próximas a vencer
+            elementList.get(0).click();
+        } else {
+            List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.HOME_BUTTON_CONTAINER);
+            for (int i = 0; i < elementList.size(); i++) {
+                if (elementList.get(i).getText().contains(buttonName)) {
+                    elementList.get(i).click();
+                    break;
+                }
             }
         }
     }
@@ -184,6 +190,64 @@ public class HomeUltimasOperacionesPage extends BasePage {
     }
 
     public boolean verifyVisibleTittle(String tittle) {
-        return verifyVisibleText(HomeUltimasOperacionesPageObject.ORDENES_TITTLE, tittle);
+        By element = null;
+        switch (tittle) {
+            case "Órdenes":
+                element = HomeUltimasOperacionesPageObject.ORDENES_TITTLE;
+                break;
+            case "Ordenes próximas a vencer":
+                element = HomeUltimasOperacionesPageObject.OPERACIONES_PROXIMAS_VENCER;
+                break;
+        }
+        waitVisibility(element, "5");
+        return verifyVisibleText(element, tittle);
+    }
+
+    public boolean verifyVisibleIcon(String iconName) {
+        boolean result = false;
+        switch (iconName) {
+            case "contador de Ordenes próximas a vencer":
+                By element = HomeUltimasOperacionesPageObject.CONTADOR_ORDENES_PROXIMAS_VENCER_ICONO;
+                waitVisibility(element, "5");
+                result = isDisplayed(element);
+                break;
+            case ">":
+                waitVisibility(HomeUltimasOperacionesPageObject.ULTIMAS_REALIZADAS_TITTLE, "5");
+                List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
+                //Verificamos que hayan 5 >, 4 son de las ultimas operaciones realizadas
+                result = elementList.size() == 5;
+                break;
+        }
+
+        return result;
+    }
+
+    public void getDataFromApiServicesOrdersCounter(String sourceApi, String path) {
+        //API
+        log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
+        getAcessTokenFromApiServices("bff", "auth/login");
+        response = RestAssuredExtension.getMethod(sourceApi, path, getAccess_token());
+        String numberOrdersCloseToExpireAPI = "";
+        try {
+            numberOrdersCloseToExpireAPI = response.getBody().jsonPath().get("total").toString();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            log.info("Path is invalid");
+        }
+        //WEB-ELEMNTS
+        By element = HomeUltimasOperacionesPageObject.CONTADOR_ORDENES_PROXIMAS_VENCER_ICONO;
+        explicitWait(element);
+        String numberOrdersCloseToExpireUI = driver.findElement(element).getText();
+
+        //VALIDATIONS
+        log.info(String.format("Verificando que se muestre '%s' '%s'", numberOrdersCloseToExpireAPI, "Ordenes próximas a vencer"));
+        Assert.assertEquals(numberOrdersCloseToExpireUI, numberOrdersCloseToExpireAPI);
+    }
+
+    public boolean checkuttonFuction(String buttonName) {
+        //No tengo un user con Ordenes proximas a vencer, cuando las operaciones
+        // se filtren por user eso cambiara
+        waitVisibility(HomeUltimasOperacionesPageObject.ORDENES_TITTLE, "10");
+        return isDisplayed(HomeUltimasOperacionesPageObject.ORDENES_TITTLE);
     }
 }
