@@ -42,6 +42,11 @@ public class ListadoOrdenesPage extends BasePage {
                 case "la columna Estado":
                     resultList.add(findElementOrdesScreen(elementName.replace("la columna ", ""), ListadoOrdenesPageObject.ENCABEZADO_TABLA_CONTAINER_PANTALLA_ORDENES));
                     break;
+                case "los botones >":
+                    //Cambiar esto cuando en Ver todas se vean mas de 4 ordenes
+                    List<WebElement> elementList = driver.findElements(ListadoOrdenesPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
+                    resultList.add(elementList.size() > 0);
+                    break;
             }
         }
         Boolean finalResult = true;

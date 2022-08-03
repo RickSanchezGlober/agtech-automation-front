@@ -1,4 +1,4 @@
-@payments @proveedor @ordenes @listadoOrdenes
+@payments @proveedor @ordenes @listadoOrdenesProveedor
 Feature:  Home Proveedor - Últimas Operaciones Realizadas
 
   Background:
@@ -14,6 +14,7 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
       | el boton Exportar                           |
       | el boton Filtrar                            |
       | el boton Crear Orden                        |
+      | los botones >                               |
       | la columna Creación                         |
       | la columna Cliente                          |
       | la columna Entidad                          |
