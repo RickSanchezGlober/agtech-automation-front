@@ -122,10 +122,10 @@ public class HomeUltimasOperacionesPage extends BasePage {
         FIELD_TEXT_API = PRODUCERS.get("cuit").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.replaceAll("-", "").contains(FIELD_TEXT_API.replaceAll("-", "")));
-        //PRODUCER_NAME
-        FIELD_TEXT_API = PRODUCERS.get("name").toString();
-        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API));
+//        //PRODUCER_NAME ya no viene el nombre en el response
+//        FIELD_TEXT_API = PRODUCERS.get("name").toString();
+//        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+//        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API));
 
         try {
             ArrayList list = new ArrayList<>(response.getBody().jsonPath().get(String.format("result[%s].payment_methods", pos)));
