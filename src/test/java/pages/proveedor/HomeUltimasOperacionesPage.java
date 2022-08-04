@@ -148,16 +148,16 @@ public class HomeUltimasOperacionesPage extends BasePage {
         String FIELD_TEXT_API = data.get("financial_entity").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
-        //FINANCIAL_LINE
-        FIELD_TEXT_API = data.get("financial_line").toString();
-        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
+        //FINANCIAL_LINE este campo ya no esta en el response
+//        FIELD_TEXT_API = data.get("financial_line").toString();
+//        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+//        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
 
-        //Monto de la deuda
-        Long LOAN_AMOUNT = (Long) ((JSONObject) data.get("conditions")).get("loan_amount");
-        FIELD_TEXT_API = parseFromDoubleToString(LOAN_AMOUNT.toString(), 2);
-        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
+        //Monto de la deuda, conditions viene vacio
+//        Long LOAN_AMOUNT = (Long) ((JSONObject) data.get("conditions")).get("loan_amount");
+//        FIELD_TEXT_API = parseFromDoubleToString(LOAN_AMOUNT.toString(), 2);
+//        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+//        Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
     }
 
     private String getDateStringFormat(String stringDate) {
