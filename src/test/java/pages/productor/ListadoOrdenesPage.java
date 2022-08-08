@@ -1,20 +1,32 @@
 package pages.productor;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import pageobjects.productor.ListadoOrdenesPageObject;
+import pageobjects.proveedor.HomeUltimasOperacionesPageObject;
 import pages.BasePage;
+import utils.RestAssuredExtension;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 
 public class ListadoOrdenesPage extends BasePage {
+    public static int pos;
+    public static List<WebElement> elementList;
+    public static String FIELD_TEXT_UI;
 
     public ListadoOrdenesPage() {
         super();
+        pos = 0;
     }
 
     public boolean verifyElementEmptyStateScreen(String elementName) {
@@ -42,31 +54,6 @@ public class ListadoOrdenesPage extends BasePage {
         return result;
     }
 
-    public boolean verifyOrderQuantity(String orderQuantity) {
-        explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);
-        List<WebElement> elementList = driver.findElements(ListadoOrdenesPageObject.ORDENES_CONTAINER);
-        return (elementList.size() == Integer.parseInt(orderQuantity));
-    }
-
-    public boolean verifyOrderDetails(String details, String orderQuantity) {
-        explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);
-        List<WebElement> detailsList = null;
-        switch (details) {
-            case "Nombre del productor":
-                detailsList = driver.findElements(ListadoOrdenesPageObject.NOMBRE_PRODUCTOR_CONTAINER);
-                break;
-            case "Número de orden":
-                detailsList = driver.findElements(ListadoOrdenesPageObject.NUMERO_ORDEN_CONTAINER);
-                break;
-            case "Fecha y hora de generación":
-                detailsList = driver.findElements(ListadoOrdenesPageObject.FECHA_HORA_GENERACION_CONTAINER);
-                break;
-            case "Descripción":
-                detailsList = driver.findElements(ListadoOrdenesPageObject.DESCRIPCION_CONTAINER);
-                break;
-        }
-        return detailsList.size() == Integer.parseInt(orderQuantity);
-    }
 
     public boolean verifySortOrders(String sort) {
         explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);
@@ -125,5 +112,57 @@ public class ListadoOrdenesPage extends BasePage {
                 log.info("Problema con la comunicacion al MS orders/producer");
             }
         }
+    }
+
+    public void getDataFromApiServicesAllOrders(String sourceApi, String path) {
+        log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
+        getAcessTokenFromApiServices("bff", "auth/login");
+        response = RestAssuredExtension.getMethod(sourceApi, path, getAccess_token());
+        explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);
+        try {
+            ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
+            list.stream().forEach(dataEntry -> getObjectOrder(dataEntry));
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            log.info("Path is invalid");
+        }
+    }
+
+    public void getObjectOrder(Object dataEntry) {
+        JSONObject data = null;
+        try {
+            data = (JSONObject) JSONValue.parse(new ObjectMapper().writeValueAsString(dataEntry));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        //Texto de la ultima operacion, UI
+        elementList = driver.findElements(ListadoOrdenesPageObject.ORDENES_CONTAINER);
+        FIELD_TEXT_UI = elementList.get(pos).getText();
+
+        //CREATE_DATE
+        String FIELD_TEXT_API = data.get("create_date").toString();
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(getDateStringFormat(FIELD_TEXT_API)));
+        //id_order
+        FIELD_TEXT_API = data.get("id_order").toString();
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
+        //title
+        FIELD_TEXT_API = data.get("title").toString();
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
+        //producer
+        JSONObject PRODUCERS = (JSONObject) data.get("producer");
+        FIELD_TEXT_API = PRODUCERS.get("name").toString();
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
+
+        pos++;
+    }
+
+    private String getDateStringFormat(String stringDate) {
+        LocalDateTime ldt = LocalDateTime.parse(stringDate);
+        return ldt.format(DateTimeFormatter.ofPattern("dd MMMM yyyy", Locale.forLanguageTag("es-ES")));
     }
 }
