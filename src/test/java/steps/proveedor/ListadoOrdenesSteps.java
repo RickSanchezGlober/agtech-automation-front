@@ -15,7 +15,7 @@ public class ListadoOrdenesSteps {
     public void verifyVisibleElementsOrdersScreen(List<List<String>> t_table) {
         Assert.assertTrue(listadoOrdenesPage.verifyVisibleElementsOrdersScreen(t_table));
     }
-    @When("^Verificar datos de servicio api que lista todas las ordenes (.*) con ruta (.*) y parámetros$")
+    @When("^Comprobar datos de servicio api que lista todas las ordenes (.*) con ruta (.*) y parámetros$")
     public void getDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
         listadoOrdenesPage.getDataFromApiServicesAllOrders(sourceApi, path, t_table);
     }
