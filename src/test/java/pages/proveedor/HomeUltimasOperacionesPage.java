@@ -195,7 +195,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
             case "Órdenes":
                 element = HomeUltimasOperacionesPageObject.ORDENES_TITTLE;
                 break;
-            case "Ordenes próximas a vencer":
+            case "Órdenes próximas a vencer":
                 element = HomeUltimasOperacionesPageObject.OPERACIONES_PROXIMAS_VENCER;
                 break;
         }

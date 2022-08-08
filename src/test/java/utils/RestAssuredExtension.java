@@ -251,25 +251,7 @@ public class RestAssuredExtension {
         //Add params
         for (int i = 0; i < t_table.size(); i++) {
             String paramName = t_table.get(i).get(0);
-            String paramValue = "";
-            switch (paramName) {
-                case "fields":
-                    paramValue = "create_date,producer,payment_methods.financial_entity,payment_methods.financial_line,status,payment_methods.conditions.loan_amount";
-                    break;
-                case "skip":
-                    paramValue = "0";
-                    break;
-                case "count":
-                    paramValue = "4";
-                    break;
-                case "type_sort":
-                    paramValue = "DESC";
-                    break;
-                case "sort":
-                    paramValue = "create_date";
-                    break;
-
-            }
+            String paramValue = t_table.get(i).get(1);
             builderMW.addQueryParam(paramName, paramValue);
         }
 

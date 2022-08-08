@@ -12,11 +12,11 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
   Proveedor - Home - Últimas Operaciones Realizadas - Validar máximas Operaciones mostradas
   Proveedor - Home - Últimas Operaciones Realizadas - Validar botón "Ver todas"
     When Validar datos de servicios api bff con ruta orders y parametros
-      | fields    |
-      | skip      |
-      | count     |
-      | type_sort |
-      | sort      |
+      | fields    | id_order,create_date,producer,payment_methods.financial_entity,payment_methods.financial_line,payment_methods.expiry_date,status,payment_methods.conditions.loan_amount |
+      | skip      | 0                                                                                                                                                                       |
+      | count     | 4                                                                                                                                                                       |
+      | type_sort | DESC                                                                                                                                                                    |
+      | sort      | create_date                                                                                                                                                             |
     Then Se visualizan no más de 4 órdenes
     And Se viaualizan los elementos
       | título Últimas realizadas |
@@ -34,7 +34,7 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
   @TEST_SET_ID_AG-1674 @regression
   Scenario: Proveedor - Home - Operaciones Próximas a Vencer - Validar pantalla Operaciones próximas a vencer
   Proveedor - Home - Operaciones Próximas a Vencer - Validar botón ">"
-    Then Se visualiza el titulo Ordenes próximas a vencer
+    Then Se visualiza el titulo Órdenes próximas a vencer
     And Se visualiza el icono contador de Ordenes próximas a vencer
     And Se visualiza el icono >
     And Validar datos de servicio api bff con ruta orders/counter/nexttowin
