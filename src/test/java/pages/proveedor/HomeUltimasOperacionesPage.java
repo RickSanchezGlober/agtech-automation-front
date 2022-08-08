@@ -80,7 +80,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
     public boolean verifyMaxNumberOrders(String orderQuantity) {
         explicitWait(HomeUltimasOperacionesPageObject.ORDENES_CONTAINER);
         List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.ORDENES_CONTAINER);
-        return (elementList.size() == Integer.parseInt(orderQuantity));
+        return (elementList.size() <= Integer.parseInt(orderQuantity));
     }
 
     public void getDataFromApiServicesOrders(String sourceApi, String path, List<List<String>> t_table) {

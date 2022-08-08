@@ -21,10 +21,10 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
       | la columna Medio de Pago                    |
       | la columna Monto total                      |
       | la columna Estado                           |
-    #bug reportado pq solo se muestran 4 ordenes en Ver todas
-    #agregar validaciones del front cuando se soluciones el bug
-    And Verificar datos de servicio api que lista todas las ordenes bff con ruta orders y parámetros
-      | fields    |
-      | skip      |
-      | type_sort |
-      | sort      |
+    And Verificar datos de servicio api que lista todas las ordenes bff con ruta orders/filter y parámetros
+      | skip   | 0                                                                                                                                                                       |
+      | count  | 8                                                                                                                                                                       |
+      | where  | status                                                                                                                                                                  |
+      | like   | producer.name,producer.cuit                                                                                                                                             |
+      | fields | id_order,create_date,producer,payment_methods.financial_entity,payment_methods.financial_line,payment_methods.expiry_date,status,payment_methods.conditions.loan_amount |
+    And Se visualizan un máximo de 8 órdenes

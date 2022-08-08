@@ -1,5 +1,6 @@
 package steps.proveedor;
 
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
@@ -17,5 +18,9 @@ public class ListadoOrdenesSteps {
     @When("^Verificar datos de servicio api que lista todas las ordenes (.*) con ruta (.*) y parámetros$")
     public void getDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
         listadoOrdenesPage.getDataFromApiServicesAllOrders(sourceApi, path, t_table);
+    }
+    @And("^Se visualizan un máximo de (.*) órdenes$")
+    public void verifyMaxNumberOrders(String orderQuantity) {
+        Assert.assertTrue(listadoOrdenesPage.verifyMaxNumberOrders(orderQuantity));
     }
 }

@@ -7,4 +7,5 @@ public class ListadoOrdenesPageObject {
     public static final By.ByTagName BUTTON_CONTAINER_PANTALLA_ORDENES = new By.ByTagName("button");
     public static final By.ByClassName ENCABEZADO_TABLA_CONTAINER_PANTALLA_ORDENES = new By.ByClassName("order_table__thead_item");
     public static final By.ByClassName FLECHA_DERECHA_ICONO_CONTAINER = new By.ByClassName("rural-agro-icon-arrow-right");
+    public static final By.ByClassName ORDENES_CONTAINER = new By.ByClassName("last_order__order");
 }
