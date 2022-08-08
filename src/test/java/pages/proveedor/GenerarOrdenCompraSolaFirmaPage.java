@@ -1,7 +1,6 @@
 package pages.proveedor;
 
 import io.cucumber.datatable.DataTable;
-import io.netty.util.internal.StringUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
@@ -9,12 +8,8 @@ import org.testng.Assert;
 import pageobjects.proveedor.GenerarOrdenCompraSolaFirmaContactoPageObject;
 import pageobjects.proveedor.GenerarOrdenCompraSolaFirmaPageObject;
 import pages.BasePage;
-import steps.proveedor.GenerarOrdenCompraSolaFirmaSteps;
 import utils.DataGenerator;
-import utils.RestAssuredExtension;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -32,6 +27,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
     public void clickOnButtonByName(String buttonName) {
         By element = null;
+        //En ocaciones es necesario hacer click mas de una vez en Simular Credito
+        By element1 = null;
         switch (buttonName) {
             case "Crear Orden":
                 element = GenerarOrdenCompraSolaFirmaPageObject.CREAR_ORDEN_BUTTON;
@@ -47,6 +44,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 break;
             case "Simular Crédito":
                 element = GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON;
+                element1 = GenerarOrdenCompraSolaFirmaPageObject.RESULTADO_SIMULACION_TEXT;
                 break;
             case "X":
                 element = GenerarOrdenCompraSolaFirmaPageObject.X_BUTTON;
@@ -63,6 +61,13 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
         }
         waitVisibility(element, "30");
         click(element);
+
+        //En ocaciones es necesario hacer click más de una vez en Simular Credito
+        int count = 0;
+        while (buttonName.equalsIgnoreCase("Simular Crédito") && !waitVisibility(element1, "5") && count < 2) {
+            click(element);
+            count++;
+        }
     }
 
     public void fillField(String text, String field) {
