@@ -1,5 +1,5 @@
 @payments @proveedor @ordenes @listadoOrdenesProveedor
-Feature: Proveedor - Listado de Órdenes
+Feature:  Home Proveedor - Últimas Operaciones Realizadas
 
   Background:
     Given Se navega al portal New Agro proveedor
