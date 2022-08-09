@@ -2,8 +2,11 @@ package steps.productor;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pages.productor.ListadoOrdenesPage;
+
+import java.util.List;
 
 public class ListadoOrdenesSteps {
     ListadoOrdenesPage listadoOrdenesPage = new ListadoOrdenesPage();
@@ -13,15 +16,6 @@ public class ListadoOrdenesSteps {
         Assert.assertTrue(listadoOrdenesPage.verifyElementEmptyStateScreen(element));
     }
 
-    @Then("^Se muestra un listado de (.*) órdenes$")
-    public void seMuestraListadoOrdenes(String orderQuantity) {
-        Assert.assertTrue(listadoOrdenesPage.verifyOrderQuantity(orderQuantity));
-    }
-
-    @And("^Se muestra (.*) de las (.*) órdenes$")
-    public void seMuestraDetalleDeOrdenes(String details, String orderQuantity) {
-        Assert.assertTrue(listadoOrdenesPage.verifyOrderDetails(details, orderQuantity));
-    }
 
     @And("^Se muestra un listado de órdenes (.*)$")
     public void seMuestraListaDeOrdenesPorFecha(String sort) {
@@ -31,5 +25,10 @@ public class ListadoOrdenesSteps {
     @And("^La conexion con el MS orders/producer se realiza correctamente$")
     public void laConexionConElMSOrdersProducerSeRealizaCorrectamente() {
         listadoOrdenesPage.msOrdersProducerVolver();
+    }
+
+    @Then("^Verificar datos de servicio api que lista todas las ordenes (.*) con ruta (.*)$")
+    public void getDataFromApiServicesAllOrders(String sourceApi, String path) {
+        listadoOrdenesPage.getDataFromApiServicesAllOrders(sourceApi, path);
     }
 }

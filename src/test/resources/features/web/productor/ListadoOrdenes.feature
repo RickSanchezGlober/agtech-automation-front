@@ -17,14 +17,10 @@ Feature:  Productor - Listado de órdenes
 
   @TEST_ID_AG-276 @TEST_ID_AG-277 @TEST_ID_AG-278 @regression
   Scenario:  Productor - Listado de órdenes - Verifico listado de órdenes recientes
-             Productor - Listado de órdenes - Verifico orden del listado de las órdenes
-             Productor - Listado de órdenes - Verifico pantalla de Error State
+  Productor - Listado de órdenes - Verifico orden del listado de las órdenes
+  Productor - Listado de órdenes - Verifico pantalla de Error State
     And Se hace click en el botón Ver órdenes
     And La conexion con el MS orders/producer se realiza correctamente
-    #Cuando podamos pegarle al servicio que trae las ordenes lo ideal seria hacer e2e
-    Then Se muestra un listado de 8 órdenes
-    And Se muestra Nombre del productor de las 8 órdenes
-    And Se muestra Número de orden de las 8 órdenes
-    And Se muestra Fecha y hora de generación de las 8 órdenes
-    And Se muestra Descripción de las 8 órdenes
-    And Se muestra un listado de órdenes ascendente
+    Then Verificar datos de servicio api que lista todas las ordenes bff con ruta orders/producer/as768dfa2s-22dada2-awe2da-2sdi79
+    #Ahora mismo todos las ordenes tienen la misma fecha
+#    And Se muestra un listado de órdenes ascendente

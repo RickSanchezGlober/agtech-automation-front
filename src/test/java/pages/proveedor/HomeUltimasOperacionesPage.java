@@ -80,7 +80,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
     public boolean verifyMaxNumberOrders(String orderQuantity) {
         explicitWait(HomeUltimasOperacionesPageObject.ORDENES_CONTAINER);
         List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.ORDENES_CONTAINER);
-        return (elementList.size() == Integer.parseInt(orderQuantity));
+        return (elementList.size() <= Integer.parseInt(orderQuantity));
     }
 
     public void getDataFromApiServicesOrders(String sourceApi, String path, List<List<String>> t_table) {
@@ -122,10 +122,10 @@ public class HomeUltimasOperacionesPage extends BasePage {
         FIELD_TEXT_API = PRODUCERS.get("cuit").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.replaceAll("-", "").contains(FIELD_TEXT_API.replaceAll("-", "")));
-        //PRODUCER_NAME
-        FIELD_TEXT_API = PRODUCERS.get("name").toString();
-        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API));
+//        //PRODUCER_NAME ya no viene el nombre en el response
+//        FIELD_TEXT_API = PRODUCERS.get("name").toString();
+//        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+//        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API));
 
         try {
             ArrayList list = new ArrayList<>(response.getBody().jsonPath().get(String.format("result[%s].payment_methods", pos)));
@@ -148,16 +148,16 @@ public class HomeUltimasOperacionesPage extends BasePage {
         String FIELD_TEXT_API = data.get("financial_entity").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
-        //FINANCIAL_LINE
-        FIELD_TEXT_API = data.get("financial_line").toString();
-        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
+        //FINANCIAL_LINE este campo ya no esta en el response
+//        FIELD_TEXT_API = data.get("financial_line").toString();
+//        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+//        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
 
-        //Monto de la deuda
-        Long LOAN_AMOUNT = (Long) ((JSONObject) data.get("conditions")).get("loan_amount");
-        FIELD_TEXT_API = parseFromDoubleToString(LOAN_AMOUNT.toString(), 2);
-        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
+        //Monto de la deuda, conditions viene vacio
+//        Long LOAN_AMOUNT = (Long) ((JSONObject) data.get("conditions")).get("loan_amount");
+//        FIELD_TEXT_API = parseFromDoubleToString(LOAN_AMOUNT.toString(), 2);
+//        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+//        Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
     }
 
     private String getDateStringFormat(String stringDate) {
@@ -195,7 +195,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
             case "Órdenes":
                 element = HomeUltimasOperacionesPageObject.ORDENES_TITTLE;
                 break;
-            case "Ordenes próximas a vencer":
+            case "Órdenes próximas a vencer":
                 element = HomeUltimasOperacionesPageObject.OPERACIONES_PROXIMAS_VENCER;
                 break;
         }

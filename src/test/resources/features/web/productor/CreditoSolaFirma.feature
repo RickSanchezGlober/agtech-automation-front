@@ -47,7 +47,7 @@ Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
     And Se muestra el boton Confirmar Pago Habilitado
     And El sistema redirecciona a la pantalla de Confirmación con todos los detalles de la orden
     And Se presiona sobre el enlace en la navegación superior de regreso
-    And Se muestra un listado de 8 órdenes
+    And Verificar datos de servicio api que lista todas las ordenes bff con ruta orders/producer/as768dfa2s-22dada2-awe2da-2sdi79
     #Método Payments
 
 #  @financing @TEST_ID_AG-44 @TEST_ID_AG-272
