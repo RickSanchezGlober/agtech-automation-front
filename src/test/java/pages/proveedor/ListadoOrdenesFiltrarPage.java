@@ -8,55 +8,135 @@ import org.json.simple.JSONValue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import pageobjects.proveedor.HomeUltimasOperacionesPageObject;
+import pageobjects.proveedor.ListadoOrdenesFiltrarPageObject;
 import pageobjects.proveedor.ListadoOrdenesPageObject;
 import pages.BasePage;
 import utils.RestAssuredExtension;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListadoOrdenesPage extends BasePage {
+public class ListadoOrdenesFiltrarPage extends BasePage {
     public static int pos;
     public static List<WebElement> elementList;
     public static String FIELD_TEXT_UI;
+    public static String filterSelected;
 
-    public ListadoOrdenesPage() {
+    public ListadoOrdenesFiltrarPage() {
         super();
         pos = 0;
     }
 
-    public boolean verifyVisibleElementsOrdersScreen(List<List<String>> t_table) {
+    public void clicOnButtonByNameOrders(String buttonName) {
+        waitVisibility(ListadoOrdenesFiltrarPageObject.ORDENES_TITTLE, "5");
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER);
+        for (int i = 0; i < elementList.size(); i++) {
+            if (elementList.get(i).getText().contains(buttonName)) {
+                elementList.get(i).click();
+                break;
+            }
+        }
+    }
+
+    public void validateDataFromOrderWithFilters(String sourceApi, String path, List<List<String>> t_table) {
+
+        log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
+        getAcessTokenFromApiServices("bff", "auth/login");
+        response = RestAssuredExtension.getMethodWithParams(sourceApi, path, t_table, getAccess_token());
+        explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);
+        try {
+            ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
+            list.stream().forEach(dataEntry -> getObjectOrders(dataEntry));
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            log.info("Path is invalid");
+        }
+
+    }
+
+    private void getObjectOrders(Object dataEntry) {
+        JSONObject data = null;
+        try {
+            data = (JSONObject) JSONValue.parse(new ObjectMapper().writeValueAsString(dataEntry));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        //Texto de la ultima operacion, UI
+        elementList = driver.findElements(ListadoOrdenesPageObject.ORDENES_CONTAINER);
+        FIELD_TEXT_UI = elementList.get(pos).getText();
+
+        //STATUS
+        String FIELD_TEXT_API = data.get("status").toString();
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_API.contains(filterSelected));
+        Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
+        pos++;
+    }
+
+    public void selecctFilter(String filterName) {
+        filterSelected = filterName;
+        waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "5");
+        List<WebElement> elementList = null;
+        switch (filterName) {
+            case "Pendiente":
+            case "Pagada":
+            case "Rechazada":
+            case "Vencida":
+                elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.FILTRO_ESTADO_CONTAINER);
+                for (int i = 0; i < elementList.size(); i++) {
+                    if (elementList.get(i).getText().equalsIgnoreCase(filterName)) {
+                        elementList.get(i).click();
+                        break;
+                    }
+                }
+                break;
+            case "Cesión de forward":
+            case "A sola Firma":
+            case "Pago con granos":
+                elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.FILTRO_MEDIO_PAGO_CONTAINER);
+                for (int i = 0; i < elementList.size(); i++) {
+                    if (elementList.get(i).getText().equalsIgnoreCase(filterName)) {
+                        elementList.get(i).click();
+                        break;
+                    }
+                }
+                break;
+        }
+    }
+
+    public boolean checkElementsFiltersScreen(List<List<String>> t_table) {
         By byElement = null;
-        explicitWait(ListadoOrdenesPageObject.BUSCAR_CUIT_NOMBRE_INPUT);
+        waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "5");
         List<Boolean> resultList = new ArrayList<>();
         for (int i = 0; i < t_table.size(); i++) {
             String elementName = t_table.get(i).get(0);
             log.info(String.format("Buscando el elemento '%s'", elementName));
             switch (elementName) {
-                case "el buscador Buscar CUIT o nombre de cliente":
-                    byElement = ListadoOrdenesPageObject.BUSCAR_CUIT_NOMBRE_INPUT;
-                    resultList.add(getAttribute(byElement, "placeholder").equalsIgnoreCase("Buscar CUIT o nombre de cliente"));
+                case "el titulo Filtros de órdenes":
+                    byElement = ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE;
+                    resultList.add(verifyVisibleText(byElement, elementName.replace("el titulo ", "")));
                     break;
-                case "el boton Exportar":
-                case "el boton Filtrar":
-                case "el boton Crear Orden":
-                    resultList.add(findElementOrdesScreen(elementName.replace("el boton ", ""), ListadoOrdenesPageObject.BUTTON_CONTAINER_PANTALLA_ORDENES));
+                case "el titulo Estado":
+                case "el titulo Medio de pago":
+                case "el titulo Fecha de creación de la orden":
+                    resultList.add(findElementOrdesScreen(elementName.replace("el titulo ", ""), ListadoOrdenesFiltrarPageObject.TITLE_CONTAINER_FILTER_SCREEN));
                     break;
-                case "la columna Creación":
-                case "la columna Cliente":
-                case "la columna Entidad":
-                case "la columna Medio de Pago":
-                case "la columna Monto total":
-                case "la columna Estado":
-                    resultList.add(findElementOrdesScreen(elementName.replace("la columna ", ""), ListadoOrdenesPageObject.ENCABEZADO_TABLA_CONTAINER_PANTALLA_ORDENES));
+                case "el check Pendiente":
+                case "el check Pagada":
+                case "el check Rechazada":
+                case "el check Vencida":
+                    resultList.add(findElementOrdesScreen(elementName.replace("el check ", ""), ListadoOrdenesFiltrarPageObject.FILTRO_ESTADO_CONTAINER));
                     break;
-                case "los botones >":
-                    //Cambiar esto cuando en Ver todas se vean mas de 4 ordenes
-                    List<WebElement> elementList = driver.findElements(ListadoOrdenesPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
-                    resultList.add(elementList.size() > 0);
+                case "el check Cesión de forward":
+                case "el check A sola firma":
+                case "el check Pago con granos":
+                    resultList.add(findElementOrdesScreen(elementName.replace("el check ", ""), ListadoOrdenesFiltrarPageObject.FILTRO_MEDIO_PAGO_CONTAINER));
+                    break;
+                case "el botón Aplicar filtros":
+                    resultList.add(findElementOrdesScreen(elementName.replace("el botón ", ""), ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER));
                     break;
             }
         }
@@ -83,79 +163,28 @@ public class ListadoOrdenesPage extends BasePage {
         return isVisibleButton;
     }
 
-    public void getDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
-        log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
-        getAcessTokenFromApiServices("bff", "auth/login");
-        response = RestAssuredExtension.getMethodWithParams(sourceApi, path, t_table, getAccess_token());
-        explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);
-        try {
-            ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
-            list.stream().forEach(dataEntry -> getObjectAllOrder(dataEntry));
+    public boolean verifyButtonState(String buttonName) {
+        waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "5");
+        boolean isEnableButton = false;
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER);
+        for (int j = 0; j < elementList.size(); j++) {
+            if (elementList.get(j).getText().equalsIgnoreCase(buttonName)) {
+                isEnableButton = elementList.get(j).isEnabled();
+                break;
+            }
+        }
+        return isEnableButton;
+    }
 
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            log.info("Path is invalid");
+    public void clicOnButtonByNameSideMenu(String buttonName) {
+//        explicitWait(ListadoOrdenesFiltrarPageObject.ORDENES_TITTLE);
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.SIDE_MENU_BUTTON_CONTAINER);
+        for (int i = 0; i < elementList.size(); i++) {
+            if (elementList.get(i).getText().contains(buttonName)) {
+                elementList.get(i).click();
+                break;
+            }
         }
     }
 
-    private void getObjectAllOrder(Object dataEntry) {
-        JSONObject data = null;
-        try {
-            data = (JSONObject) JSONValue.parse(new ObjectMapper().writeValueAsString(dataEntry));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        //Texto de la ultima operacion, UI
-        elementList = driver.findElements(ListadoOrdenesPageObject.ORDENES_CONTAINER);
-        FIELD_TEXT_UI = elementList.get(pos).getText();
-
-        //STATUS
-        String FIELD_TEXT_API = data.get("status").toString();
-        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
-        //CREATE_DATE
-        FIELD_TEXT_API = data.get("create_date").toString();
-        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.contains(getDateStringFormat(FIELD_TEXT_API)));
-        //PRODUCER_CUIT
-        JSONObject PRODUCERS = (JSONObject) data.get("producer");
-        FIELD_TEXT_API = PRODUCERS.get("cuit").toString();
-        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.replaceAll("-", "").contains(FIELD_TEXT_API.replaceAll("-", "")));
-
-        try {
-            ArrayList list = new ArrayList<>(response.getBody().jsonPath().get(String.format("result[%s].payment_methods", pos)));
-            list.stream().forEach(dataEntry1 -> getObjectPaymentMethods(dataEntry1));
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            log.info("Path is invalid");
-        }
-        pos++;
-    }
-
-    public void getObjectPaymentMethods(Object dataEntry) {
-        JSONObject data = null;
-        try {
-            data = (JSONObject) JSONValue.parse(new ObjectMapper().writeValueAsString(dataEntry));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        //FINANCIAL_ENTITY
-        String FIELD_TEXT_API = data.get("financial_entity").toString();
-        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
-        Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
-    }
-
-    private String getDateStringFormat(String stringDate) {
-        LocalDateTime ldt = LocalDateTime.parse(stringDate);
-        return ldt.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-    }
-
-    public boolean verifyMaxNumberOrders(String orderQuantity) {
-        explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);
-        List<WebElement> elementList = driver.findElements(ListadoOrdenesPageObject.ORDENES_CONTAINER);
-        log.info(String.format("Verificando que se muestren máximo '%s' órdenes", orderQuantity));
-        return (elementList.size() <= Integer.parseInt(orderQuantity));
-    }
 }
