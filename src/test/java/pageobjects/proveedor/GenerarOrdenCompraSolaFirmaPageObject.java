@@ -30,4 +30,5 @@ public class GenerarOrdenCompraSolaFirmaPageObject {
     public static final By.ByClassName SIMULATION_CARD_CONTAINER = new By.ByClassName("simulation_voucher__card");
     public static final By.ByCssSelector CONFIRMAR_MEDIO_PAGO_BUTTON = new By.ByCssSelector("div.modalviewer.modalviewer__aside div.modalcontent.modalcontent__aside.modalcontent__aside_active div.aside_modal div.aside_modal__footer > button.button__container.button__container_primary");
     public static final By.ByClassName X_BUTTON = new By.ByClassName("aside_modal__icon");
+    public static final By.ByClassName CUIT_INCORRECTO_TEXT = new By.ByClassName("input__container__helper_text_error");
 }

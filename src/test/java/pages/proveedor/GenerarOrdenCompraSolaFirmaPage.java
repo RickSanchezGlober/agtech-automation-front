@@ -71,11 +71,14 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void fillField(String text, String field) {
-        explicitWait(GenerarOrdenCompraSolaFirmaPageObject.NUEVA_ORDEN_PAGO_HEADER);
+        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.NUEVA_ORDEN_PAGO_HEADER,"10");
         By element = null;
         switch (field) {
             case "Ingresá el CUIT":
                 element = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_CUIT_INPUT;
+                if (text.contains("Inválido")) {
+                    text = DataGenerator.getNumber(11);
+                }
                 break;
             case "Descripción":
                 element = GenerarOrdenCompraSolaFirmaPageObject.DESCRIPCION_INPUT;
@@ -194,7 +197,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                     log.info(FIELDS + " " + FIELDS_TEXT);
 
                                     // VALIDATIONS
-                                    Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
+                                    Assert.assertTrue(FIELDS_TEXT.toLowerCase().contains(VALUES.toLowerCase()));
 
                                 } catch (InterruptedException | NullPointerException e) {
                                     e.printStackTrace();
@@ -393,8 +396,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 break;
         }
         write(webElement, randomNumbers);
-        //restamos 3 pq se autocompleta con 3 comas
-        return getAttribute(webElement, "value").length() - 3 == intQuantity;
+        //restamos 6 pq se autocompleta con 3 puntos + 1 coma + $ y espacio en blanco
+        return getAttribute(webElement, "value").length() - 6 == intQuantity;
     }
 
     public boolean checkWritingSpecialCharacters(String field) {
@@ -418,5 +421,10 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             cantDecimalPlaces = i;
         }
         return cantDecimalPlaces == Integer.parseInt(quantity);
+    }
+
+    public boolean checkErrorMessage(String messageError) {
+        By webElement = GenerarOrdenCompraSolaFirmaPageObject.CUIT_INCORRECTO_TEXT;
+        return verifyVisibleText(webElement, messageError);
     }
 }
