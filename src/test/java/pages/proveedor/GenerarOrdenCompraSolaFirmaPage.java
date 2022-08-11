@@ -102,6 +102,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 }
                 break;
         }
+        clear(element);
         write(element, text);
     }
 
@@ -470,5 +471,11 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 j++;
             }
         }
+    }
+
+    public boolean chekErrorScreenUnauthorisedCuit() {
+        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.CUIT_NO_AUTORIZADO_TITTLE,"30");
+        return verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CUIT_NO_AUTORIZADO_TITTLE,"CUIT No Autorizado")
+                &&verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.ESTE_CUIT_NO_CUMPLE_TITTLE,"Este cuit no cumple con alguno de los requisitos de los medios de pago disponible");
     }
 }

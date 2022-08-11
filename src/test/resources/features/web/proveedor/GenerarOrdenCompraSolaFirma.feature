@@ -18,7 +18,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And Se lee el cuit en formato correcto
     And El proveedor visualiza el boton Buscar Habilitado
     And El proveedor hace click en el botón Buscar
-    And Verivicar pantalla de error si la conexion con el MS customer-validation no se realiza correctamente
+    And Verificar pantalla de error si la conexion con el MS customer-validation no se realiza correctamente
     And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
       | id_producer   |
       | cuit_teradata |
@@ -124,8 +124,12 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor hace click en el botón X
     And El proveedor no visualiza el boton Simular Crédito
 
-  @TEST_ID_AG-2049
+  @TEST_ID_AG-2049 @TEST_ID_AG-2089
   Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente (Formato NO válido) - Validar error CUIT formato no valido
+  Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar CUIT de productor con requisitos insuficientes
     And El proveedor ingresa CUIT Inválido en el campo Ingresá el CUIT
     #El mensaje debe ser "CUIT no válido", bug reportado
     Then Se visualiza el mensaje de error El número de CUIT es incorrecto
+    And El proveedor ingresa 30714048186 en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And Se visualiza pantalla de error Cuit no autorizado
