@@ -6,10 +6,11 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And Usuario logueado en el portal New Agro
     When El proveedor hace click en el botón Crear Orden
 
-  @TEST_ID_AG-529 @TEST_ID_AG-530 @regression @prueba
+  @TEST_ID_AG-529 @TEST_ID_AG-530 @TEST_SET_ID_AG-2078 @regression @prueba
   Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar pantalla nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar ingreso de CUIT nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar busqueda de productor asociado al CUIT valido
+  Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar Error State búsqueda de CUIT
     Then El proveedor visualiza el boton Buscar Deshabilitado
     And El proveedor visualiza Ingresá el CUIT en la pantalla Identificación de cliente
     And El proveedor visualiza Escribí 11 números en la pantalla Identificación de cliente
