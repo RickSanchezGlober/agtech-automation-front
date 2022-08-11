@@ -39,7 +39,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
     }
 
     public void clicOnButtonByNameHome(String buttonName) {
-        explicitWait(HomeUltimasOperacionesPageObject.ULTIMAS_REALIZADAS_TITTLE);
+        waitVisibility(HomeUltimasOperacionesPageObject.ULTIMAS_REALIZADAS_TITTLE, "30");
         if (buttonName.contains("> de Ordenes próximas a vencer")) {
             List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
             //La 1era > que aparece es la de Ordenes próximas a vencer

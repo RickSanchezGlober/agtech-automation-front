@@ -29,7 +29,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
     }
 
     public void clicOnButtonByNameOrders(String buttonName) {
-        waitVisibility(ListadoOrdenesFiltrarPageObject.ORDENES_TITTLE, "5");
+        waitVisibility(ListadoOrdenesFiltrarPageObject.ORDENES_TITTLE, "30");
         List<WebElement> elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER);
         for (int i = 0; i < elementList.size(); i++) {
             if (elementList.get(i).getText().contains(buttonName)) {
@@ -108,7 +108,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
 
     public boolean checkElementsFiltersScreen(List<List<String>> t_table) {
         By byElement = null;
-        waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "5");
+        waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "30");
         List<Boolean> resultList = new ArrayList<>();
         for (int i = 0; i < t_table.size(); i++) {
             String elementName = t_table.get(i).get(0);

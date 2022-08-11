@@ -4,8 +4,7 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
   Background:
     Given Se navega al portal New Agro proveedor
     And Usuario logueado en el portal New Agro
-#    When El proveedor hace click en el boton Ver todas del home
-    When El proveedor hace click en el boton Órdenes del menu lateral
+    When El proveedor hace click en el boton Ver todas del home
     And El proveedor hace click en el boton Filtrar de la pantalla ordenes
 
   @TEST_ID_AG-1800 @TEST_ID_AG-1801 @TEST_ID_AG-1802 @TEST_ID_AG-1804
