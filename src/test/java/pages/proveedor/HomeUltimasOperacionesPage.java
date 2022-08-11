@@ -39,7 +39,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
     }
 
     public void clicOnButtonByNameHome(String buttonName) {
-        explicitWait(HomeUltimasOperacionesPageObject.ULTIMAS_REALIZADAS_TITTLE);
+        waitVisibility(HomeUltimasOperacionesPageObject.ULTIMAS_REALIZADAS_TITTLE, "30");
         if (buttonName.contains("> de Ordenes próximas a vencer")) {
             List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
             //La 1era > que aparece es la de Ordenes próximas a vencer
@@ -51,18 +51,6 @@ public class HomeUltimasOperacionesPage extends BasePage {
                     elementList.get(i).click();
                     break;
                 }
-            }
-        }
-    }
-
-
-    public void clicOnButtonByNameOrders(String buttonName) {
-        explicitWait(HomeUltimasOperacionesPageObject.ORDENES_TITTLE);
-        List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.ORDERS_BUTTON_CONTAINER);
-        for (int i = 0; i < elementList.size(); i++) {
-            if (elementList.get(i).getText().contains(buttonName)) {
-                elementList.get(i).click();
-                break;
             }
         }
     }

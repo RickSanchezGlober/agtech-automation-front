@@ -17,11 +17,6 @@ public class HomeUltimasOperacionesSteps {
         homeUltimasOperacionesPage.clicOnButtonByNameHome(buttonName);
     }
 
-    @And("^El proveedor hace click en el boton (.*) de la pantalla ordenes$")
-    public void clicOnButtonByNameOrders(String buttonName) {
-        homeUltimasOperacionesPage.clicOnButtonByNameOrders(buttonName);
-    }
-
     @Then("^Se muestran los elementos de la pantalla Nueva Orden$")
     public void verifyScreenNewOrder() {
         Assert.assertTrue(homeUltimasOperacionesPage.verifyScreenNewOrder());

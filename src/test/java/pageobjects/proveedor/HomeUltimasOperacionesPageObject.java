@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 
 public class HomeUltimasOperacionesPageObject {
     public static final By.ByCssSelector HOME_BUTTON_CONTAINER = new By.ByCssSelector("button");
-    public static final By.ByTagName ORDERS_BUTTON_CONTAINER = new By.ByTagName("button");
     public static final By.ByXPath INGRESA_CUIT_LABEL = new By.ByXPath("//label[contains(text(),'Ingresá el CUIT')]");
     public static final By.ByClassName ESCRIBI_11_NUMEROS_TEXT = new By.ByClassName("input__container__helper_text_");
     public static final By.ByClassName BUSCAR_BUTTON = new By.ByClassName("button__container_secondary");

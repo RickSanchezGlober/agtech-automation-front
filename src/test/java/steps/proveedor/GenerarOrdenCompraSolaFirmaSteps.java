@@ -118,4 +118,16 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     public void checkEnterDecimalPLaces(String quantity) {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkEnterDecimalPLaces(quantity));
     }
+    @And("^Se visualiza el mensaje de error (.*)$")
+    public void checkErrorMessage(String messageError) {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkErrorMessage(messageError));
+    }
+    @And("^Verificar pantalla de error si la conexion con el MS customer-validation no se realiza correctamente$")
+    public void chekErrorScreen() {
+        generarOrdenCompraSolaFirmaPage.chekErrorScreen(cuit);
+    }
+    @And("^Se visualiza pantalla de error Cuit no autorizado$")
+    public void chekErrorScreenUnauthorisedCuit() {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaPage.chekErrorScreenUnauthorisedCuit());
+    }
 }
