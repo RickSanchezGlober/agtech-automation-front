@@ -27,6 +27,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.cucumber.datatable.DataTable;
 import io.qameta.allure.Attachment;
+import pageobjects.productor.LoginPageObject;
+import pageobjects.proveedor.HomePageObject;
 import steps.Hook;
 import utils.RestAssuredExtension;
 
@@ -375,7 +377,34 @@ public class BasePage {
 
     public boolean verifyVisibleText(By locator, String textToCompare) {
         explicitWait(locator);
+        log.info("acacacacacacacacacacacaca");
+        log.info(textToCompare);
+        log.info(Find(locator).getText());
         return Find(locator).getText().equals(textToCompare);
+    }
+
+    public boolean verifyMessageIsdisplayed(String action,String message) {
+        switch (action) {
+            case "logueo":
+                return verifyVisibleText(LoginPageObject.MENSAJE_BIENVENIDA_TEXT, message);
+
+            case "deslogueo":
+                return verifyVisibleText(LoginPageObject.MENSAJE_INICIO_SESION_TEXT, message);
+
+            case "login":
+                message = "Inicio de sesión";
+                return verifyVisibleText(LoginPageObject.MENSAJE_INICIO_SESION_TEXT, message);
+
+            case "signup":
+                message = "Creá tu cuenta";
+                return verifyVisibleText(LoginPageObject.MENSAJE_REGISTRO_TEXT, message);
+
+            case "cambio":
+
+                return verifyVisibleText(HomePageObject.MENSAJE_CAMBIO_CONTRASENA, message);
+
+        }
+        return false;
     }
 
     public boolean isDisplayed(By locator) {
