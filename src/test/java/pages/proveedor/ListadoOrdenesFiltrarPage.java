@@ -8,9 +8,8 @@ import org.json.simple.JSONValue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import pageobjects.proveedor.HomeUltimasOperacionesPageObject;
 import pageobjects.proveedor.ListadoOrdenesFiltrarPageObject;
-import pageobjects.proveedor.ListadoOrdenesPageObject;
+import pageobjects.proveedor.ListadoOrdenesProveedorPageObject;
 import pages.BasePage;
 import utils.RestAssuredExtension;
 
@@ -45,7 +44,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
         getAcessTokenFromApiServices("bff", "auth/login");
         response = RestAssuredExtension.getMethodWithParams(sourceApi, path, t_table, getAccess_token());
-        explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);
+        explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         try {
             ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
             list.stream().forEach(dataEntry -> getObjectOrders(dataEntry));
@@ -65,7 +64,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
             e.printStackTrace();
         }
         //Texto de la ultima operacion, UI
-        elementList = driver.findElements(ListadoOrdenesPageObject.ORDENES_CONTAINER);
+        elementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         FIELD_TEXT_UI = elementList.get(pos).getText();
 
         //STATUS

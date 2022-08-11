@@ -1,26 +1,47 @@
 package steps.proveedor;
 
 import io.cucumber.java.en.And;
-import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import org.testng.Assert;
-import pages.proveedor.ListadoOrdenesPage;
+import pages.proveedor.ListadoOrdenesFiltrarPage;
 
 import java.util.List;
 
-public class ListadoOrdenesSteps {
-    ListadoOrdenesPage listadoOrdenesPage = new ListadoOrdenesPage();
+public class ListadoOrdenesFiltrarSteps {
+    ListadoOrdenesFiltrarPage listadoOrdenesFiltrarPage = new ListadoOrdenesFiltrarPage();
 
-    @Then("^Se viaualizan los elementos de la pantalla de órdenes$")
-    public void verifyVisibleElementsOrdersScreen(List<List<String>> t_table) {
-        Assert.assertTrue(listadoOrdenesPage.verifyVisibleElementsOrdersScreen(t_table));
+    @And("^El proveedor hace click en el boton (.*) de la pantalla ordenes$")
+    public void clicOnButtonByNameOrders(String buttonName) {
+        listadoOrdenesFiltrarPage.clicOnButtonByNameOrders(buttonName);
     }
-    @When("^Comprobar datos de servicio api que lista todas las ordenes (.*) con ruta (.*) y parámetros$")
-    public void getDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
-        listadoOrdenesPage.getDataFromApiServicesAllOrders(sourceApi, path, t_table);
+
+    @And("^Comprobar datos de servicio api que filtra todas las ordenes (.*) con ruta (.*) y parámetros$")
+    public void validateDataFromOrderWithFilters(String sourceApi, String path, List<List<String>> t_table) {
+        listadoOrdenesFiltrarPage.validateDataFromOrderWithFilters(sourceApi, path, t_table);
     }
-    @And("^Se visualizan un máximo de (.*) órdenes$")
-    public void verifyMaxNumberOrders(String orderQuantity) {
-        Assert.assertTrue(listadoOrdenesPage.verifyMaxNumberOrders(orderQuantity));
+
+    @And("^Se selecciona el filtro (.*)$")
+    public void selecctFilter(String filterName) {
+        listadoOrdenesFiltrarPage.selecctFilter(filterName);
+    }
+
+    @And("^Se viaualizan los elementos de la pantalla de Filtros de órdenes$")
+    public void checkElementsFiltersScreen(List<List<String>> t_table) {
+        Assert.assertTrue(listadoOrdenesFiltrarPage.checkElementsFiltersScreen(t_table));
+    }
+
+    @And("^Se visualiza el boton (.*) (.*)")
+    public void checkButtonStatus(String buttonName, String buttonStatus) {
+        switch (buttonStatus) {
+            case "Habilitado":
+                Assert.assertTrue(listadoOrdenesFiltrarPage.verifyButtonState(buttonName));
+                break;
+            case "Deshabilitado":
+                Assert.assertFalse(listadoOrdenesFiltrarPage.verifyButtonState(buttonName));
+                break;
+        }
+    }
+    @And("^El proveedor hace click en el boton (.*) del menu lateral$")
+    public void clicOnButtonByNameSideMenu(String buttonName) {
+        listadoOrdenesFiltrarPage.clicOnButtonByNameSideMenu(buttonName);
     }
 }
