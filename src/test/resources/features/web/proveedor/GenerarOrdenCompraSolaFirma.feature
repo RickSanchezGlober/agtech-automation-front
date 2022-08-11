@@ -17,6 +17,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And Se lee el cuit en formato correcto
     And El proveedor visualiza el boton Buscar Habilitado
     And El proveedor hace click en el botón Buscar
+    And Verivicar pantalla de error si la conexion con el MS customer-validation no se realiza correctamente
     And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
       | id_producer   |
       | cuit_teradata |
