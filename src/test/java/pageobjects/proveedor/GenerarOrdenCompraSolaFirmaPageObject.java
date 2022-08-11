@@ -30,4 +30,11 @@ public class GenerarOrdenCompraSolaFirmaPageObject {
     public static final By.ByClassName SIMULATION_CARD_CONTAINER = new By.ByClassName("simulation_voucher__card");
     public static final By.ByCssSelector CONFIRMAR_MEDIO_PAGO_BUTTON = new By.ByCssSelector("div.modalviewer.modalviewer__aside div.modalcontent.modalcontent__aside.modalcontent__aside_active div.aside_modal div.aside_modal__footer > button.button__container.button__container_primary");
     public static final By.ByClassName X_BUTTON = new By.ByClassName("aside_modal__icon");
+    public static final By.ByClassName CUIT_INCORRECTO_TEXT = new By.ByClassName("input__container__helper_text_error");
+    public static final By.ByClassName AHORA_NO_ES_POSIBLE_TITTLE = new By.ByClassName("error_page__title");
+    public static final By.ByClassName REVISA_TU_CONEXION_SUBTITTLE = new By.ByClassName("error_page__subtitle");
+    public static final By.ByClassName LOGO_ERROR_STATE = new By.ByClassName("rural-agro-icon-info");
+    public static final By.ByTagName BUTTON_CONTAINER_ERROR_SCREEN = new By.ByTagName("button");
+    public static final By.ByClassName CUIT_NO_AUTORIZADO_TITTLE = new By.ByClassName("card_icon_title__disabled");
+    public static final By.ByClassName ESTE_CUIT_NO_CUMPLE_TITTLE = new By.ByClassName("card_icon_description__disabled");
 }

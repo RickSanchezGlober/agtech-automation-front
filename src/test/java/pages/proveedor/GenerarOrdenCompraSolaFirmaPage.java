@@ -5,10 +5,12 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import pageobjects.productor.ListadoOrdenesPageObject;
 import pageobjects.proveedor.GenerarOrdenCompraSolaFirmaContactoPageObject;
 import pageobjects.proveedor.GenerarOrdenCompraSolaFirmaPageObject;
 import pages.BasePage;
 import utils.DataGenerator;
+import utils.RestAssuredExtension;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -71,11 +73,14 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void fillField(String text, String field) {
-        explicitWait(GenerarOrdenCompraSolaFirmaPageObject.NUEVA_ORDEN_PAGO_HEADER);
+        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.NUEVA_ORDEN_PAGO_HEADER, "10");
         By element = null;
         switch (field) {
             case "Ingresá el CUIT":
                 element = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_CUIT_INPUT;
+                if (text.contains("Inválido")) {
+                    text = DataGenerator.getNumber(11);
+                }
                 break;
             case "Descripción":
                 element = GenerarOrdenCompraSolaFirmaPageObject.DESCRIPCION_INPUT;
@@ -97,6 +102,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 }
                 break;
         }
+        clear(element);
         write(element, text);
     }
 
@@ -194,7 +200,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                     log.info(FIELDS + " " + FIELDS_TEXT);
 
                                     // VALIDATIONS
-                                    Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
+                                    Assert.assertTrue(FIELDS_TEXT.toLowerCase().contains(VALUES.toLowerCase()));
 
                                 } catch (InterruptedException | NullPointerException e) {
                                     e.printStackTrace();
@@ -393,8 +399,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 break;
         }
         write(webElement, randomNumbers);
-        //restamos 3 pq se autocompleta con 3 comas
-        return getAttribute(webElement, "value").length() - 3 == intQuantity;
+        //restamos 6 pq se autocompleta con 3 puntos + 1 coma + $ y espacio en blanco
+        return getAttribute(webElement, "value").length() - 6 == intQuantity;
     }
 
     public boolean checkWritingSpecialCharacters(String field) {
@@ -418,5 +424,58 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             cantDecimalPlaces = i;
         }
         return cantDecimalPlaces == Integer.parseInt(quantity);
+    }
+
+    public boolean checkErrorMessage(String messageError) {
+        By webElement = GenerarOrdenCompraSolaFirmaPageObject.CUIT_INCORRECTO_TEXT;
+        return verifyVisibleText(webElement, messageError);
+    }
+
+    public void chekErrorScreen(String cuit) {
+        getAcessTokenFromApiServices("bff", "auth/login");
+        response = RestAssuredExtension.getMethod("bff", "customer-validation/" + cuit, getAccess_token());
+        if (response.getStatusCode() != 200) {
+            waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE, "5");
+            String ahoraTitle = "Ahora no es posible mostrar información";
+            log.info(String.format("Verificando que se muestre '%s'", ahoraTitle));
+            Assert.assertTrue(verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE, ahoraTitle));
+
+            String revisaTitle = "Revisá tu conexión a internet o intenta nuevamente más tarde.";
+            log.info(String.format("Verificando que se muestre '%s'", revisaTitle));
+            Assert.assertTrue(verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.REVISA_TU_CONEXION_SUBTITTLE, revisaTitle));
+
+            log.info(String.format("Verificando que se muestre '%s'", "El logo de error"));
+            Assert.assertTrue(isDisplayed(GenerarOrdenCompraSolaFirmaPageObject.LOGO_ERROR_STATE));
+
+            List<WebElement> elementList = driver.findElements(GenerarOrdenCompraSolaFirmaPageObject.BUTTON_CONTAINER_ERROR_SCREEN);
+
+            boolean isVisibleTextButtonIntentar = false;
+            boolean isVisibleTextButtonVolver = false;
+            for (int i = 0; i < elementList.size(); i++) {
+                if (elementList.get(i).getText().contains("Intentar nuevamente")) {
+                    isVisibleTextButtonIntentar = true;
+                } else if (elementList.get(i).getText().contains("Volver a órdenes")) {
+                    isVisibleTextButtonVolver = true;
+                }
+            }
+            log.info(String.format("Verificando que se muestre '%s'", "El boton Intentar nuevamente"));
+            Assert.assertTrue(isVisibleTextButtonIntentar);
+            log.info(String.format("Verificando que se muestre '%s'", "El boton Volver a órdenes"));
+            Assert.assertTrue(isVisibleTextButtonVolver);
+
+            int j = 0;
+            while (j < 3 && isDisplayed(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE)) {
+                elementList.get(3).click();
+                click(GenerarOrdenCompraSolaFirmaPageObject.BUSCAR_BUTTON);
+                sleep(1);
+                j++;
+            }
+        }
+    }
+
+    public boolean chekErrorScreenUnauthorisedCuit() {
+        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.CUIT_NO_AUTORIZADO_TITTLE,"30");
+        return verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CUIT_NO_AUTORIZADO_TITTLE,"CUIT No Autorizado")
+                &&verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.ESTE_CUIT_NO_CUMPLE_TITTLE,"Este cuit no cumple con alguno de los requisitos de los medios de pago disponible");
     }
 }

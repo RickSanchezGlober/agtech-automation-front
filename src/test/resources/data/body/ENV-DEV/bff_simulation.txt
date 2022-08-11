@@ -1,6 +1,6 @@
 {
     "cuit": "30597962793",
-    "id_convenio":"60dcdfb504b2ee00015fa6e4",
+    "id_convenio":"62caef6e2f66920001d2e2fc",
     "monto":"1001",
     "product_id":"1"
 }

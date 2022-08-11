@@ -4,12 +4,14 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
   Background:
     Given Se navega al portal New Agro proveedor
     And Usuario logueado en el portal New Agro
-    And El proveedor hace click en el botón Crear Orden
+    When El proveedor hace click en el botón Crear Orden
 
-  @TEST_ID_AG-529 @TEST_ID_AG-530 @regression
+  @TEST_ID_AG-529 @TEST_ID_AG-530 @TEST_SET_ID_AG-2078 @regression @prueba
+
   Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar pantalla nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar ingreso de CUIT nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar busqueda de productor asociado al CUIT valido
+  Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar Error State búsqueda de CUIT
     Then El proveedor visualiza el boton Buscar Deshabilitado
     And El proveedor visualiza Ingresá el CUIT en la pantalla Identificación de cliente
     And El proveedor visualiza Escribí 11 números en la pantalla Identificación de cliente
@@ -17,6 +19,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And Se lee el cuit en formato correcto
     And El proveedor visualiza el boton Buscar Habilitado
     And El proveedor hace click en el botón Buscar
+    And Verificar pantalla de error si la conexion con el MS customer-validation no se realiza correctamente
     And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
       | id_producer   |
       | cuit_teradata |
@@ -73,7 +76,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor seleciona medio de pago Crédito a sola firma
     Then El proveedor visualiza el boton Simular Crédito Deshabilitado
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
-    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Septiembre 2022
+    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Julio 2023
     And El proveedor hace click en el botón Simular Crédito
     And Validar datos de servicios api bff con ruta simulation con body bff_simulation.txt
       | TNA del crédito            | tna         |
@@ -101,9 +104,9 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor seleciona medio de pago Crédito a sola firma
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
     And Se permite ingresar hasta 2 decimales
-    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Septiembre 2022
+    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Julio 2023
     And El proveedor hace click en el botón Simular Crédito
-    And El proveedor cambia en subsidio de tasa opcion Sub 8% Vto Septiembre 2022
+    And El proveedor cambia en subsidio de tasa opcion Sub 8% Vto Julio 2023
     And El proveedor visualiza el boton Simular Crédito Habilitado
     Then El proveedor no visualiza el boton Confirmar medio de pago
 
@@ -117,9 +120,17 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor ingresa Descripción Válida en el campo Descripción
     And El proveedor hace click en el botón Continuar
     And El proveedor seleciona medio de pago Crédito a sola firma
-    #en este paso se intentan ingresar 13 o 14 digitos
-    # bug 1271 reportado
-#    And No se puede ingresar mas de 12 digitos en el campo Ingresá el monto del crédito
+    And No se puede ingresar mas de 12 digitos en el campo Ingresá el monto del crédito
     Then Imposible escribir caracteres especiales en el campo Ingresá el monto del crédito
     And El proveedor hace click en el botón X
     And El proveedor no visualiza el boton Simular Crédito
+
+  @TEST_ID_AG-2049 @TEST_ID_AG-2089
+  Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente (Formato NO válido) - Validar error CUIT formato no valido
+  Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar CUIT de productor con requisitos insuficientes
+    And El proveedor ingresa CUIT Inválido en el campo Ingresá el CUIT
+    #El mensaje debe ser "CUIT no válido", bug reportado
+    Then Se visualiza el mensaje de error El número de CUIT es incorrecto
+    And El proveedor ingresa 30714048186 en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And Se visualiza pantalla de error Cuit no autorizado
