@@ -8,7 +8,7 @@ import org.json.simple.JSONValue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import pageobjects.proveedor.ListadoOrdenesPageObject;
+import pageobjects.proveedor.ListadoOrdenesProveedorPageObject;
 import pages.BasePage;
 import utils.RestAssuredExtension;
 
@@ -18,32 +18,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListadoOrdenesPage extends BasePage {
+public class ListadoOrdenesProveedorPage extends BasePage {
     public static int pos;
     public static List<WebElement> elementList;
     public static String FIELD_TEXT_UI;
 
-    public ListadoOrdenesPage() {
+    public ListadoOrdenesProveedorPage() {
         super();
         pos = 0;
     }
 
     public boolean verifyVisibleElementsOrdersScreen(List<List<String>> t_table) {
         By byElement = null;
-        explicitWait(ListadoOrdenesPageObject.BUSCAR_CUIT_NOMBRE_INPUT);
+        explicitWait(ListadoOrdenesProveedorPageObject.BUSCAR_CUIT_NOMBRE_INPUT);
         List<Boolean> resultList = new ArrayList<>();
         for (int i = 0; i < t_table.size(); i++) {
             String elementName = t_table.get(i).get(0);
             log.info(String.format("Buscando el elemento '%s'", elementName));
             switch (elementName) {
                 case "el buscador Buscar CUIT o nombre de cliente":
-                    byElement = ListadoOrdenesPageObject.BUSCAR_CUIT_NOMBRE_INPUT;
+                    byElement = ListadoOrdenesProveedorPageObject.BUSCAR_CUIT_NOMBRE_INPUT;
                     resultList.add(getAttribute(byElement, "placeholder").equalsIgnoreCase("Buscar CUIT o nombre de cliente"));
                     break;
                 case "el boton Exportar":
                 case "el boton Filtrar":
                 case "el boton Crear Orden":
-                    resultList.add(findElementOrdesScreen(elementName.replace("el boton ", ""), ListadoOrdenesPageObject.BUTTON_CONTAINER_PANTALLA_ORDENES));
+                    resultList.add(findElementOrdesScreen(elementName.replace("el boton ", ""), ListadoOrdenesProveedorPageObject.BUTTON_CONTAINER_PANTALLA_ORDENES));
                     break;
                 case "la columna Creación":
                 case "la columna Cliente":
@@ -51,11 +51,11 @@ public class ListadoOrdenesPage extends BasePage {
                 case "la columna Medio de Pago":
                 case "la columna Monto total":
                 case "la columna Estado":
-                    resultList.add(findElementOrdesScreen(elementName.replace("la columna ", ""), ListadoOrdenesPageObject.ENCABEZADO_TABLA_CONTAINER_PANTALLA_ORDENES));
+                    resultList.add(findElementOrdesScreen(elementName.replace("la columna ", ""), ListadoOrdenesProveedorPageObject.ENCABEZADO_TABLA_CONTAINER_PANTALLA_ORDENES));
                     break;
                 case "los botones >":
                     //Cambiar esto cuando en Ver todas se vean mas de 4 ordenes
-                    List<WebElement> elementList = driver.findElements(ListadoOrdenesPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
+                    List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
                     resultList.add(elementList.size() > 0);
                     break;
             }
@@ -87,7 +87,7 @@ public class ListadoOrdenesPage extends BasePage {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
         getAcessTokenFromApiServices("bff", "auth/login");
         response = RestAssuredExtension.getMethodWithParams(sourceApi, path, t_table, getAccess_token());
-        explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);
+        explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         try {
             ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
             list.stream().forEach(dataEntry -> getObjectAllOrder(dataEntry));
@@ -106,7 +106,7 @@ public class ListadoOrdenesPage extends BasePage {
             e.printStackTrace();
         }
         //Texto de la ultima operacion, UI
-        elementList = driver.findElements(ListadoOrdenesPageObject.ORDENES_CONTAINER);
+        elementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         FIELD_TEXT_UI = elementList.get(pos).getText();
 
         //STATUS
@@ -153,8 +153,8 @@ public class ListadoOrdenesPage extends BasePage {
     }
 
     public boolean verifyMaxNumberOrders(String orderQuantity) {
-        explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);
-        List<WebElement> elementList = driver.findElements(ListadoOrdenesPageObject.ORDENES_CONTAINER);
+        explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         log.info(String.format("Verificando que se muestren máximo '%s' órdenes", orderQuantity));
         return (elementList.size() <= Integer.parseInt(orderQuantity));
     }
