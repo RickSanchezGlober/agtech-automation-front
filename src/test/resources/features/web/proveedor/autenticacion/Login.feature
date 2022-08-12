@@ -1,13 +1,13 @@
-@onboarding @productor @login @loginProductor
-Feature: Login
+@onboarding @proveedor @loginproveedor
+Feature: Productor - Login
 
   Background:
-  Given Se navega al portal New Agro productor
+    Given Se navega al portal New Agro proveedor
 
   @regression
-  Scenario: Verificar login exitoso productor
+  Scenario: Verificar login exitoso proveedor
     Given Se ingresa con usuario cristian.duque@globant.com y password Colombia123
-    Then Se logueo y visualiza el mensaje Te damos la bienvenida a Agtech
+    Then El proveedor visualiza el mensaje Hola Cencosud S.A.
 
   @regression
   Scenario Outline: Usuario no se puede autenticar con credenciales invalidas
@@ -15,16 +15,17 @@ Feature: Login
     Then Se espera que se deniegue el acceso con <reason>
 
     Examples:
-    |user                      |password     |reason|
-    |cristian.duque@globant.com|badpassword  |credenciales_incorrectas|
-    |bob4@bob.com               |testing123  |credenciales_incorrectas|
-    |cristian.duqye@globant.com|             |boton_deshabilitado     |
-    |                          |testing123   |boton_deshabilitado     |
-    |                          |             |boton_deshabilitado     |
+      |user                      |password     |reason|
+      |cristian.duque@globant.com|badpassword  |credenciales_incorrectas|
+      |bob4@bob.com               |testing123  |credenciales_incorrectas|
+      |cristian.duqye@globant.com|             |boton_deshabilitado     |
+      |                          |testing123   |boton_deshabilitado     |
+      |                          |             |boton_deshabilitado     |
 
   @regression
   Scenario: Usuario puede desloguearse del portal
     Given Usuario logueado en el portal New Agro
+    When El proveedor visualiza el mensaje Hola Cencosud S.A.
     When Se hace click sobre el botón Cerrar sesión
     Then Se deslogueo y visualiza el mensaje Inicio de sesión
 
@@ -38,6 +39,3 @@ Feature: Login
       |process |button          |
       |login   |Iniciar sesion  |
       |signup  |Registrarse     |
-
-
-

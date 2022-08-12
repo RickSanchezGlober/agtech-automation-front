@@ -28,9 +28,15 @@ public class LoginSteps {
         loginPage.clickOnButtonByName(buttonName);
     }
 
+
     @Given("^Se ingresa con usuario (.*) y password (.*)$")
     public void loginUserPasswd(String user, String password) {
         loginPage.loginWithUserPasswd(user, password);
+    }
+
+    @Given("^Se loguea con usuario (.*) y password (.*)$")
+    public void loginUserPasswdAfter(String user, String password) {
+        loginPage.loginWithUserPasswdAfter(user, password);
     }
 
     @Then("^Se (.*) y visualiza el mensaje (.*)$")

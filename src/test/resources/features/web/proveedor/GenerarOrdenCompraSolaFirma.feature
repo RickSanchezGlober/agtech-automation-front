@@ -7,6 +7,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     When El proveedor hace click en el botón Crear Orden
 
   @TEST_ID_AG-529 @TEST_ID_AG-530 @TEST_SET_ID_AG-2078 @regression @prueba
+
   Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar pantalla nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar ingreso de CUIT nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar busqueda de productor asociado al CUIT valido
@@ -29,7 +30,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
       | name          |
       | cuit_teradata |
 
-  @TEST_ID_AG-533 @TEST_ID_AG-534 @TEST_ID_AG-535 @TEST_ID_AG-536 @regression @prueba
+  @TEST_ID_AG-533 @TEST_ID_AG-534 @TEST_ID_AG-535 @TEST_ID_AG-536 @regression
   Scenario: Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar pantalla de Descripcion de la orden
   Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar largo del campo alfanumerico descripcion
   Proveedor - Generar Orden de Compra - Descripción de la Orden - Validar habilitacion del boton Continuar
