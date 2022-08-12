@@ -101,7 +101,6 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 }
                 break;
         }
-//        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.NUEVA_ORDEN_PAGO_HEADER, "40");
         waitVisibility(element, "40");
         clear(element);
         write(element, text);
