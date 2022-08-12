@@ -130,7 +130,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar CUIT de productor con requisitos insuficientes
     And El proveedor ingresa CUIT Inválido en el campo Ingresá el CUIT
     #El mensaje debe ser "CUIT no válido", bug reportado
-    Then Se visualiza el mensaje de error El número de CUIT es incorrecto
+    Then El proveedor ve el mensaje de error El número de CUIT es incorrecto
     And El proveedor ingresa 30714048186 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And Se visualiza pantalla de error Cuit no autorizado

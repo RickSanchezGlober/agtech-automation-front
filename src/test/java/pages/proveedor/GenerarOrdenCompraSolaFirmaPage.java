@@ -142,7 +142,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 element = GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON;
                 break;
         }
-        waitVisibility(element, "5");
+        waitVisibility(element, "40");
         return isEnabled(element);
     }
 
@@ -312,7 +312,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                     VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + "%";
                                 } else if (FIELDS.contains("Total Crédito a sola firma")) {
                                     String numberS = parseFromDoubleToString(VALUES, 2);
-                                    VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
+//                                    Ya no viene la oracion 'Total Crédito a sola firma'
+//                                    VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
+                                    VALUES = " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                 } else if (FIELDS.contains("Cuota única, vencimiento:")) {
                                     VALUES = FIELDS + " " + getDateStringFormat(VALUES);
                                 }
