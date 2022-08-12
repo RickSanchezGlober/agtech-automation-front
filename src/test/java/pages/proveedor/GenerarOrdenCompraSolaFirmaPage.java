@@ -61,7 +61,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 element = GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON;
                 break;
         }
-        waitVisibility(element, "30");
+        waitVisibility(element, "40");
         click(element);
 
         //En ocaciones es necesario hacer click más de una vez en Simular Credito
@@ -501,14 +501,19 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             List<WebElement> elementList = driver.findElements(GenerarOrdenCompraSolaFirmaPageObject.BUTTON_CONTAINER_ERROR_SCREEN);
 
             boolean isVisibleTextButtonIntentar = false;
-            for (int i = 0; i < elementList.size(); i++) {
-                if (elementList.get(i).getText().contains("Intentar nuevamente")) {
+            int count = 0;
+            while (count < elementList.size()) {
+                if (elementList.get(count).getText().contains("Intentar nuevamente")) {
                     isVisibleTextButtonIntentar = true;
                     break;
                 }
+                count++;
             }
             log.info(String.format("Verificando que se muestre '%s'", "El boton Intentar nuevamente"));
             Assert.assertTrue(isVisibleTextButtonIntentar);
+
+            elementList.get(count).click();
+            Assert.assertFalse(waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE, "1"));
         } else {
             Assert.assertTrue(verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "Crédito a sola firma"));
         }
