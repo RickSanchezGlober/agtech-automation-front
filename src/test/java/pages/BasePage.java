@@ -27,8 +27,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.cucumber.datatable.DataTable;
 import io.qameta.allure.Attachment;
-import pageobjects.productor.LoginPageObject;
-import pageobjects.proveedor.HomePageObject;
+import pageobjects.productor.autenticacion.LoginPageObject;
+import pageobjects.proveedor.autenticacion.HomePageObject;
 import steps.Hook;
 import utils.RestAssuredExtension;
 
