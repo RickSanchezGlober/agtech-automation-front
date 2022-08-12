@@ -66,4 +66,8 @@ public class GenerarOrdenCompraSolaFirmaContactoSteps {
     public void verifyOrderGeneratedScreen() {
         Assert.assertTrue(generarOrdenCompraSolaFirmaContactoPage.verifyOrderGeneratedScreen());
     }
+    @Then("^Se visualiza mensaje de error")
+    public void verifyScreenErrorMail() {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaContactoPage.verifyScreenErrorMail());
+    }
 }

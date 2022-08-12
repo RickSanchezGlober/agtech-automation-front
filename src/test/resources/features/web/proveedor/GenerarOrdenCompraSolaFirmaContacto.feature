@@ -4,7 +4,7 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
   Background:
     Given Se navega al portal New Agro proveedor
     And Usuario logueado en el portal New Agro
-    And El proveedor hace click en el botón Crear Orden
+    When El proveedor hace click en el botón Crear Orden
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado
@@ -93,4 +93,14 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     Then Se visualiza la pantalla de Orden generada y enviada exitosamente
     And El proveedor hace click en el botón Ir a órdenes
     #Al presionar el boton "Ir a órdenes" deberia ir a a la home, bug reportado en la 525
+
+  @TEST_SET_ID_AG-2153 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Formato del mail incorrecto - Validar error formato del mail incorrecto
+    And Se llena el campo Nombre y Apellido con valor Válidos
+    And Se llena el campo Correo electrónico con valor Inválido
+    And Se llena el campo Cód de área con valor Válido
+    And Se llena el campo Número de celular con valor Válido
+    And El proveedor hace click en el botón Continuar
+    Then Se visualiza mensaje de error
+
   

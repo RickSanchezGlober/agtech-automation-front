@@ -18,4 +18,5 @@ public class GenerarOrdenCompraSolaFirmaContactoPageObject {
     public static final By.ByClassName RECIBIRAS_NOTIFICACION_SUBTITLE = new By.ByClassName("confirmation_page__container__subtitle");
     public static final By.ByTagName CONFIRMATION_ICON = new By.ByTagName("i");
     public static final By.ByTagName IR_A_ORDENES_BUTTON = new By.ByTagName("button");
+    public static final By.ByClassName CORREO_NO_VALIDO_TEXT = new By.ByClassName("input__container__helper_text_error");
 }

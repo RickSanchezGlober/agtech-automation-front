@@ -271,4 +271,9 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                 && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
                 && isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON);
     }
+
+    public boolean verifyScreenErrorMail() {
+        return verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.CORREO_NO_VALIDO_TEXT,"Correo electrónico no válido")
+                &&!isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.CONTINUAR_BUTTON);
+    }
 }
