@@ -130,4 +130,8 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     public void chekErrorScreenUnauthorisedCuit() {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.chekErrorScreenUnauthorisedCuit());
     }
+    @And("^Verificar pantalla de error si la conexion con el MS agreement no se realiza correctamente$")
+    public void chekErrorScreenPaymentMethod() {
+        generarOrdenCompraSolaFirmaPage.chekErrorScreenPaymentMethod();
+    }
 }

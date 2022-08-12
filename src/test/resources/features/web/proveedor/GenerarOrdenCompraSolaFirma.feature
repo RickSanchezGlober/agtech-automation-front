@@ -93,7 +93,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor no visualiza el boton Confirmar medio de pago
 
 
-  @TEST_ID_AG-1279 @TEST_ID_AG-1270
+  @TEST_ID_AG-1279 @TEST_ID_AG-1270 @regression
   Scenario: Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Verifico modificación en el campo convenio
   Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar Monto con decimales
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
@@ -110,7 +110,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor visualiza el boton Simular Crédito Habilitado
     Then El proveedor no visualiza el boton Confirmar medio de pago
 
-  @TEST_ID_AG-542 @TEST_ID_AG-622 @TEST_ID_AG-1379
+  @TEST_ID_AG-542 @TEST_ID_AG-622 @TEST_ID_AG-1379 @regression
   Scenario: Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar largo del campo numerico Monto
   Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar Monto negativo
   Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado - Validar botón cerrar
@@ -125,7 +125,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor hace click en el botón X
     And El proveedor no visualiza el boton Simular Crédito
 
-  @TEST_ID_AG-2049 @TEST_ID_AG-2089
+  @TEST_ID_AG-2049 @TEST_ID_AG-2089 @regression
   Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente (Formato NO válido) - Validar error CUIT formato no valido
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar CUIT de productor con requisitos insuficientes
     And El proveedor ingresa CUIT Inválido en el campo Ingresá el CUIT
@@ -134,3 +134,14 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor ingresa 30714048186 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And Se visualiza pantalla de error Cuit no autorizado
+
+  @TEST_ID_AG-2145 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Selección del Medio de Pago - Validar Error State en Selección del Medio de Pago
+  Proveedor - Generar Orden de Compra - Selección del Medio de Pago - Validar el botón "Intentar nuevamente"
+    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And El proveedor hace click en el botón del Productor encontrado
+    And El proveedor ingresa Descripción Válida en el campo Descripción
+    And El proveedor hace click en el botón Continuar
+    And El proveedor seleciona medio de pago Crédito a sola firma
+    Then Verificar pantalla de error si la conexion con el MS agreement no se realiza correctamente

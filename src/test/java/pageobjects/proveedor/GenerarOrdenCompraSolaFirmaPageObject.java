@@ -37,4 +37,5 @@ public class GenerarOrdenCompraSolaFirmaPageObject {
     public static final By.ByTagName BUTTON_CONTAINER_ERROR_SCREEN = new By.ByTagName("button");
     public static final By.ByClassName CUIT_NO_AUTORIZADO_TITTLE = new By.ByClassName("card_icon_title__disabled");
     public static final By.ByClassName ESTE_CUIT_NO_CUMPLE_TITTLE = new By.ByClassName("card_icon_description__disabled");
+    public static final By.ByClassName CREDITO_SOLA_FIRMA_TITLE = new By.ByClassName("aside_modal__title");
 }

@@ -481,4 +481,36 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
         return verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CUIT_NO_AUTORIZADO_TITTLE, "CUIT No Autorizado")
                 && verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.ESTE_CUIT_NO_CUMPLE_TITTLE, "Este cuit no cumple con alguno de los requisitos de los medios de pago disponible");
     }
+
+    public void chekErrorScreenPaymentMethod() {
+        getAcessTokenFromApiServices("bff", "auth/login");
+        response = RestAssuredExtension.getMethod("bff", "agreement?payment_method=2&provider_id=116", getAccess_token());
+        if (response.getStatusCode() != 200) {
+            waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE, "20");
+            String ahoraTitle = "Ahora no es posible mostrar información";
+            log.info(String.format("Verificando que se muestre '%s'", ahoraTitle));
+            Assert.assertTrue(verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE, ahoraTitle));
+
+            String revisaTitle = "Revisá tu conexión a internet o intenta nuevamente más tarde.";
+            log.info(String.format("Verificando que se muestre '%s'", revisaTitle));
+            Assert.assertTrue(verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.REVISA_TU_CONEXION_SUBTITTLE, revisaTitle));
+
+            log.info(String.format("Verificando que se muestre '%s'", "El logo de error"));
+            Assert.assertTrue(isDisplayed(GenerarOrdenCompraSolaFirmaPageObject.LOGO_ERROR_STATE));
+
+            List<WebElement> elementList = driver.findElements(GenerarOrdenCompraSolaFirmaPageObject.BUTTON_CONTAINER_ERROR_SCREEN);
+
+            boolean isVisibleTextButtonIntentar = false;
+            for (int i = 0; i < elementList.size(); i++) {
+                if (elementList.get(i).getText().contains("Intentar nuevamente")) {
+                    isVisibleTextButtonIntentar = true;
+                    break;
+                }
+            }
+            log.info(String.format("Verificando que se muestre '%s'", "El boton Intentar nuevamente"));
+            Assert.assertTrue(isVisibleTextButtonIntentar);
+        } else {
+            Assert.assertTrue(verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "Crédito a sola firma"));
+        }
+    }
 }
