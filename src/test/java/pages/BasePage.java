@@ -377,7 +377,6 @@ public class BasePage {
 
     public boolean verifyVisibleText(By locator, String textToCompare) {
         explicitWait(locator);
-        log.info("acacacacacacacacacacacaca");
         log.info(textToCompare);
         log.info(Find(locator).getText());
         return Find(locator).getText().equals(textToCompare);
