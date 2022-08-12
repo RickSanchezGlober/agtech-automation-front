@@ -22,6 +22,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
     public static int pos;
     public static List<WebElement> elementList;
     public static String FIELD_TEXT_UI;
+    public static String searchCriteria;
 
     public ListadoOrdenesProveedorPage() {
         super();
@@ -83,10 +84,10 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         return isVisibleButton;
     }
 
-    public void getDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
+    public void checkDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
         getAcessTokenFromApiServices("bff", "auth/login");
-        response = RestAssuredExtension.getMethodWithParams(sourceApi, path, t_table, getAccess_token());
+        response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
         explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         try {
             ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
@@ -157,5 +158,50 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         log.info(String.format("Verificando que se muestren máximo '%s' órdenes", orderQuantity));
         return (elementList.size() <= Integer.parseInt(orderQuantity));
+    }
+
+    public void doSearchByCuitName(String searchCriteria, String criteriaStatus) {
+        if (searchCriteria.equalsIgnoreCase("cuit") && criteriaStatus.equalsIgnoreCase("existente")) {
+            searchCriteria = response.getBody().jsonPath().get("result.producer[0].cuit");
+        } else if (searchCriteria.equalsIgnoreCase("nombre del cliente") && criteriaStatus.equalsIgnoreCase("existente")) {
+            searchCriteria = response.getBody().jsonPath().get("result.producer[0].name");
+        } else if (searchCriteria.equalsIgnoreCase("cuit parcial") && criteriaStatus.equalsIgnoreCase("existente")) {
+            searchCriteria = response.getBody().jsonPath().get("result.producer[0].cuit").toString().substring(0, 2);
+        }
+        this.searchCriteria = searchCriteria;
+        fillField(searchCriteria, "Buscar CUIT o nombre de cliente");
+        click(ListadoOrdenesProveedorPageObject.LUPA_BUTTON);
+    }
+
+    public void fillField(String text, String field) {
+        By element = null;
+        switch (field) {
+            case "Buscar CUIT o nombre de cliente":
+                element = ListadoOrdenesProveedorPageObject.BUSCAR_CUIT_NOMBRE_INPUT;
+                break;
+        }
+        waitVisibility(element, "40");
+        clear(element);
+        write(element, text);
+    }
+
+    public void checkCorrectResultDisplayed() {
+        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "5");
+        List<WebElement> listWebElement = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+        if (listWebElement.size() != 0) {
+            for (int i = 0; i < listWebElement.size(); i++) {
+                log.info(String.format("Verificando que se muestre en la orden '%s' el criterio '%s'", (i + 1), searchCriteria));
+                Assert.assertTrue(listWebElement.get(i).getText().toLowerCase().replaceAll("-", "").contains(searchCriteria.toLowerCase()));
+            }
+        } else {
+            Assert.fail("La busqueda no arroja resultados");
+        }
+
+    }
+
+    public void getDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
+        log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
+        getAcessTokenFromApiServices("bff", "auth/login");
+        response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
     }
 }

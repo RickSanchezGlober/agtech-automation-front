@@ -16,11 +16,23 @@ public class ListadoOrdenesProveedorSteps {
         Assert.assertTrue(listadoOrdenesProveedorPage.verifyVisibleElementsOrdersScreen(t_table));
     }
     @When("^Comprobar datos de servicio api que lista todas las ordenes (.*) con ruta (.*) y parámetros$")
+    public void checkDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
+        listadoOrdenesProveedorPage.checkDataFromApiServicesAllOrders(sourceApi, path, t_table);
+    }
+    @When("^Consumir api que lista todas las ordenes (.*) con ruta (.*) y parámetros$")
     public void getDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
         listadoOrdenesProveedorPage.getDataFromApiServicesAllOrders(sourceApi, path, t_table);
     }
     @And("^Se visualizan un máximo de (.*) órdenes$")
     public void verifyMaxNumberOrders(String orderQuantity) {
         Assert.assertTrue(listadoOrdenesProveedorPage.verifyMaxNumberOrders(orderQuantity));
+    }
+    @And("^Se hace una busqueda por (.*) (.*)$")
+    public void doSearchByCuitName(String searchCriteria,String criteriaStatus) {
+        listadoOrdenesProveedorPage.doSearchByCuitName(searchCriteria,criteriaStatus);
+    }
+    @And("^Se verifica que se muestren resultados correctos$")
+    public void checkCorrectResultDisplayed() {
+        listadoOrdenesProveedorPage.checkCorrectResultDisplayed();
     }
 }
