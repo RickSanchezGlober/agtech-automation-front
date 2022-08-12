@@ -73,7 +73,6 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void fillField(String text, String field) {
-        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.NUEVA_ORDEN_PAGO_HEADER, "10");
         By element = null;
         switch (field) {
             case "Ingresá el CUIT":
@@ -102,6 +101,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 }
                 break;
         }
+        waitVisibility(element, "40");
         clear(element);
         write(element, text);
     }
@@ -142,7 +142,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 element = GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON;
                 break;
         }
-        waitVisibility(element, "5");
+        waitVisibility(element, "40");
         return isEnabled(element);
     }
 
@@ -275,6 +275,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void selectOptionFromDropDownList(String dropDownName, String option) {
+        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.SIMULAR_CREDITO_BUTTON, "30");
         Select dropDownList = null;
         switch (dropDownName) {
             case "subsidio de tasa":
@@ -311,7 +312,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                     VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + "%";
                                 } else if (FIELDS.contains("Total Crédito a sola firma")) {
                                     String numberS = parseFromDoubleToString(VALUES, 2);
-                                    VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
+//                                    Ya no viene la oracion 'Total Crédito a sola firma'
+//                                    VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
+                                    VALUES = " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                 } else if (FIELDS.contains("Cuota única, vencimiento:")) {
                                     VALUES = FIELDS + " " + getDateStringFormat(VALUES);
                                 }
@@ -474,8 +477,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public boolean chekErrorScreenUnauthorisedCuit() {
-        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.CUIT_NO_AUTORIZADO_TITTLE,"30");
-        return verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CUIT_NO_AUTORIZADO_TITTLE,"CUIT No Autorizado")
-                &&verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.ESTE_CUIT_NO_CUMPLE_TITTLE,"Este cuit no cumple con alguno de los requisitos de los medios de pago disponible");
+        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.CUIT_NO_AUTORIZADO_TITTLE, "30");
+        return verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CUIT_NO_AUTORIZADO_TITTLE, "CUIT No Autorizado")
+                && verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.ESTE_CUIT_NO_CUMPLE_TITTLE, "Este cuit no cumple con alguno de los requisitos de los medios de pago disponible");
     }
 }

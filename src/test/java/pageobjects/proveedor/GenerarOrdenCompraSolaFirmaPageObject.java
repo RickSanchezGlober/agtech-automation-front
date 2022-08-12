@@ -24,7 +24,7 @@ public class GenerarOrdenCompraSolaFirmaPageObject {
     public static final By.ByClassName PAYMENT_CARD_BANK_LOGO_CONTAINER = new By.ByClassName("payment_card__bank_logo");
     public static final By.ByClassName PAYMENT_CARD_BANK_NAME_CONTAINER = new By.ByClassName("payment_card__bank_name");
     public static final By.ById INGRESA_EL_MONTO_CREDITO_INPUT = new By.ById("amount");
-    public static final By.ByClassName SUBSIDIO_TASA_DROP_DOWN_LIST = new By.ByClassName("select_input__input");
+    public static final By.ByClassName SUBSIDIO_TASA_DROP_DOWN_LIST = new By.ByClassName("select_input__primary");
     public static final By.ByClassName SIMULAR_CREDITO_BUTTON = new By.ByClassName("button__container_secondary");
     public static final By.ByClassName RESULTADO_SIMULACION_TEXT = new By.ByClassName("simulation_voucher__result");
     public static final By.ByClassName SIMULATION_CARD_CONTAINER = new By.ByClassName("simulation_voucher__card");

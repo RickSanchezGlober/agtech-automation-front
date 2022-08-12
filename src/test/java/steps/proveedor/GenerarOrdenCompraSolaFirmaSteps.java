@@ -118,7 +118,7 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     public void checkEnterDecimalPLaces(String quantity) {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkEnterDecimalPLaces(quantity));
     }
-    @And("^Se visualiza el mensaje de error (.*)$")
+    @And("^El proveedor ve el mensaje de error (.*)$")
     public void checkErrorMessage(String messageError) {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkErrorMessage(messageError));
     }
