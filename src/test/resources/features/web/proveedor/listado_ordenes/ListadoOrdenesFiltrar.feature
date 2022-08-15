@@ -16,8 +16,8 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
     #Faltan algunos elementos que faltan, bug reportado
       | el titulo Filtros de órdenes            |
       | el titulo Fecha de creación de la orden |
-#      | los campos Desde, Hasta              |
-#      | el logo Calendario                   |
+      | los campos Desde, Hasta                 |
+#      | el logo Calendario                      |
       | el titulo Estado                        |
       | el check Pendiente                      |
       | el check Pagada                         |

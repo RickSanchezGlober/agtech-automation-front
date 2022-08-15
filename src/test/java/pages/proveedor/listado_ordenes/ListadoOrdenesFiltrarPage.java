@@ -137,6 +137,10 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
                 case "el botón Aplicar filtros":
                     resultList.add(findElementOrdesScreen(elementName.replace("el botón ", ""), ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER));
                     break;
+                case "los campos Desde, Hasta":
+                    List<WebElement> elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.DATE_PICKER_INPUT_CONTAINER);
+                    resultList.add(elementList.size() == 2);
+                    break;
             }
         }
         Boolean finalResult = true;
