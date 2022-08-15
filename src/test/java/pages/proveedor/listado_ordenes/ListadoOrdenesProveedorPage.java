@@ -3,11 +3,16 @@ package pages.proveedor.listado_ordenes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.java.sl.In;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import pageobjects.proveedor.generar_orden.GenerarOrdenCompraCesionForwardPageObject;
+import pageobjects.proveedor.listado_ordenes.HomeUltimasOperacionesPageObject;
+import pageobjects.proveedor.listado_ordenes.ListadoOrdenesFiltrarPageObject;
 import pageobjects.proveedor.listado_ordenes.ListadoOrdenesProveedorPageObject;
 import pages.BasePage;
 import utils.RestAssuredExtension;
@@ -88,6 +93,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
         getAcessTokenFromApiServices("bff", "auth/login");
         response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
+        pos = 0;
         explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         try {
             ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
@@ -110,6 +116,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         elementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         FIELD_TEXT_UI = elementList.get(pos).getText();
 
+
         //STATUS
         String FIELD_TEXT_API = data.get("status").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
@@ -124,6 +131,16 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.replaceAll("-", "").contains(FIELD_TEXT_API.replaceAll("-", "")));
 
+        //PRODUCER_NAME
+        FIELD_TEXT_API = PRODUCERS.get("name").toString();
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
+
+        //Monto de la deuda,
+        Double DOUBLE_AMOUNT = (Double) data.get("amount");
+        FIELD_TEXT_API = parseFromDoubleToString(DOUBLE_AMOUNT.toString(), 2);
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
         try {
             ArrayList list = new ArrayList<>(response.getBody().jsonPath().get(String.format("result[%s].payment_methods", pos)));
             list.stream().forEach(dataEntry1 -> getObjectPaymentMethods(dataEntry1));
@@ -146,6 +163,15 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
+        //FINANCIAL_LINE
+        if (data.get("financial_line_id").toString().equals("1")) {
+            FIELD_TEXT_API = "A solo firma";
+        } else if (data.get("financial_line_id").toString().equals("2")) {
+            FIELD_TEXT_API = "Cesión de forward";
+        }
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
+
     }
 
     private String getDateStringFormat(String stringDate) {
@@ -203,5 +229,87 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
         getAcessTokenFromApiServices("bff", "auth/login");
         response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
+    }
+
+    public boolean verifyButtonState(String buttonName, String buttonStatus) {
+        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "10");
+        boolean isEnableButton = false;
+        switch (buttonStatus) {
+            case "Deshabilitado":
+                buttonStatus = "disabled";
+                break;
+        }
+        //Si esta deshabiltado trae en class la palabra disabled
+        //Si esta habiltado no trae nada
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.COUNTER_BUTTON_CONTAINER);
+        switch (buttonName) {
+            case "<":
+                isEnableButton = elementList.get(0).getAttribute("class").contains(buttonStatus);
+                break;
+            case ">":
+                isEnableButton = !elementList.get(1).getAttribute("class").contains(buttonStatus);
+                break;
+        }
+        return isEnableButton;
+    }
+
+    public boolean moreThanXOrders(String countOrders) {
+        return (Integer) response.getBody().jsonPath().get("_pagination.total_count") > Integer.parseInt(countOrders);
+    }
+
+    public boolean checkPagingOptions() {
+        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "10");
+        boolean resultOpt1 = false;
+        boolean resultOpt2 = false;
+        boolean resultOpt3 = false;
+        Select dropDownList = new Select(driver.findElement(ListadoOrdenesProveedorPageObject.PAGINADO_SELECT));
+        List<WebElement> lisOptions = dropDownList.getOptions();
+        for (int i = 0; i < lisOptions.size(); i++) {
+            if (lisOptions.get(i).getText().equals("1 - 10")) {
+                resultOpt1 = true;
+            } else if (lisOptions.get(i).getText().equals("1 - 50")) {
+                resultOpt2 = true;
+            } else if (lisOptions.get(i).getText().equals("1 - 100")) {
+                resultOpt3 = true;
+            }
+        }
+        return resultOpt1 && resultOpt2 && resultOpt3;
+    }
+
+    public void selectPaging(String option) {
+        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "10");
+        Select dropDownList = new Select(driver.findElement(ListadoOrdenesProveedorPageObject.PAGINADO_SELECT));
+        dropDownList.selectByVisibleText(option);
+    }
+
+    public void clickOnButtonPaging(String buttonName) {
+        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "10");
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.COUNTER_BUTTON_CONTAINER);
+        switch (buttonName) {
+            case "<":
+                elementList.get(0).click();
+                break;
+            case ">":
+                elementList.get(1).click();
+                break;
+        }
+    }
+
+    public boolean checkRestOrders() {
+        Integer countOrders = response.getBody().jsonPath().get("_pagination.total_count");
+        boolean result = false;
+        if (countOrders > 10) {
+            Integer countOrdersRest = countOrders - 10;
+            waitVisibility(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER, "10");
+            List<WebElement> webElementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+            result = webElementList.size() == countOrdersRest;
+        }
+        return result;
+    }
+
+    public boolean verifyFirstOrders(String orderQuantity) {
+        explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+        return (elementList.size() == Integer.parseInt(orderQuantity));
     }
 }
