@@ -43,6 +43,7 @@ Feature: Proveedor - Listado de Órdenes
       | like   | producer.name,producer.cuit                                                                                                                           |
       | fields | provider,create_date,amount,producer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
     And Se hace una busqueda por CUIT existente
+    #esta fallando pq no busca bien, falta agregar el caso 2199
     Then Se verifica que se muestren resultados correctos
     And Se hace una busqueda por nombre del cliente existente
     And Se verifica que se muestren resultados correctos
