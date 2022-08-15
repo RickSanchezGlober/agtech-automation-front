@@ -94,15 +94,23 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         getAcessTokenFromApiServices("bff", "auth/login");
         response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
         pos = 0;
-        explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
-        try {
-            ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
-            list.stream().forEach(dataEntry -> getObjectAllOrder(dataEntry));
+        if (!response.getBody().prettyPrint().equals("")) {
+            explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+            try {
+                ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
+                list.stream().forEach(dataEntry -> getObjectAllOrder(dataEntry));
 
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            log.info("Path is invalid");
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                log.info("Path is invalid");
+            }
+        }else {
+            //Validar empty state
+//            verifyElementEmptyStateScreen("icono");
+//            verifyElementEmptyStateScreen("Todavía no tenés órdenes de compra");
+//            verifyElementEmptyStateScreen("Cuando las tengas vas a ver tus órdenes de compra acá.");
         }
+
     }
 
     private void getObjectAllOrder(Object dataEntry) {
