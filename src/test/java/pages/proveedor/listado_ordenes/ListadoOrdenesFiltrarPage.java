@@ -13,8 +13,12 @@ import pageobjects.proveedor.listado_ordenes.ListadoOrdenesProveedorPageObject;
 import pages.BasePage;
 import utils.RestAssuredExtension;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 
 public class ListadoOrdenesFiltrarPage extends BasePage {
@@ -22,6 +26,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
     public static List<WebElement> elementList;
     public static String FIELD_TEXT_UI;
     public static String filterSelected;
+    public static LocalDateTime currentDate = LocalDateTime.now();
 
     public ListadoOrdenesFiltrarPage() {
         super();
@@ -43,7 +48,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
 
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
         getAcessTokenFromApiServices("bff", "auth/login");
-        response = RestAssuredExtension.getMethodWithParams(sourceApi, path, t_table, getAccess_token());
+        response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
         if (!response.getBody().prettyPrint().equals("")) {
             explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
             try {
@@ -54,7 +59,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
                 e.printStackTrace();
                 log.info("Path is invalid");
             }
-        }else {
+        } else {
             //Validar empty state
 //            verifyElementEmptyStateScreen("icono");
 //            verifyElementEmptyStateScreen("Todavía no tenés órdenes de compra");
@@ -83,8 +88,9 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
 
     public void selecctFilter(String filterName) {
         filterSelected = filterName;
-        waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "5");
+        waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "30");
         List<WebElement> elementList = null;
+        By element = null;
         switch (filterName) {
             case "Pendiente":
             case "Pagada":
@@ -102,19 +108,50 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
             case "A sola Firma":
             case "Pago con granos":
                 elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.FILTRO_MEDIO_PAGO_CONTAINER);
-                for (int i = 0; i < elementList.size(); i++) {
-                    if (elementList.get(i).getText().equalsIgnoreCase(filterName)) {
-                        elementList.get(i).click();
-                        break;
-                    }
-                }
+                clickOnButtonListButton(elementList, filterName);
                 break;
+            case "Desde":
+                element = ListadoOrdenesFiltrarPageObject.DATE_PICKER_INPUT_DESDE;
+                LocalDateTime fromDate = getLocalDateFrom();
+                clearField(element);
+                write(element, fromDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                break;
+            case "Hasta":
+                element = ListadoOrdenesFiltrarPageObject.DATE_PICKER_INPUT_HASTA;
+                clearField(element);
+                write(element, currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                break;
+        }
+    }
+
+    private LocalDateTime getLocalDateFrom() {
+        int cantMonth = 0;
+        if (1 < currentDate.getDayOfMonth() && currentDate.getDayOfMonth() < 8) {
+            cantMonth = 1;
+        }
+        LocalDateTime fromDate = LocalDateTime.of(currentDate.getYear(), currentDate.getMonth().getValue() - cantMonth, currentDate.getDayOfMonth() - 7, currentDate.getHour(), currentDate.getMinute());
+        return fromDate;
+    }
+
+    public void clearField(By element) {
+        int cantChar = getAttribute(element, "value").length();
+        for (int i = 0; i < cantChar; i++) {
+            sendBackSpace(element);
+        }
+    }
+
+    public void clickOnButtonListButton(List<WebElement> buttonList, String buttonName) {
+        for (int i = 0; i < buttonList.size(); i++) {
+            if (buttonList.get(i).getText().equalsIgnoreCase(buttonName)) {
+                buttonList.get(i).click();
+                break;
+            }
         }
     }
 
     public boolean checkElementsFiltersScreen(List<List<String>> t_table) {
         By byElement = null;
-        waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "30");
+        waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "35");
         List<Boolean> resultList = new ArrayList<>();
         for (int i = 0; i < t_table.size(); i++) {
             String elementName = t_table.get(i).get(0);
@@ -196,4 +233,35 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
         }
     }
 
+    public void verifyListOrdersInRange() {
+        waitVisibility(ListadoOrdenesFiltrarPageObject.FECHA_ORDENES_CONTAINER, "20");
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.FECHA_ORDENES_CONTAINER);
+        LocalDateTime fromDate = getLocalDateFrom();
+        LocalDateTime dateOrders = null;
+        for (int i = 0; i < elementList.size(); i++) {
+            dateOrders = getLocalDateFromString(elementList.get(i).getText());
+            Assert.assertTrue((dateOrders.isBefore(currentDate) || dateOrders.equals(currentDate)) && (dateOrders.isAfter(fromDate) || dateOrders.isEqual(fromDate)));
+        }
+    }
+
+    private LocalDateTime getLocalDateFromString(String stringDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.forLanguageTag("es-ES"));
+        LocalDateTime ldt = LocalDate.parse(stringDate, formatter).atStartOfDay();
+        return ldt;
+    }
+
+    public boolean verifyDefaultValue(String field, String date) {
+        By element = ListadoOrdenesFiltrarPageObject.DATE_PICKER_INPUT_HASTA;
+        waitVisibility(element, "10");
+        boolean result = false;
+        switch (field) {
+            case "Hasta":
+                if (date.equals("fecha actual")) {
+                    date = currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+                }
+                result = getAttribute(element, "value").equals(date);
+                break;
+        }
+        return result;
+    }
 }

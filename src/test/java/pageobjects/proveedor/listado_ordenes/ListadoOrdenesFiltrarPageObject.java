@@ -11,4 +11,7 @@ public class ListadoOrdenesFiltrarPageObject {
     public static final By.ByClassName TITLE_CONTAINER_FILTER_SCREEN = new By.ByClassName("segment_title");
     public static final By.ByClassName SIDE_MENU_BUTTON_CONTAINER = new By.ByClassName("sidebar_render_options__option");
     public static final By.ByClassName DATE_PICKER_INPUT_CONTAINER = new By.ByClassName("react-datepicker__input-container");
+    public static final By.ByClassName DATE_PICKER_INPUT_DESDE = new By.ByClassName("orders_filter__date_picker_start");
+    public static final By.ByClassName DATE_PICKER_INPUT_HASTA = new By.ByClassName("orders_filter__date_picker_end");
+    public static final By.ByClassName FECHA_ORDENES_CONTAINER = new By.ByClassName("last_order__item_dates");
 }
