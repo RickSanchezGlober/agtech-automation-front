@@ -14,7 +14,7 @@ public class LoginSteps {
     public void iGoToNewAgroPortal(String rol) {
         loginPage.navigateTo(rol);
         String actualPageTitle = loginPage.getPageTitle();
-        Assert.assertEquals(actualPageTitle, "AgTech");
+        Assert.assertEquals(actualPageTitle, "NewAgro");
     }
 
     @Given("^Usuario logueado en el portal New Agro")

@@ -6,7 +6,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And Usuario logueado en el portal New Agro
     When El proveedor hace click en el botón Crear Orden
 
-  @TEST_ID_AG-529 @TEST_ID_AG-530 @TEST_SET_ID_AG-2078 @regression @prueba
+  @TEST_ID_AG-529 @TEST_ID_AG-530 @TEST_SET_ID_AG-2078 @regression
 
   Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar pantalla nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar ingreso de CUIT nueva orden de compra
