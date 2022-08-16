@@ -187,7 +187,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
                 element = HomeUltimasOperacionesPageObject.OPERACIONES_PROXIMAS_VENCER;
                 break;
         }
-        waitVisibility(element, "5");
+        waitVisibility(element, "10");
         return verifyVisibleText(element, tittle);
     }
 

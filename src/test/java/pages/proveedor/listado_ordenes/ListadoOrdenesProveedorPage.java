@@ -15,6 +15,7 @@ import pageobjects.proveedor.listado_ordenes.HomeUltimasOperacionesPageObject;
 import pageobjects.proveedor.listado_ordenes.ListadoOrdenesFiltrarPageObject;
 import pageobjects.proveedor.listado_ordenes.ListadoOrdenesProveedorPageObject;
 import pages.BasePage;
+import utils.DataGenerator;
 import utils.RestAssuredExtension;
 
 import java.time.LocalDateTime;
@@ -104,7 +105,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
                 e.printStackTrace();
                 log.info("Path is invalid");
             }
-        }else {
+        } else {
             //Validar empty state
 //            verifyElementEmptyStateScreen("icono");
 //            verifyElementEmptyStateScreen("Todavía no tenés órdenes de compra");
@@ -200,7 +201,9 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         } else if (searchCriteria.equalsIgnoreCase("nombre del cliente") && criteriaStatus.equalsIgnoreCase("existente")) {
             searchCriteria = response.getBody().jsonPath().get("result.producer[0].name");
         } else if (searchCriteria.equalsIgnoreCase("cuit parcial") && criteriaStatus.equalsIgnoreCase("existente")) {
-            searchCriteria = response.getBody().jsonPath().get("result.producer[0].cuit").toString().substring(0, 2);
+            searchCriteria = response.getBody().jsonPath().get("result.producer[0].cuit").toString().substring(0, 5);
+        } else if (searchCriteria.equalsIgnoreCase("cuit") && criteriaStatus.equalsIgnoreCase("inexistente")) {
+            searchCriteria = DataGenerator.getNumber(11);
         }
         this.searchCriteria = searchCriteria;
         fillField(searchCriteria, "Buscar CUIT o nombre de cliente");
@@ -220,7 +223,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
     }
 
     public void checkCorrectResultDisplayed() {
-        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "5");
+        waitVisibility(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER, "30");
         List<WebElement> listWebElement = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         if (listWebElement.size() != 0) {
             for (int i = 0; i < listWebElement.size(); i++) {
