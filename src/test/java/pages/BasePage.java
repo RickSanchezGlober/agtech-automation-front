@@ -61,6 +61,8 @@ public class BasePage {
                 break;
         }
         driver.get(url);
+        explicitWait(LoginPageObject.INICIAR_SESION_BUTTON);
+
     }
 
     public void navigateToError(String rol, String proceso) {
