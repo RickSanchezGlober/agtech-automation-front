@@ -42,7 +42,7 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
         }else{
             sOption = getScenarioContextVariables(option);
             arrOptions = sOption.split(",");
-            selectedOption = arrOptions[2];
+            selectedOption = arrOptions[arrOptions.length - 1];
         }
 
         switch (dropDownName) {

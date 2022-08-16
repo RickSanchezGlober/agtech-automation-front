@@ -5,7 +5,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     Given Se navega al portal New Agro proveedor
     And Usuario logueado en el portal New Agro
     And El proveedor hace click en el botón Crear Orden
-    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor ingresa 30714048186 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado
     And El proveedor ingresa Descripción Válida en el campo Descripción
@@ -67,7 +67,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
   Scenario: Proveedor - Generar Orden de Compra - Respuesta a la Consulta de Márgenes Cesión de Forward (Paso 3)
     Then El proveedor seleciona medio de pago Cesión de forward
     And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
-    And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2023
+    And El proveedor escoge en tipo de convenio la opcion Sub 15% Vto Julio 2023 (FORWARD)
     And El proveedor escoge en gestión del forward la opcion Intagro
     And El proveedor presiona el botón Simular Crédito
     # PENDIENTE: Esperar que esté listo endpoint y comunicación con el banco para e2e
@@ -82,7 +82,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
   Scenario: Proveedor - Generar Orden de Compra - Resumen/Simulación P.D. Crédito c/Cesión de Forward (Paso 5)
     Then El proveedor seleciona medio de pago Cesión de forward
     And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
-    And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2023
+    And El proveedor escoge en tipo de convenio la opcion Sub 15% Vto Julio 2023 (FORWARD)
     And El proveedor escoge en gestión del forward la opcion Intagro
     And El proveedor presiona el botón Simular Crédito
     And El proveedor presiona el botón Confirmar medio de pago
