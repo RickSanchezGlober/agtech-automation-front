@@ -66,15 +66,24 @@ public class HomeUltimasOperacionesPage extends BasePage {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
         getAcessTokenFromApiServices("bff", "auth/login");
         response = RestAssuredExtension.getMethodWithParams(sourceApi, path, t_table, getAccess_token());
-        explicitWait(HomeUltimasOperacionesPageObject.ORDENES_CONTAINER);
-        try {
-            ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
-            list.stream().forEach(dataEntry -> getObjectOrder(dataEntry));
+        if (!response.getBody().prettyPrint().equals("")) {
+            explicitWait(HomeUltimasOperacionesPageObject.ORDENES_CONTAINER);
+            try {
+                ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
+                list.stream().forEach(dataEntry -> getObjectOrder(dataEntry));
 
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            log.info("Path is invalid");
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                log.info("Path is invalid");
+            }
+        } else {
+            //Validar empty state
+//            verifyElementEmptyStateScreen("icono");
+//            verifyElementEmptyStateScreen("Todavía no tenés órdenes de compra");
+//            verifyElementEmptyStateScreen("Cuando las tengas vas a ver tus órdenes de compra acá.");
+
         }
+
     }
 
     public void getObjectOrder(Object dataEntry) {
@@ -178,7 +187,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
                 element = HomeUltimasOperacionesPageObject.OPERACIONES_PROXIMAS_VENCER;
                 break;
         }
-        waitVisibility(element, "5");
+        waitVisibility(element, "10");
         return verifyVisibleText(element, tittle);
     }
 
