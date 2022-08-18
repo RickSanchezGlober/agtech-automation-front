@@ -4,6 +4,7 @@ import io.cucumber.datatable.DataTable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import pageobjects.productor.listado_ordenes.ListadoOrdenesPageObject;
 import pageobjects.proveedor.generar_orden.GenerarOrdenCompraSolaFirmaContactoPageObject;
 import pages.BasePage;
 import utils.DataGenerator;
@@ -263,16 +264,57 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     }
 
     public boolean verifyOrderGeneratedScreen() {
-        waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "10");
-        return verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "Orden generada y enviada exitosamente")
-                && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto Productor S.A acepte la orden.")
-                && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
-                && isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON);
+        boolean result = false;
+        if (response.statusCode() == 200) {
+            waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "10");
+            result = verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "Orden generada y enviada exitosamente")
+                    && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto Productor S.A acepte la orden.")
+                    && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
+                    && isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON);
+        } else {
+            //Valido el Empty State
+            result = verifyElementEmptyStateScreen("icono")
+                    && verifyElementEmptyStateScreen("No es posible continuar en este momento")
+                    && verifyElementEmptyStateScreen("Te pedimos disculpas. Hay un problema técnico. Por favor volvé a intentar en unos minutos.")
+                    && verifyElementEmptyStateScreen("Ir a órdenes");
+        }
+        return result;
+    }
+
+    public boolean verifyElementEmptyStateScreen(String elementName) {
+        explicitWait(GenerarOrdenCompraSolaFirmaContactoPageObject.EMPTY_STATE_ICON);
+        By element = null;
+        boolean result = false;
+        switch (elementName) {
+            case "icono":
+                element = GenerarOrdenCompraSolaFirmaContactoPageObject.EMPTY_STATE_ICON;
+                result = isDisplayed(element);
+                break;
+            case "No es posible continuar en este momento":
+                element = GenerarOrdenCompraSolaFirmaContactoPageObject.NO_ES_POSIBLE_CONTINUAR_TITLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "Te pedimos disculpas. Hay un problema técnico. Por favor volvé a intentar en unos minutos.":
+                element = GenerarOrdenCompraSolaFirmaContactoPageObject.TE_PEDIMOS_DISCULPAS_SUBTITLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "Ir a órdenes":
+                element = GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON;
+                result = verifyVisibleText(element, elementName);
+                break;
+        }
+        return result;
     }
 
     public boolean verifyScreenErrorMail() {
         waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.CORREO_NO_VALIDO_TEXT, "10");
         return verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.CORREO_NO_VALIDO_TEXT, "Correo electrónico no válido")
                 && !isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.CONTINUAR_BUTTON);
+    }
+
+    public void getDataFromApiServicesConfirm(String sourceApi, String path, String body) {
+        log.info(String.format("Consumiendo API: '%s' '%s' '%s'", sourceApi, path, body));
+        getAcessTokenFromApiServices("bff", "auth/login");
+        response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
     }
 }

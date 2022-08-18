@@ -15,6 +15,10 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     public void clicOnButtonByName(String buttonName) {
         generarOrdenCompraSolaFirmaPage.clickOnButtonByName(buttonName);
     }
+    @And("^El proveedor vuelve a la Home$")
+    public void checkVolverButtonFunction() {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkVolverButtonFunction());
+    }
 
     @And("^El proveedor ingresa (.*) en el campo (.*)$")
     public void fillField(String text, String field) {

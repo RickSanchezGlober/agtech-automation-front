@@ -525,4 +525,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             Assert.assertTrue(verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "Crédito a sola firma"));
         }
     }
+
+    public boolean checkVolverButtonFunction() {
+        return false;
+    }
 }

@@ -128,9 +128,9 @@ public class ListadoOrdenesPage extends BasePage {
                 log.info("Path is invalid");
             }
         }else {
-            verifyElementEmptyStateScreen("icono");
-            verifyElementEmptyStateScreen("Todavía no tenés órdenes de compra");
-            verifyElementEmptyStateScreen("Cuando las tengas vas a ver tus órdenes de compra acá.");
+           Assert.assertTrue(verifyElementEmptyStateScreen("icono"));
+           Assert.assertTrue(verifyElementEmptyStateScreen("Todavía no tenés órdenes de compra"));
+           Assert.assertTrue(verifyElementEmptyStateScreen("Cuando las tengas vas a ver tus órdenes de compra acá."));
         }
 
     }
