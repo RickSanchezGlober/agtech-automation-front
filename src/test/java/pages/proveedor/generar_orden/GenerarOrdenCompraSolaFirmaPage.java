@@ -60,9 +60,11 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 element = GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON;
                 break;
         }
-        waitVisibility(element, "40");
-        click(element);
-
+        if (waitVisibility(element, "40")) {
+            click(element);
+        } else {
+            Assert.fail(String.format("No se encontro el botón '%s'", buttonName));
+        }
         //En ocaciones es necesario hacer click más de una vez en Simular Credito
         int count = 0;
         while (buttonName.equalsIgnoreCase("Simular Crédito") && !waitVisibility(element1, "5") && count < 2) {
@@ -100,9 +102,13 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 }
                 break;
         }
-        waitVisibility(element, "40");
-        clear(element);
-        write(element, text);
+        if (waitVisibility(element, "40")) {
+            clear(element);
+            write(element, text);
+        } else {
+            Assert.fail(String.format("No se encontro el campo '%s'", field));
+        }
+
     }
 
     public boolean verifyOrderDetails(String text) {
@@ -400,6 +406,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 webElement = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_MONTO_CREDITO_INPUT;
                 break;
         }
+        waitVisibility(webElement, "20");
         write(webElement, randomNumbers);
         //restamos 6 pq se autocompleta con 3 puntos + 1 coma + $ y espacio en blanco
         return getAttribute(webElement, "value").length() - 6 == intQuantity;
@@ -514,6 +521,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             elementList.get(count).click();
             Assert.assertFalse(waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE, "1"));
         } else {
+            waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "10");
             Assert.assertTrue(verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "Crédito a sola firma"));
         }
     }
