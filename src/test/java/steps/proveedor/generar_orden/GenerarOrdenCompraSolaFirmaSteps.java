@@ -15,6 +15,7 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     public void clicOnButtonByName(String buttonName) {
         generarOrdenCompraSolaFirmaPage.clickOnButtonByName(buttonName);
     }
+
     @And("^El proveedor vuelve a la Home$")
     public void checkVolverButtonFunction() {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkVolverButtonFunction());
@@ -90,6 +91,11 @@ public class GenerarOrdenCompraSolaFirmaSteps {
         generarOrdenCompraSolaFirmaPage.getDataFromApiServicesSimulation(sourceApi, path, body, t_table);
     }
 
+    @Then("^Consumir api (.*) con ruta (.*) con body (.*)")
+    public void hitApiSimulation(String sourceApi, String path, String body) {
+        generarOrdenCompraSolaFirmaPage.hitApiSimulation(sourceApi, path, body);
+    }
+
     @And("^Validar Nombre del Productor$")
     public void validateProductor(List<List<String>> t_table) {
         generarOrdenCompraSolaFirmaPage.validateProductor(t_table);
@@ -114,28 +120,48 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     public void checkNumberQuantity(String quantity, String field) {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkNumberQuantity(quantity, field));
     }
+
     @And("^Imposible escribir caracteres especiales en el campo (.*)$")
-    public void checkNumberQuantity( String field) {
+    public void checkNumberQuantity(String field) {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkWritingSpecialCharacters(field));
     }
+
     @And("^Se permite ingresar hasta (.*) decimales$")
     public void checkEnterDecimalPLaces(String quantity) {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkEnterDecimalPLaces(quantity));
     }
+
     @And("^El proveedor ve el mensaje de error (.*)$")
     public void checkErrorMessage(String messageError) {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.checkErrorMessage(messageError));
     }
+
     @And("^Verificar pantalla de error si la conexion con el MS customer-validation no se realiza correctamente$")
     public void chekErrorScreen() {
         generarOrdenCompraSolaFirmaPage.chekErrorScreen(cuit);
     }
+
     @And("^Se visualiza pantalla de error Cuit no autorizado$")
     public void chekErrorScreenUnauthorisedCuit() {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.chekErrorScreenUnauthorisedCuit());
     }
+
     @And("^Verificar pantalla de error si la conexion con el MS agreement no se realiza correctamente$")
     public void chekErrorScreenPaymentMethod() {
         generarOrdenCompraSolaFirmaPage.chekErrorScreenPaymentMethod();
+    }
+
+    @And("^Verificar pantalla de error si la conexion con el MS simulacion no se realiza correctamente$")
+    public void chekErrorScreenSimulation() {
+        generarOrdenCompraSolaFirmaPage.chekErrorScreenSimulation();
+    }
+
+    @And("^Se hace click en el boton (.*) de la pantalla de error")
+    public void clickOnButttonErrorScreen(String butttonName) {
+        generarOrdenCompraSolaFirmaPage.clickOnButttonErrorScreen(butttonName);
+    }
+    @And("^Se puede ver el botón (.*)")
+    public void verifyDisplayedButton(String buttonName) {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaPage.verifyDisplayedButton(buttonName));
     }
 }

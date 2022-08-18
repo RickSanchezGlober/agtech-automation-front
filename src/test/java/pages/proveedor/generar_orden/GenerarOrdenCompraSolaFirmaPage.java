@@ -291,7 +291,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void getDataFromApiServicesSimulation(String sourceApi, String path, String body, List<List<String>> t_table) {
-        log.info("Consumiendo API " + sourceApi + path + " con body " + body);
+        log.info(String.format("Consumiendo API '%s' con body '%s'", sourceApi + path, body));
         getDataFromApiServices(path, body, sourceApi, t_table);
         validateSimulationData(t_table);
     }
@@ -528,5 +528,90 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
     public boolean checkVolverButtonFunction() {
         return false;
+    }
+
+    public void hitApiSimulation(String sourceApi, String path, String body) {
+        getAcessTokenFromApiServices("bff", "auth/login");
+        log.info(String.format("Consumiendo API '%s' con body '%s'", sourceApi + path, body));
+        response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
+    }
+
+    public boolean chekErrorScreenSimulation() {
+        boolean result = false;
+        if (response.getStatusCode() != 200) {
+            //Valido el Empty State
+            result = verifyElementEmptyStateScreen("icono")
+                    && verifyElementEmptyStateScreen("Ahora no es posible mostrar información")
+                    && verifyElementEmptyStateScreen("Revisá tu conexión a internet o intenta nuevamente más tarde.")
+                    && verifyElementEmptyStateScreen("Intentar nuevamente");
+        } else {
+            waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "10");
+            result = verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "Crédito a sola firma");
+        }
+        return result;
+    }
+
+    public boolean verifyElementEmptyStateScreen(String elementName) {
+        explicitWait(GenerarOrdenCompraSolaFirmaPageObject.EMPTY_STATE_ICON);
+        By element = null;
+        List<WebElement> elementList = null;
+        boolean result = false;
+        switch (elementName) {
+            case "icono":
+                element = GenerarOrdenCompraSolaFirmaPageObject.EMPTY_STATE_ICON;
+                result = isDisplayed(element);
+                break;
+            case "Ahora no es posible mostrar información":
+                element = GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "Revisá tu conexión a internet o intenta nuevamente más tarde.":
+                element = GenerarOrdenCompraSolaFirmaPageObject.REVISA_TU_CONEXION_SUBTITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "Intentar nuevamente":
+                elementList = driver.findElements(GenerarOrdenCompraSolaFirmaPageObject.BUTTON_CONTAINER_ERROR_SCREEN);
+                for (int i = 0; i < elementList.size(); i++) {
+                    if (elementList.get(i).getText().equals(elementName)) {
+                        result = true;
+                        break;
+                    }
+                }
+                break;
+        }
+        return result;
+    }
+
+    public void clickOnButttonErrorScreen(String butttonName) {
+        if (response.statusCode() != 200) {
+            clickOnButtonFromListButton(GenerarOrdenCompraSolaFirmaPageObject.BUTTON_CONTAINER_ERROR_SCREEN, butttonName);
+        }else {
+            log.info(String.format("El botón '%s' no está visible, el MS simulacion respondió con 200",butttonName));
+        }
+    }
+
+    public void clickOnButtonFromListButton(By containerButton, String buttonName) {
+        if (waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE, "10")) {
+            List<WebElement> elementList = driver.findElements(containerButton);
+            for (int i = 0; i < elementList.size(); i++) {
+                if (elementList.get(i).getText().equals(buttonName)) {
+                    elementList.get(i).click();
+                    break;
+                }
+            }
+        }
+    }
+
+    public boolean verifyDisplayedButton(String buttonName) {
+        boolean result = false;
+        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "10");
+        List<WebElement> elementList = driver.findElements(GenerarOrdenCompraSolaFirmaPageObject.BUTTON_CONTAINER);
+        for (int i = 0; i < elementList.size(); i++) {
+            if (elementList.get(i).getText().equals(buttonName)) {
+                result = elementList.get(i).isDisplayed();
+                break;
+            }
+        }
+        return result;
     }
 }
