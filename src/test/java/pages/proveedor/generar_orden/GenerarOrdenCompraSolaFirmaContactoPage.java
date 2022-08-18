@@ -212,8 +212,8 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     }
 
     public void getDataFromApiServicesSimulation(String sourceApi, String path, String body, List<List<String>> t_table) {
-        getAcessTokenFromApiServices("bff","auth/login");
-        response = RestAssuredExtension.postMethod(sourceApi, path, body,getAccess_token());
+        getAcessTokenFromApiServices("bff", "auth/login");
+        response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
@@ -263,6 +263,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     }
 
     public boolean verifyOrderGeneratedScreen() {
+        waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "10");
         return verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "Orden generada y enviada exitosamente")
                 && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto Productor S.A acepte la orden.")
                 && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
@@ -270,7 +271,8 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     }
 
     public boolean verifyScreenErrorMail() {
-        return verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.CORREO_NO_VALIDO_TEXT,"Correo electrónico no válido")
-                &&!isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.CONTINUAR_BUTTON);
+        waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.CORREO_NO_VALIDO_TEXT, "10");
+        return verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.CORREO_NO_VALIDO_TEXT, "Correo electrónico no válido")
+                && !isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.CONTINUAR_BUTTON);
     }
 }

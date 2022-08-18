@@ -100,7 +100,7 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And Se llena el campo Correo electrónico con valor Inválido
     And Se llena el campo Cód de área con valor Válido
     And Se llena el campo Número de celular con valor Válido
-    And El proveedor hace click en el botón Continuar
+#    And El proveedor hace click en el botón Continuar
     Then Se visualiza mensaje de error
 
   
