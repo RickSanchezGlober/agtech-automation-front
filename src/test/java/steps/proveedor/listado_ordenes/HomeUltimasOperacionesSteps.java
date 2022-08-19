@@ -30,23 +30,27 @@ public class HomeUltimasOperacionesSteps {
     public void getDataFromApiServicesOrders(String sourceApi, String path, List<List<String>> t_table) {
         homeUltimasOperacionesPage.getDataFromApiServicesOrders(sourceApi, path, t_table);
     }
-    @When("^Validar datos de servicio api (.*) con ruta (.*)$")
-    public void getDataFromApiServicesOrdersCounter(String sourceApi, String path) {
-        homeUltimasOperacionesPage.getDataFromApiServicesOrdersCounter(sourceApi, path);
+
+    @When("^Validar datos de servicio api (.*) con ruta (.*) y parámetros$")
+    public void getDataFromApiServicesOrdersCounter(String sourceApi, String path, List<List<String>> t_table) {
+        homeUltimasOperacionesPage.getDataFromApiServicesOrdersCounter(sourceApi, path, t_table);
     }
 
     @When("^Se viaualizan los elementos$")
     public void verifyVisibleElements(List<List<String>> t_table) {
         Assert.assertTrue(homeUltimasOperacionesPage.verifyVisibleElements(t_table));
     }
+
     @When("^Se visualiza el titulo (.*)")
     public void verifyVisibleTittle(String tittle) {
         Assert.assertTrue(homeUltimasOperacionesPage.verifyVisibleTittle(tittle));
     }
+
     @When("^Se visualiza el icono (.*)")
     public void verifyVisibleIcon(String iconName) {
         Assert.assertTrue(homeUltimasOperacionesPage.verifyVisibleIcon(iconName));
     }
+
     @And("^El botón (.*) funciona correctamente")
     public void checkuttonFuction(String buttonName) {
         Assert.assertTrue(homeUltimasOperacionesPage.checkuttonFuction(buttonName));
