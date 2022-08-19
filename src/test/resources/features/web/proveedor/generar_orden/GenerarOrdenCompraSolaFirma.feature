@@ -145,3 +145,20 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor hace click en el botón Continuar
     And El proveedor seleciona medio de pago Crédito a sola firma
     Then Verificar pantalla de error si la conexion con el MS agreement no se realiza correctamente
+
+  @TEST_SET_ID_AG-2102 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Simulación NO exitosa - Validar Error State Simulación no exitosa
+  Proveedor - Generar Orden de Compra - Simulación NO exitosa - Validar el botón "Intentar nuevamente"
+    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And El proveedor hace click en el botón del Productor encontrado
+    And El proveedor ingresa Descripción Válida en el campo Descripción
+    And El proveedor hace click en el botón Continuar
+    And El proveedor seleciona medio de pago Crédito a sola firma
+    And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
+    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Julio 2023
+    And El proveedor hace click en el botón Simular Crédito
+    And Consumir api bff con ruta simulation con body bff_simulation.txt
+    Then Verificar pantalla de error si la conexion con el MS simulacion no se realiza correctamente
+    And Se hace click en el boton Intentar nuevamente de la pantalla de error
+    And Se puede ver el botón Simular Crédito

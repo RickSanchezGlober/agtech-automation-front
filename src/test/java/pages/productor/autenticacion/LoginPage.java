@@ -38,8 +38,8 @@ public class LoginPage extends BasePage {
     }
 
     public void loginWithUserPasswd(String user, String password) {
-//        explicitWait(LoginPageObject.LOGUEATE_BUTTON);
-//        clickOnButtonByName("Logueate");
+        explicitWait(LoginPageObject.LOGUEATE_BUTTON);
+        clickOnButtonByName("Logueate");
         explicitWait(LoginPageObject.USERNAME_INPUT);
         write(LoginPageObject.USERNAME_INPUT, user);
         write(LoginPageObject.PASSWORD_INPUT, password);
