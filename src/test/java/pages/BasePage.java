@@ -61,7 +61,7 @@ public class BasePage {
                 break;
         }
         driver.get(url);
-        explicitWait(LoginPageObject.INICIAR_SESION_BUTTON);
+        explicitWait(LoginPageObject.INGRESAR);
 
     }
 
