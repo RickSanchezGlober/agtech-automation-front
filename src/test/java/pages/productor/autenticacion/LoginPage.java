@@ -14,10 +14,9 @@ public class LoginPage extends BasePage {
 
     public void clickOnButtonByName(String buttonName) {
         By element = null;
-        explicitWait(LoginPageObject.NEW_LOGO);
         switch (buttonName) {
-            case "Logueate":
-                element = LoginPageObject.LOGUEATE_BUTTON;
+            case "Ingresar":
+                element = LoginPageObject.INGRESAR;
                 break;
             case "Iniciar sesion":
                 element = LoginPageObject.INICIAR_SESION_BUTTON;
@@ -37,9 +36,9 @@ public class LoginPage extends BasePage {
         click(element);
     }
 
-    public void loginWithUserPasswd(String user, String password) {
-        explicitWait(LoginPageObject.LOGUEATE_BUTTON);
-        clickOnButtonByName("Logueate");
+        public void loginWithUserPasswd(String user, String password) {
+        explicitWait(LoginPageObject.INGRESAR);
+        clickOnButtonByName("Ingresar");
         explicitWait(LoginPageObject.USERNAME_INPUT);
         write(LoginPageObject.USERNAME_INPUT, user);
         write(LoginPageObject.PASSWORD_INPUT, password);
