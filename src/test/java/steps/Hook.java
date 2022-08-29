@@ -48,13 +48,12 @@ public class Hook {
 //                firefoxOptions.setHeadless(true);
 //                driver = new FirefoxDriver(firefoxOptions);
 //                break;
- /*           case "edge":
+            case "edge":
                     WebDriverManager.edgedriver().setup();
                     EdgeOptions edgeOptions = new EdgeOptions();
                     edgeOptions.setHeadless(true);
                     driver = new EdgeDriver(edgeOptions);
                     break;
-*/
             default:
                 break;
         }
