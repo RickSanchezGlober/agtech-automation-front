@@ -47,3 +47,41 @@ Feature: Proveedor - Listado de Órdenes
     And Se hace una busqueda por nombre del cliente existente
     And Se verifica que se muestren resultados correctos
     And Se hace una busqueda por CUIT parcial existente
+    And Se hace una busqueda por CUIT inexistente
+    #No se muestra la pantalla de Empty State, bug reportado
+#    And Se muestra la pantalla de ordenes vacias
+
+  @TEST_SET_ID_AG-1839 @regression
+  Scenario: Proveedor - Listado de Órdenes - Paginado - Validar paginado en pantalla Listado de Órdenes
+  Proveedor - Listado de Órdenes - Paginado - Validar botón desplegable "1-10" del paginado
+  Proveedor - Listado de Órdenes - Paginado - Validar botón "1-50" del paginado
+  Proveedor - Listado de Órdenes - Paginado - Validar botón "1-100" del paginado
+  Proveedor - Listado de Órdenes - Paginado - Validar deshabilitación botón ">" del paginado
+  Proveedor - Listado de Órdenes - Paginado - Validar botón "<" del paginado
+    And Consumir api que lista todas las ordenes bff con ruta orders/filter y parámetros
+      | skip   | 0                                                                                                                                                     |
+      | count  | 10                                                                                                                                                    |
+      | where  | status                                                                                                                                                |
+      | like   | producer.name,producer.cuit                                                                                                                           |
+      | fields | provider,create_date,amount,producer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
+    Then Se visualiza el botón < Deshabilitado
+    And Si el proveedor tiene mas de 10 ordenes se visualiza el boton > Habilitado
+    And Si el proveedor tiene mas de 10 ordenes se hace click en el boton >
+    And Se visualizan el resto de las ordenes
+    And Si el proveedor tiene mas de 10 ordenes se hace click en el boton <
+    And Se visualizan las primeras 10 ordenes
+    And Se puede seleccionar el paginado
+    And Se selecciona el paginado 1 - 50
+    And Comprobar datos de servicio api que lista todas las ordenes bff con ruta orders/filter y parámetros
+      | skip   | 0                                                                                                                                                     |
+      | count  | 50                                                                                                                                                    |
+      | where  | status                                                                                                                                                |
+      | like   | producer.name,producer.cuit                                                                                                                           |
+      | fields | provider,create_date,amount,producer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
+    And Se selecciona el paginado 1 - 100
+    And Comprobar datos de servicio api que lista todas las ordenes bff con ruta orders/filter y parámetros
+      | skip   | 0                                                                                                                                                     |
+      | count  | 100                                                                                                                                                   |
+      | where  | status                                                                                                                                                |
+      | like   | producer.name,producer.cuit                                                                                                                           |
+      | fields | provider,create_date,amount,producer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |

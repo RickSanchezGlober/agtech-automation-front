@@ -3,7 +3,7 @@ package pageobjects.proveedor.generar_orden;
 import org.openqa.selenium.By;
 
 public class GenerarOrdenCompraSolaFirmaPageObject {
-    public static final By.ByCssSelector CREAR_ORDEN_BUTTON = new By.ByCssSelector("p.home__first_section__action_text");
+    public static final By.ByXPath CREAR_ORDEN_BUTTON = new By.ByXPath("//button[contains(text(),'Crear orden')]");
     public static final By.ByClassName NUEVA_ORDEN_PAGO_HEADER = new By.ByClassName("step_layout__main_title");
     public static final By.ById INGRESA_EL_CUIT_INPUT = new By.ById("cuit");
     public static final By.ByClassName INGRESA_EL_CUIT_LABEL = new By.ByClassName("input__container__label_");
@@ -35,7 +35,9 @@ public class GenerarOrdenCompraSolaFirmaPageObject {
     public static final By.ByClassName REVISA_TU_CONEXION_SUBTITTLE = new By.ByClassName("error_page__subtitle");
     public static final By.ByClassName LOGO_ERROR_STATE = new By.ByClassName("rural-agro-icon-info");
     public static final By.ByTagName BUTTON_CONTAINER_ERROR_SCREEN = new By.ByTagName("button");
+    public static final By.ByTagName BUTTON_CONTAINER = new By.ByTagName("button");
     public static final By.ByClassName CUIT_NO_AUTORIZADO_TITTLE = new By.ByClassName("card_icon_title__disabled");
     public static final By.ByClassName ESTE_CUIT_NO_CUMPLE_TITTLE = new By.ByClassName("card_icon_description__disabled");
     public static final By.ByClassName CREDITO_SOLA_FIRMA_TITLE = new By.ByClassName("aside_modal__title");
+    public static final By.ByTagName EMPTY_STATE_ICON = new By.ByTagName("i");
 }

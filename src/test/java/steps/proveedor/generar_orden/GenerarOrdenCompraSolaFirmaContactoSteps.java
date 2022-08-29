@@ -2,6 +2,7 @@ package steps.proveedor.generar_orden;
 
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pages.proveedor.generar_orden.GenerarOrdenCompraSolaFirmaContactoPage;
 
@@ -68,5 +69,9 @@ public class GenerarOrdenCompraSolaFirmaContactoSteps {
     @Then("^Se visualiza mensaje de error")
     public void verifyScreenErrorMail() {
         Assert.assertTrue(generarOrdenCompraSolaFirmaContactoPage.verifyScreenErrorMail());
+    }
+    @And("^Consumir api que que confirma la creacion de orden (.*) con ruta (.*) y body (.*)$")
+    public void getDataFromApiServicesAllOrders(String sourceApi, String path, String  body) {
+        generarOrdenCompraSolaFirmaContactoPage.getDataFromApiServicesConfirm(sourceApi, path, body);
     }
 }
