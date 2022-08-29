@@ -1,4 +1,4 @@
-@onboarding @proveedor @loginproveedor
+@onboarding @proveedor @loginproveedor @prueba
 Feature: Productor - Login
 
   Background:
