@@ -38,7 +38,7 @@ public class Hook {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
                 ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.setHeadless(false);
+                chromeOptions.setHeadless(true);
                 driver = new ChromeDriver(chromeOptions);
                 break;
 //comentamos firefox, hay bugs para reportar y para MVP no es prioridad
