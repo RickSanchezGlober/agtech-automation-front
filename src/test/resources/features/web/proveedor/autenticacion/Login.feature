@@ -7,16 +7,16 @@ Feature: Productor - Login
   @regression
   Scenario: Verificar login exitoso proveedor
     Given Se ingresa con usuario cristian.duque@globant.com y password Colombia123
-    Then El proveedor visualiza el mensaje Hola Cencosud S.A.
+    Then El proveedor visualiza el mensaje Hola MONSANTO ARGENTINA S.R.L.
 
-  @regression
+  @regresion
   Scenario Outline: Usuario no se puede autenticar con credenciales invalidas
     Given Se ingresa con usuario <user> y password <password>
     Then Se espera que se deniegue el acceso con <reason>
 
     Examples:
       |user                      |password     |reason|
-      |cristian.duque@globant.com|badpassword  |credenciales_incorrectas|
+      #|cristian.duque@globant.com|badpassword  |credenciales_incorrectas|
       |bob4@bob.com               |testing123  |credenciales_incorrectas|
       |cristian.duqye@globant.com|             |boton_deshabilitado     |
       |                          |testing123   |boton_deshabilitado     |
