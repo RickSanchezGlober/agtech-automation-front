@@ -53,7 +53,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
             case "Continuar":
                 element = GenerarOrdenCompraSolaFirmaContactoPageObject.CONTINUAR_BUTTON;
                 break;
-            case "Enviar orden de compra":
+            case "Enviar orden":
                 element = GenerarOrdenCompraSolaFirmaContactoPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
                 break;
         }
@@ -203,7 +203,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     public boolean buttonIsNotDisplayedConfirmationScreen(String buttonName) {
         By element = null;
         switch (buttonName) {
-            case "Enviar orden de compra":
+            case "Enviar orden":
                 element = GenerarOrdenCompraSolaFirmaContactoPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
                 break;
 

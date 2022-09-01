@@ -133,7 +133,7 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraCesionForwardPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
                 break;
-            case "Enviar orden de compra":
+            case "Enviar orden":
                 element = GenerarOrdenCompraCesionForwardPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
                 break;
         }
@@ -196,7 +196,7 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraCesionForwardPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
                 break;
-            case "Enviar orden de compra":
+            case "Enviar orden":
                 element = GenerarOrdenCompraCesionForwardPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
                 break;
         }

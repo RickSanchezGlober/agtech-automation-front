@@ -54,7 +54,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraSolaFirmaPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
                 break;
-            case "Enviar orden de compra":
+            case "Enviar orden":
                 element = GenerarOrdenCompraSolaFirmaContactoPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
                 break;
             case "Ir a órdenes":

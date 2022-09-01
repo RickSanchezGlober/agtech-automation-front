@@ -74,9 +74,9 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
       | interest       |
       | interest_iva   |
       | end_to_pay     |
-    And El proveedor visualiza el botón Enviar orden de compra Habilitado
+    And El proveedor visualiza el botón Enviar orden Habilitado
     And El proveedor hace click sobre botón Volver
-    And El proveedor no visualiza el botón Enviar orden de compra
+    And El proveedor no visualiza el botón Enviar orden
 
   @TEST_SET_ID_AG-1543 @TEST_SET_ID_AG-2123 @regression
   Scenario: Proveedor - Generar Orden de Compra - Confirmar - Verificar Loader
@@ -88,7 +88,7 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And Se llena el campo Cód de área con valor Válido
     And Se llena el campo Número de celular con valor Válido
     And El proveedor hace click en el botón Continuar
-    And El proveedor hace click en el botón Enviar orden de compra
+    And El proveedor hace click en el botón Enviar orden
     And Consumir api que que confirma la creacion de orden bff con ruta orders/confirm y body bff_confirm.txt
     Then Se visualiza la pantalla de Orden generada y enviada exitosamente
     And El proveedor hace click en el botón Ir a órdenes

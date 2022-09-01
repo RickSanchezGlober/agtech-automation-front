@@ -176,3 +176,5 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor hace click en el botón Simular Crédito
     And Consumir api bff con ruta simulation con body bff_simulation_monto_grande.txt
     Then Verificar pantalla de error productor sin margen superior al monto
+
+
