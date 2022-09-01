@@ -178,3 +178,22 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     Then Verificar pantalla de error productor sin margen superior al monto
 
 
+  @TEST_SET_ID_AG-2135 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Confirmar Orden - Validar Error cuenta embargada
+    And El proveedor ingresa 30637063479 en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And El proveedor hace click en el botón del Productor encontrado
+    And El proveedor ingresa Descripción Válida en el campo Descripción
+    And El proveedor hace click en el botón Continuar
+    And El proveedor seleciona medio de pago Crédito a sola firma
+    And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
+    And El proveedor hace click en el botón Simular Crédito
+    And El proveedor hace click en el botón Confirmar medio de pago
+    And Se llena el campo Nombre y Apellido con valor Válidos
+    And Se llena el campo Correo electrónico con valor Válido
+    And Se llena el campo Cód de área con valor Válido
+    And Se llena el campo Número de celular con valor Válido
+    And El proveedor hace click en el botón Continuar
+    And El proveedor hace click en el botón Enviar orden
+    Then Ocurre un error. Cliente con cuenta embargada

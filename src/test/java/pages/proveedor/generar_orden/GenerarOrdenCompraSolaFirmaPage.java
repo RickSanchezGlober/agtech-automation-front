@@ -654,4 +654,37 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
         }
         return result;
     }
+
+    public boolean verifyScreenErrorCostumerWithEmbargoedAccount() {
+        boolean result = verifyElementErrorCostumerWithEmbargoedAccount("icono")
+                && verifyElementErrorCostumerWithEmbargoedAccount("No es posible solicitar la financiación")
+                && verifyElementErrorCostumerWithEmbargoedAccount("debe comunicarse con su ejecutivo/a.")
+                && verifyElementErrorCostumerWithEmbargoedAccount("Ir a órdenes");
+        return result;
+    }
+
+    public boolean verifyElementErrorCostumerWithEmbargoedAccount(String elementName) {
+        explicitWait(GenerarOrdenCompraSolaFirmaPageObject.EMPTY_STATE_ICON);
+        By element = null;
+        boolean result = false;
+        switch (elementName) {
+            case "icono":
+                element = GenerarOrdenCompraSolaFirmaPageObject.EMPTY_STATE_ICON;
+                result = isDisplayed(element);
+                break;
+            case "debe comunicarse con su ejecutivo/a.":
+                element = GenerarOrdenCompraSolaFirmaPageObject.DEBE_COMUNICARSE_SUBTITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "No es posible solicitar la financiación":
+                element = GenerarOrdenCompraSolaFirmaPageObject.NO_ES_POSIBLE_TITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "Ir a órdenes":
+                element = GenerarOrdenCompraSolaFirmaPageObject.IR_A_ORDENES_BUTTON;
+                result = verifyVisibleText(element, elementName) && isEnabled(element);
+                break;
+        }
+        return result;
+    }
 }

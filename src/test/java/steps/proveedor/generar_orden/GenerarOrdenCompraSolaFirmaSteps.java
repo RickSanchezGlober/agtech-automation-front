@@ -170,4 +170,9 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     public void verifyErrorScreenProducerNoMargin() {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.verifyErrorScreenProducerNoMargin());
     }
+
+    @Then("^Ocurre un error. Cliente con cuenta embargada$")
+    public void verifyScreenErrorCostumerWithEmbargoedAccount() {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaPage.verifyScreenErrorCostumerWithEmbargoedAccount());
+    }
 }
