@@ -1,0 +1,40 @@
+{
+    "title": "",
+    "user_email": "cristian.duque@globant.com",
+    "payment_methods": [
+        {
+            "amount": 1687.36,
+            "end_to_pay": 1687.36,
+            "currency_code": "01",
+            "currency_name": "moneda",
+            "tna_producer": 71,
+            "financial_entity": "Banco Galicia",
+            "payment_method": "Financiacion",
+            "financial_line_id": "1",
+            "expiry_date": "2023-07-03T00:00:00.000Z",
+            "conditions": {
+                "id_simulation_financial_entity": "6b041599820e4d7b905781d4688e77b3",
+                "due_date": "2023-07-03T03:00:00.000Z",
+                "cft": 73.684581,
+                "cft_iva": 81.693371,
+                "interest": 0,
+                "interest_iva": 0,
+                "sealed": 0,
+                "fees": 1
+            }
+        }
+    ],
+    "contact": {
+        "name": "yo",
+        "email": "yo@yo.com",
+        "phone": "454645645645"
+    },
+    "producer": {
+        "_id": "5eb5781ffb87ae000114d78e",
+        "name": "QUIYU AGROPECUARIA SA",
+        "cuit": "30-59796279-3"
+    },
+    "provider": {
+        "_id": "116"
+    }
+}

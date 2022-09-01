@@ -10,4 +10,7 @@ public class ListadoOrdenesProveedorPageObject {
     public static final By.ByClassName ORDENES_CONTAINER = new By.ByClassName("last_order__order");
     public static final By.ByClassName LUPA_BUTTON = new By.ByClassName("search_bar__button");
     public static final By.ByClassName RESULTADOS_SPAN = new By.ByClassName("counter__totalizer");
+    //Botones <> para el paginado
+    public static final By.ByClassName COUNTER_BUTTON_CONTAINER = new By.ByClassName("counter__button");
+    public static final By.ByClassName PAGINADO_SELECT = new By.ByClassName("counter__select");
 }

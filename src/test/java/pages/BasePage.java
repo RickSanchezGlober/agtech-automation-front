@@ -47,7 +47,7 @@ public class BasePage {
         wait = Hook.wait;
         log = Hook.log;
         PageFactory.initElements(driver, this);
-        access_token ="";
+        access_token = "";
     }
 
     public void navigateTo(String rol) {
@@ -61,6 +61,8 @@ public class BasePage {
                 break;
         }
         driver.get(url);
+        explicitWait(LoginPageObject.INGRESAR);
+
     }
 
     public void navigateToError(String rol, String proceso) {
@@ -254,7 +256,7 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
-        getAcessTokenFromApiServices("bff","auth/login");
+        getAcessTokenFromApiServices("bff", "auth/login");
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
 
         DataTable data = createDataTable(t_table);
@@ -285,8 +287,8 @@ public class BasePage {
 
     public void getDataFromApiServices(String path, String sourceApi, List<List<String>> t_table) {
 
-        getAcessTokenFromApiServices("bff","auth/login");
-        RestAssuredExtension.response = RestAssuredExtension.getMethod(sourceApi, path,getAccess_token());
+        getAcessTokenFromApiServices("bff", "auth/login");
+        RestAssuredExtension.response = RestAssuredExtension.getMethod(sourceApi, path, getAccess_token());
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
@@ -306,7 +308,7 @@ public class BasePage {
 
     public void getAcessTokenFromApiServices(String sourceApi, String path) {
         log.info("Consumiendo API " + sourceApi + path);
-        RestAssuredExtension.response = RestAssuredExtension.postMethodLogin(sourceApi, path,"login.txt");
+        RestAssuredExtension.response = RestAssuredExtension.postMethodLogin(sourceApi, path, "login.txt");
         setAccess_token(RestAssuredExtension.response.getBody().jsonPath().getString("id_token"));
 
     }
@@ -370,7 +372,7 @@ public class BasePage {
             wait.until(ExpectedConditions.elementToBeClickable(by));
             return true;
         } catch (NoSuchElementException | TimeoutException e) {
-            log.info("===> Element: "+ by +" is not present ===");
+            log.info("===> Element: " + by + " is not present ===");
             return false;
         }
     }
@@ -382,7 +384,7 @@ public class BasePage {
         return Find(locator).getText().equals(textToCompare);
     }
 
-    public boolean verifyMessageIsdisplayed(String action,String message) {
+    public boolean verifyMessageIsdisplayed(String action, String message) {
         switch (action) {
             case "logueo":
                 return verifyVisibleText(LoginPageObject.MENSAJE_BIENVENIDA_TEXT, message);
@@ -431,11 +433,12 @@ public class BasePage {
         return cuit.substring(0, 2) + "-" + cuit.substring(2, 10) + "-" + cuit.substring(10, 11);
     }
 
-    public String getAccess_token(){
+    public String getAccess_token() {
         return access_token;
     }
-    public void setAccess_token(String access_token){
-        this.access_token=access_token;
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 
     public String getAttribute(By locator, String attribute) {
@@ -449,6 +452,7 @@ public class BasePage {
             e.printStackTrace();
         }
     }
+
     public String parseFromDoubleToString(String doubleNumber, int numbersAfterDot) {
         BigDecimal bd = new BigDecimal(doubleNumber).setScale(numbersAfterDot, RoundingMode.HALF_UP);
         return String.valueOf(bd).replace(".", ",");

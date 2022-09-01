@@ -1,6 +1,7 @@
 package steps.proveedor.listado_ordenes;
 
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
 import org.testng.Assert;
 import pages.proveedor.listado_ordenes.ListadoOrdenesFiltrarPage;
 
@@ -40,8 +41,19 @@ public class ListadoOrdenesFiltrarSteps {
                 break;
         }
     }
+
     @And("^El proveedor hace click en el boton (.*) del menu lateral$")
     public void clicOnButtonByNameSideMenu(String buttonName) {
         listadoOrdenesFiltrarPage.clicOnButtonByNameSideMenu(buttonName);
+    }
+
+    @Then("^Se muestra listado de órdenes en el rango seleccionado$")
+    public void verifyListOrdersInRange() {
+        listadoOrdenesFiltrarPage.verifyListOrdersInRange();
+    }
+
+    @Then("^Se visualiza el campo (.*) con la (.*) por defecto$")
+    public void verifyDefaultValue(String field, String date) {
+        Assert.assertTrue(listadoOrdenesFiltrarPage.verifyDefaultValue(field, date));
     }
 }

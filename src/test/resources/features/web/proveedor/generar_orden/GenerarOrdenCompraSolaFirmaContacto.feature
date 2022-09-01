@@ -1,4 +1,4 @@
-@payments @proveedor @generarOrdenCompraSolaFirmaContacto 
+@payments @proveedor @generarOrdenCompraSolaFirmaContacto
 Feature: Generar Orden de Compra. Información del Contacto. Confimación.
 
   Background:
@@ -80,19 +80,22 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And El proveedor hace click sobre botón Volver
     And El proveedor no visualiza el botón Enviar orden de compra
 
-  @TEST_SET_ID_AG-1543 @regression
+  @TEST_SET_ID_AG-1543 @TEST_SET_ID_AG-2123 @regression
   Scenario: Proveedor - Generar Orden de Compra - Confirmar - Verificar Loader
   Proveedor - Generar Orden de Compra - Confirmar - Verificar pantalla de éxito
+  Proveedor - Generar Orden de Compra - Confirmar Orden - Validar Error State al Enviar la Orden
+  Proveedor - Generar Orden de Compra - Confirmar Orden - Validar el botón "Ir a órdenes"
     And Se llena el campo Nombre y Apellido con valor Válidos
     And Se llena el campo Correo electrónico con valor Válido
     And Se llena el campo Cód de área con valor Válido
     And Se llena el campo Número de celular con valor Válido
     And El proveedor hace click en el botón Continuar
     And El proveedor hace click en el botón Enviar orden de compra
-    #Cuando el servicio Confirm respponda con 200 agregar la validacion
+    And Consumir api que que confirma la creacion de orden bff con ruta orders/confirm y body bff_confirm.txt
     Then Se visualiza la pantalla de Orden generada y enviada exitosamente
     And El proveedor hace click en el botón Ir a órdenes
-    #Al presionar el boton "Ir a órdenes" deberia ir a a la home, bug reportado en la 525
+ #Al presionar el boton "Ir a órdenes" deberia ir a a la home, bug reportado en la 525
+#    And El proveedor vuelve a la Home
 
   @TEST_SET_ID_AG-2153 @regression
   Scenario: Proveedor - Generar Orden de Compra - Formato del mail incorrecto - Validar error formato del mail incorrecto
@@ -100,7 +103,7 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And Se llena el campo Correo electrónico con valor Inválido
     And Se llena el campo Cód de área con valor Válido
     And Se llena el campo Número de celular con valor Válido
-    And El proveedor hace click en el botón Continuar
+#    And El proveedor hace click en el botón Continuar
     Then Se visualiza mensaje de error
 
   

@@ -16,8 +16,8 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
     #Faltan algunos elementos que faltan, bug reportado
       | el titulo Filtros de órdenes            |
       | el titulo Fecha de creación de la orden |
-#      | los campos Desde, Hasta              |
-#      | el logo Calendario                   |
+      | los campos Desde, Hasta                 |
+#      | el logo Calendario                      |
       | el titulo Estado                        |
       | el check Pendiente                      |
       | el check Pagada                         |
@@ -47,16 +47,21 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
     And Se selecciona el filtro Pendiente
     And El proveedor hace click en el boton Aplicar filtros de la pantalla ordenes
     Then Comprobar datos de servicio api que filtra todas las ordenes bff con ruta orders/filter y parámetros
-      | skip   | 0                                                                                                                                                                       |
-      | count  | 8                                                                                                                                                                       |
-      | where  | status:Nueva,Autorizada,payment_methods.product_id                                                                                                                      |
-      | like   | producer.name,producer.cuit                                                                                                                                             |
-      | fields | id_order,create_date,producer,payment_methods.financial_entity,payment_methods.financial_line,payment_methods.expiry_date,status,payment_methods.conditions.loan_amount |
+      | skip   | 0                                                                                                                                                     |
+      | count  | 10                                                                                                                                                    |
+      | where  | status:Pendiente,payment_methods.financial_line_id                                                                                                    |
+      | like   | producer.name,producer.cuit                                                                                                                           |
+      | fields | provider,create_date,amount,producer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
 
   #Los campos de fecha no estan, bug reportado
-#  @TEST_ID_AG-1805 @TEST_ID_AG-1806 @TEST_ID_AG-1807 @TEST_ID_AG-1810 @TEST_ID_AG-1811
-#  Scenario: Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar campo Desde
-#  Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar campo Hasta
-#  Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar campo Hasta con fecha default
-#  Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar formato fecha Desde
-#  Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar formato fecha Hasta
+  @TEST_ID_AG-1805 @TEST_ID_AG-1806 @TEST_ID_AG-1807 @TEST_ID_AG-1810 @TEST_ID_AG-1811
+  Scenario: Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar campo Desde
+  Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar campo Hasta
+  Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar campo Hasta con fecha default
+  Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar formato fecha Desde
+  Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar formato fecha Hasta
+    Then Se visualiza el campo Hasta con la fecha actual por defecto
+    And Se selecciona el filtro Desde
+    And Se selecciona el filtro Hasta
+    And El proveedor hace click en el boton Aplicar filtros de la pantalla ordenes
+    And  Se muestra listado de órdenes en el rango seleccionado
