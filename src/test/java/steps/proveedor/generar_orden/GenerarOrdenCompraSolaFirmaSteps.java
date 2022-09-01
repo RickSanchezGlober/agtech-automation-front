@@ -160,8 +160,14 @@ public class GenerarOrdenCompraSolaFirmaSteps {
     public void clickOnButttonErrorScreen(String butttonName) {
         generarOrdenCompraSolaFirmaPage.clickOnButttonErrorScreen(butttonName);
     }
+
     @And("^Se puede ver el botón (.*)")
     public void verifyDisplayedButton(String buttonName) {
         Assert.assertTrue(generarOrdenCompraSolaFirmaPage.verifyDisplayedButton(buttonName));
+    }
+
+    @Then("^Verificar pantalla de error productor sin margen superior al monto$")
+    public void verifyErrorScreenProducerNoMargin() {
+        Assert.assertTrue(generarOrdenCompraSolaFirmaPage.verifyErrorScreenProducerNoMargin());
     }
 }

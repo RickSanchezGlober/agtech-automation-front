@@ -99,6 +99,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 //                        text = DataGenerator.getNumber(4);
 //                    } while (Integer.parseInt(text) < 1001);
                     log.info("Ingresando monto de crédito: " + text);
+                } else if (text.equals("monto grande")) {
+                    text = DataGenerator.getNumber(10);
                 }
                 break;
         }
@@ -613,6 +615,41 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 result = elementList.get(i).isDisplayed();
                 break;
             }
+        }
+        return result;
+    }
+
+    public boolean verifyErrorScreenProducerNoMargin() {
+        boolean result = false;
+        if (response.getStatusCode() != 200) {
+            //Valido el Empty State
+            result = verifyElementScreenProducerNoMargin("icono")
+                    && verifyElementScreenProducerNoMargin("Ahora no es posible solicitar esta financiación")
+                    && verifyElementScreenProducerNoMargin("Tu cliente no puede financiarse por este monto. Probá un monto menor o pedile que se contacte con su ejecutivo/a.");
+        } else {
+            waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "10");
+            result = verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "Crédito a sola firma");
+        }
+        return result;
+    }
+
+    public boolean verifyElementScreenProducerNoMargin(String elementName) {
+        explicitWait(GenerarOrdenCompraSolaFirmaPageObject.EMPTY_STATE_ICON);
+        By element = null;
+        boolean result = false;
+        switch (elementName) {
+            case "icono":
+                element = GenerarOrdenCompraSolaFirmaPageObject.EMPTY_STATE_ICON;
+                result = isDisplayed(element);
+                break;
+            case "Ahora no es posible solicitar esta financiación":
+                element = GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "Tu cliente no puede financiarse por este monto. Probá un monto menor o pedile que se contacte con su ejecutivo/a.":
+                element = GenerarOrdenCompraSolaFirmaPageObject.TU_CLIENTE_NO_PUEDE_SUBTITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
         }
         return result;
     }
