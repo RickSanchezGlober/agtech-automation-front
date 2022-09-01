@@ -12,10 +12,10 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And El proveedor hace click en el botón Continuar
     And El proveedor seleciona medio de pago Crédito a sola firma
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
-    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Julio 2023
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
     And Recuperar datos de servicios api bff con ruta simulation con body bff_simulation.txt
-      | producer_cuit  |
+      | farmer_cuit    |
       | loan_amount    |
       | financing_type |
       | fees           |
@@ -23,7 +23,6 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
       | cft            |
       | interest       |
       | interest_iva   |
-      | sealed         |
       | end_to_pay     |
     And El proveedor hace click en el botón Confirmar medio de pago
 
@@ -66,7 +65,7 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And Se visualiza el título Información de contacto
     And Se visualiza el título Medio de pago
     And Se muestra la pantalla confirmacion datos del contacto
-      | producer_cuit  |
+      | farmer_cuit    |
       | loan_amount    |
       | financing_type |
       | fees           |
@@ -74,7 +73,6 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
       | cft            |
       | interest       |
       | interest_iva   |
-      | sealed         |
       | end_to_pay     |
     And El proveedor visualiza el botón Enviar orden de compra Habilitado
     And El proveedor hace click sobre botón Volver
@@ -94,8 +92,7 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And Consumir api que que confirma la creacion de orden bff con ruta orders/confirm y body bff_confirm.txt
     Then Se visualiza la pantalla de Orden generada y enviada exitosamente
     And El proveedor hace click en el botón Ir a órdenes
- #Al presionar el boton "Ir a órdenes" deberia ir a a la home, bug reportado en la 525
-#    And El proveedor vuelve a la Home
+    And El proveedor vuelve a la Home
 
   @TEST_SET_ID_AG-2153 @regression
   Scenario: Proveedor - Generar Orden de Compra - Formato del mail incorrecto - Validar error formato del mail incorrecto
@@ -103,7 +100,6 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And Se llena el campo Correo electrónico con valor Inválido
     And Se llena el campo Cód de área con valor Válido
     And Se llena el campo Número de celular con valor Válido
-#    And El proveedor hace click en el botón Continuar
     Then Se visualiza mensaje de error
 
   

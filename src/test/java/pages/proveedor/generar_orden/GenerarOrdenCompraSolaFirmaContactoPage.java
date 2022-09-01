@@ -148,12 +148,12 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
                                 // WEB ELEMENTS
                                 switch (FIELDS) {
-                                    case "producer_cuit":
+                                    case "farmer_cuit":
                                         VALUES = "CUIT " + getCuitWithFormat(VALUES);
                                         break;
                                     case "loan_amount":
                                         String numberS = parseFromDoubleToString(VALUES, 2);
-                                        VALUES = "Monto a acreditar " + "$" + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
+                                        VALUES = "Monto " + "$" + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                         break;
                                     case "financing_type":
                                         VALUES = "Tipo de convenio " + VALUES;
@@ -169,11 +169,10 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                         break;
                                     case "interest":
                                     case "interest_iva":
-                                    case "sealed":
                                         //no verifico este texto "Sellado"
                                         // "IVA s/ interés" "Sellado" pq para mapear
                                         // no esta por filas sino por columnas
-                                        VALUES = "$ " + VALUES;
+                                        VALUES = "$ " + parseFromDoubleToString(VALUES, 2);
                                         break;
                                     case "end_to_pay":
                                         String amount = parseFromDoubleToString(VALUES, 2);
@@ -257,13 +256,13 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
             case "Medio de pago":
                 fieldText = "Banco Banco Galicia " + title + " "
                         + GenerarOrdenCompraSolaFirmaPage.paymentMethod;
-                result = textFromUI.contains(title) && textFromUI.contains(fieldText);
+                result = textFromUI.toLowerCase().contains(title.toLowerCase()) && textFromUI.toLowerCase().contains(fieldText.toLowerCase());
                 break;
         }
         return result;
     }
 
-    public boolean verifyOrderGeneratedScreen() {
+    public void verifyOrderGeneratedScreen() {
         boolean result = false;
         if (response.statusCode() == 200) {
             waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "10");
@@ -271,14 +270,22 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                     && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto Productor S.A acepte la orden.")
                     && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
                     && isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON);
+            log.info(String.format("El servicio Confirm respónde con estado %s", response.statusCode()));
+            Assert.assertTrue(result);
         } else {
             //Valido el Empty State
             result = verifyElementEmptyStateScreen("icono")
                     && verifyElementEmptyStateScreen("No es posible continuar en este momento")
                     && verifyElementEmptyStateScreen("Te pedimos disculpas. Hay un problema técnico. Por favor volvé a intentar en unos minutos.")
                     && verifyElementEmptyStateScreen("Ir a órdenes");
+            log.info(String.format("El servicio Confirm respónde con estado %s", response.statusCode()));
+            if (result) {
+                log.info("Se vusializan correctamente los elementos del Empty State");
+            } else {
+                Assert.fail("No se vusializan correctamente los elementos del Empty State");
+            }
+            Assert.fail("No se pudo completar la confirmación");
         }
-        return result;
     }
 
     public boolean verifyElementEmptyStateScreen(String elementName) {

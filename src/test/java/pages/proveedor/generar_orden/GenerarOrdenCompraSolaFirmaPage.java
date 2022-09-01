@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import pageobjects.proveedor.generar_orden.GenerarOrdenCompraSolaFirmaContactoPageObject;
 import pageobjects.proveedor.generar_orden.GenerarOrdenCompraSolaFirmaPageObject;
+import pageobjects.proveedor.listado_ordenes.HomeUltimasOperacionesPageObject;
 import pages.BasePage;
 import utils.DataGenerator;
 import utils.RestAssuredExtension;
@@ -100,7 +101,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 //                    } while (Integer.parseInt(text) < 1001);
                     log.info("Ingresando monto de crédito: " + text);
                 } else if (text.equals("monto grande")) {
-                    text = DataGenerator.getNumber(10);
+                    text = DataGenerator.getNumber(13);
                 }
                 break;
         }
@@ -531,7 +532,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public boolean checkVolverButtonFunction() {
-        return false;
+        By element = HomeUltimasOperacionesPageObject.ORDENES_TITTLE;
+        waitVisibility(element, "10");
+        return isDisplayed(element);
     }
 
     public void hitApiSimulation(String sourceApi, String path, String body) {
@@ -621,14 +624,12 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
     public boolean verifyErrorScreenProducerNoMargin() {
         boolean result = false;
-        if (response.getStatusCode() != 200) {
-            //Valido el Empty State
+        if (response.getStatusCode() == 400 && response.getBody().jsonPath().get("detail").equals("Could not validate available margin.")) {
             result = verifyElementScreenProducerNoMargin("icono")
                     && verifyElementScreenProducerNoMargin("Ahora no es posible solicitar esta financiación")
                     && verifyElementScreenProducerNoMargin("Tu cliente no puede financiarse por este monto. Probá un monto menor o pedile que se contacte con su ejecutivo/a.");
         } else {
-            waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "10");
-            result = verifyVisibleText(GenerarOrdenCompraSolaFirmaPageObject.CREDITO_SOLA_FIRMA_TITLE, "Crédito a sola firma");
+            Assert.fail("Se aceptó un margen de monto no disponible para la simulación");
         }
         return result;
     }
