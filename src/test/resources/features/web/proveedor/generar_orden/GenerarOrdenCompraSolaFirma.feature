@@ -21,11 +21,11 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor hace click en el botón Buscar
     And Verificar pantalla de error si la conexion con el MS customer-validation no se realiza correctamente
     And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
-      | id_producer   |
       | cuit_teradata |
       | name          |
       | clean_loan    |
       | forward_loan  |
+      | is_mipyme     |
     And El proveedor puede ver Datos del Productor Asociado
       | name          |
       | cuit_teradata |
@@ -76,7 +76,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor seleciona medio de pago Crédito a sola firma
     Then El proveedor visualiza el boton Simular Crédito Deshabilitado
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
-    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Julio 2023
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
     And Validar datos de servicios api bff con ruta simulation con body bff_simulation.txt
       | TNA del crédito            | tna         |
@@ -104,9 +104,9 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor seleciona medio de pago Crédito a sola firma
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
     And Se permite ingresar hasta 2 decimales
-    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Julio 2023
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
-    And El proveedor cambia en subsidio de tasa opcion Sub 8% Vto Julio 2023
+    And El proveedor cambia en subsidio de tasa opcion Linea Base Vto Julio 2023
     And El proveedor visualiza el boton Simular Crédito Habilitado
     Then El proveedor no visualiza el boton Confirmar medio de pago
 
@@ -156,7 +156,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor hace click en el botón Continuar
     And El proveedor seleciona medio de pago Crédito a sola firma
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
-    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Julio 2023
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
     And Consumir api bff con ruta simulation con body bff_simulation.txt
     Then Verificar pantalla de error si la conexion con el MS simulacion no se realiza correctamente

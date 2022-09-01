@@ -313,7 +313,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
                                 log.info(FIELDS + " " + FIELDS_TEXT);
                                 // VALIDATIONS
-                                if (FIELDS.contains("TNA") || FIELDS.contains("CFT") || FIELDS.contains("Interés")) {
+                                if (FIELDS.contains("TNA") || FIELDS.contains("CFT")) {
                                     VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + "%";
                                 } else if (FIELDS.contains("Total Crédito a sola firma")) {
                                     String numberS = parseFromDoubleToString(VALUES, 2);
@@ -322,6 +322,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                     VALUES = " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                 } else if (FIELDS.contains("Cuota única, vencimiento:")) {
                                     VALUES = FIELDS + " " + getDateStringFormat(VALUES);
+                                } else if (FIELDS.contains("Interés")) {
+                                    VALUES = FIELDS + " $ " + parseFromDoubleToString(VALUES, 2);
                                 }
                                 Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
                                 i.getAndIncrement();
@@ -585,8 +587,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     public void clickOnButttonErrorScreen(String butttonName) {
         if (response.statusCode() != 200) {
             clickOnButtonFromListButton(GenerarOrdenCompraSolaFirmaPageObject.BUTTON_CONTAINER_ERROR_SCREEN, butttonName);
-        }else {
-            log.info(String.format("El botón '%s' no está visible, el MS simulacion respondió con 200",butttonName));
+        } else {
+            log.info(String.format("El botón '%s' no está visible, el MS simulacion respondió con 200", butttonName));
         }
     }
 
