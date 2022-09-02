@@ -180,6 +180,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
 
   @TEST_SET_ID_AG-2135 @regression
   Scenario: Proveedor - Generar Orden de Compra - Confirmar Orden - Validar Error cuenta embargada
+  Proveedor - Generar Orden de Compra - Confirmar Orden - Validar el botón "Ir a órdenes"
     And El proveedor ingresa cuit cuenta embargada en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado
@@ -197,3 +198,5 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor hace click en el botón Continuar
     And El proveedor hace click en el botón Enviar orden
     Then Ocurre un error. Cliente con cuenta embargada
+    And El proveedor hace click en el botón Ir a órdenes
+    And El proveedor vuelve a la Home
