@@ -131,7 +131,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor ingresa CUIT Inválido en el campo Ingresá el CUIT
     #El mensaje debe ser "CUIT no válido", bug reportado
     Then El proveedor ve el mensaje de error El número de CUIT es incorrecto
-    And El proveedor ingresa 20389907260 en el campo Ingresá el CUIT
+    And El proveedor ingresa cuit no autorizado en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And Se visualiza pantalla de error Cuit no autorizado
 
@@ -180,7 +180,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
 
   @TEST_SET_ID_AG-2135 @regression
   Scenario: Proveedor - Generar Orden de Compra - Confirmar Orden - Validar Error cuenta embargada
-    And El proveedor ingresa 30637063479 en el campo Ingresá el CUIT
+    And El proveedor ingresa cuit cuenta embargada en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado
     And El proveedor ingresa Descripción Válida en el campo Descripción

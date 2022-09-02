@@ -81,6 +81,10 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 element = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_CUIT_INPUT;
                 if (text.contains("Inválido")) {
                     text = DataGenerator.getNumber(11);
+                } else if (text.contains("embargada")) {
+                    text = "30637063479";
+                } else if (text.contains("no autorizado")) {
+                    text = "20389907260";
                 }
                 break;
             case "Descripción":
