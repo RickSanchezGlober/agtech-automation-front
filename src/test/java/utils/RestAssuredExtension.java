@@ -267,6 +267,29 @@ public class RestAssuredExtension {
         return response;
     }
 
+    public static ResponseOptions<Response> getMethodWithParamsHeaderOrdersCounter(String sourceApi, String path, List<List<String>> t_table, String access_token) {
+        specificPath = path;
+        builderMW = new RequestSpecBuilder();
+        setDefaultHeaders();
+        //Add params
+        for (int i = 0; i < t_table.size(); i++) {
+            String paramName = t_table.get(i).get(0);
+            String paramValue = t_table.get(i).get(1);
+            builderMW.addQueryParam(paramName, paramValue);
+        }
+        builderMW.addHeader("Host", "<calculated when request is sent>");
+        builderMW.addHeader("provider", "2");
+        try {
+            configProperties.initConfig();
+            builderMW.setBaseUri(getBaseUri(sourceApi));
+            builderMW.addHeader("Authorization", "Bearer " + access_token);
+            request = RestAssured.given().spec(builderMW.build());
+            response = request.get(new URI(path));
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
     public static ResponseOptions<Response> getMethodWithParamsHeader(String sourceApi, String path, List<List<String>> t_table, String access_token) {
         specificPath = path;
         builderMW = new RequestSpecBuilder();

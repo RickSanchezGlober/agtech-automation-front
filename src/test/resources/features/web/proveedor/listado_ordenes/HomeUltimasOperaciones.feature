@@ -38,6 +38,6 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
     And Se visualiza el icono contador de Ordenes próximas a vencer
     And Se visualiza el icono >
     And Validar datos de servicio api bff con ruta orders/counter/nexttowin y parámetros
-      | where | status:Pendiente |
+      | where | status:Pendiente,provider._id:2 |
     And El proveedor hace click en el boton > de Ordenes próximas a vencer del home
     And El botón > funciona correctamente

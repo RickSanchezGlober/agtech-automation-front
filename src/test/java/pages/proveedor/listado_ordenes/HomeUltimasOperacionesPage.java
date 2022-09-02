@@ -224,7 +224,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
         //API
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
         getAcessTokenFromApiServices("bff", "auth/login");
-        response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
+        response = RestAssuredExtension.getMethodWithParamsHeaderOrdersCounter(sourceApi, path, t_table, getAccess_token());
         String numberOrdersCloseToExpireAPI = "";
         try {
             numberOrdersCloseToExpireAPI = response.getBody().jsonPath().get("total").toString();
