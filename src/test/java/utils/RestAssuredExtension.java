@@ -301,7 +301,7 @@ public class RestAssuredExtension {
             builderMW.addQueryParam(paramName, paramValue);
         }
         builderMW.addHeader("Host", "<calculated when request is sent>");
-        builderMW.addHeader("provider", "3");
+        builderMW.addHeader("provider", "2");
         try {
             configProperties.initConfig();
             builderMW.setBaseUri(getBaseUri(sourceApi));

@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import pageobjects.proveedor.generar_orden.GenerarOrdenCompraCesionForwardPageObject;
+import pageobjects.proveedor.generar_orden.GenerarOrdenCompraSolaFirmaPageObject;
 import pageobjects.proveedor.listado_ordenes.HomeUltimasOperacionesPageObject;
 import pageobjects.proveedor.listado_ordenes.ListadoOrdenesFiltrarPageObject;
 import pageobjects.proveedor.listado_ordenes.ListadoOrdenesProveedorPageObject;
@@ -56,7 +57,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
                 case "la columna Cliente":
                 case "la columna Entidad":
                 case "la columna Medio de Pago":
-                case "la columna Monto total":
+                case "la columna Monto":
                 case "la columna Estado":
                     resultList.add(findElementOrdesScreen(elementName.replace("la columna ", ""), ListadoOrdenesProveedorPageObject.ENCABEZADO_TABLA_CONTAINER_PANTALLA_ORDENES));
                     break;
@@ -185,7 +186,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
 
     private String getDateStringFormat(String stringDate) {
         LocalDateTime ldt = LocalDateTime.parse(stringDate);
-        return ldt.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        return ldt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public boolean verifyMaxNumberOrders(String orderQuantity) {
@@ -197,11 +198,11 @@ public class ListadoOrdenesProveedorPage extends BasePage {
 
     public void doSearchByCuitName(String searchCriteria, String criteriaStatus) {
         if (searchCriteria.equalsIgnoreCase("cuit") && criteriaStatus.equalsIgnoreCase("existente")) {
-            searchCriteria = response.getBody().jsonPath().get("result.producer[0].cuit");
+            searchCriteria = response.getBody().jsonPath().get("result.farmer[0].cuit");
         } else if (searchCriteria.equalsIgnoreCase("nombre del cliente") && criteriaStatus.equalsIgnoreCase("existente")) {
-            searchCriteria = response.getBody().jsonPath().get("result.producer[0].name");
+            searchCriteria = response.getBody().jsonPath().get("result.farmer[0].name");
         } else if (searchCriteria.equalsIgnoreCase("cuit parcial") && criteriaStatus.equalsIgnoreCase("existente")) {
-            searchCriteria = response.getBody().jsonPath().get("result.producer[0].cuit").toString().substring(0, 5);
+            searchCriteria = response.getBody().jsonPath().get("result.farmer[0].cuit").toString().substring(0, 5);
         } else if (searchCriteria.equalsIgnoreCase("cuit") && criteriaStatus.equalsIgnoreCase("inexistente")) {
             searchCriteria = DataGenerator.getNumber(11);
         }
@@ -228,7 +229,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         if (listWebElement.size() != 0) {
             for (int i = 0; i < listWebElement.size(); i++) {
                 log.info(String.format("Verificando que se muestre en la orden '%s' el criterio '%s'", (i + 1), searchCriteria));
-                Assert.assertTrue(listWebElement.get(i).getText().toLowerCase().replaceAll("-", "").contains(searchCriteria.toLowerCase()));
+                Assert.assertTrue(listWebElement.get(i).getText().toLowerCase().contains(searchCriteria.toLowerCase()));
             }
         } else {
             Assert.fail("La busqueda no arroja resultados");
@@ -278,9 +279,9 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         for (int i = 0; i < lisOptions.size(); i++) {
             if (lisOptions.get(i).getText().equals("1 - 10")) {
                 resultOpt1 = true;
-            } else if (lisOptions.get(i).getText().equals("1 - 50")) {
+            } else if (lisOptions.get(i).getText().equals("50")) {
                 resultOpt2 = true;
-            } else if (lisOptions.get(i).getText().equals("1 - 100")) {
+            } else if (lisOptions.get(i).getText().equals("100")) {
                 resultOpt3 = true;
             }
         }
@@ -310,10 +311,9 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         Integer countOrders = response.getBody().jsonPath().get("_pagination.total_count");
         boolean result = false;
         if (countOrders > 10) {
-            Integer countOrdersRest = countOrders - 10;
             waitVisibility(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER, "10");
             List<WebElement> webElementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
-            result = webElementList.size() == countOrdersRest;
+            result = webElementList.size() <= 10;
         }
         return result;
     }
@@ -322,5 +322,39 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
         return (elementList.size() == Integer.parseInt(orderQuantity));
+    }
+
+    public boolean verifyEmptyStateOrdersScrenn() {
+        boolean result = verifyElementEmptyStateOrdersScreen("icono")
+                && verifyElementEmptyStateOrdersScreen("No encontramos operaciones")
+                && verifyElementEmptyStateOrdersScreen("revisá los filtros y volvé a intentarlo.");
+        return result;
+    }
+
+    public boolean verifyElementEmptyStateOrdersScreen(String elementName) {
+        explicitWait(ListadoOrdenesProveedorPageObject.EMPTY_STATE_ICON);
+        By element = null;
+        List<WebElement> elementList = null;
+        boolean result = false;
+        switch (elementName) {
+            case "icono":
+                element = ListadoOrdenesProveedorPageObject.EMPTY_STATE_ICON;
+                result = isDisplayed(element);
+                break;
+            case "No encontramos operaciones":
+                element = ListadoOrdenesProveedorPageObject.NO_ENCONTRAMOS_OPERACIONES_TITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "revisá los filtros y volvé a intentarlo.":
+                element = ListadoOrdenesProveedorPageObject.REVISA_LOS_FILTROS_SUBTITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+        }
+        if (result) {
+            log.info(String.format("Se visualiza el elemento %s", elementName));
+        } else {
+            log.error(String.format("No se visualiza el elemento %s", elementName));
+        }
+        return result;
     }
 }
