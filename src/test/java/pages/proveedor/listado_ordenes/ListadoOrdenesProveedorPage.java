@@ -229,7 +229,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         if (listWebElement.size() != 0) {
             for (int i = 0; i < listWebElement.size(); i++) {
                 log.info(String.format("Verificando que se muestre en la orden '%s' el criterio '%s'", (i + 1), searchCriteria));
-                Assert.assertTrue(listWebElement.get(i).getText().toLowerCase().contains(searchCriteria.toLowerCase()));
+                Assert.assertTrue(listWebElement.get(i).getText().replaceAll("-", "").toLowerCase().contains(searchCriteria.replaceAll("-", "").toLowerCase()));
             }
         } else {
             Assert.fail("La busqueda no arroja resultados");
