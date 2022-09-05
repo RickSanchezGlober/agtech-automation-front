@@ -13,4 +13,8 @@ public class ListadoOrdenesProveedorPageObject {
     //Botones <> para el paginado
     public static final By.ByClassName COUNTER_BUTTON_CONTAINER = new By.ByClassName("counter__button");
     public static final By.ByClassName PAGINADO_SELECT = new By.ByClassName("counter__select");
+    //Elements of Empty state orders
+    public static final By.ByClassName EMPTY_STATE_ICON = new By.ByClassName("rural-agro-icon-empty-order");
+    public static final By.ByClassName NO_ENCONTRAMOS_OPERACIONES_TITTLE = new By.ByClassName("confirmation_page__container__title");
+    public static final By.ByClassName REVISA_LOS_FILTROS_SUBTITTLE = new By.ByClassName("confirmation_page__container__subtitle");
 }

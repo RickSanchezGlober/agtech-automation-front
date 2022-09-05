@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import pageobjects.proveedor.generar_orden.GenerarOrdenCompraSolaFirmaContactoPageObject;
 import pageobjects.proveedor.generar_orden.GenerarOrdenCompraSolaFirmaPageObject;
+import pageobjects.proveedor.listado_ordenes.HomeUltimasOperacionesPageObject;
 import pages.BasePage;
 import utils.DataGenerator;
 import utils.RestAssuredExtension;
@@ -53,7 +54,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraSolaFirmaPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
                 break;
-            case "Enviar orden de compra":
+            case "Enviar orden":
                 element = GenerarOrdenCompraSolaFirmaContactoPageObject.ENVIAR_ORDEN_COMPRA_BUTTON;
                 break;
             case "Ir a órdenes":
@@ -80,6 +81,10 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 element = GenerarOrdenCompraSolaFirmaPageObject.INGRESA_EL_CUIT_INPUT;
                 if (text.contains("Inválido")) {
                     text = DataGenerator.getNumber(11);
+                } else if (text.contains("embargada")) {
+                    text = "30637063479";
+                } else if (text.contains("no autorizado")) {
+                    text = "20389907260";
                 }
                 break;
             case "Descripción":
@@ -99,6 +104,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 //                        text = DataGenerator.getNumber(4);
 //                    } while (Integer.parseInt(text) < 1001);
                     log.info("Ingresando monto de crédito: " + text);
+                } else if (text.equals("monto grande")) {
+                    text = DataGenerator.getNumber(13);
                 }
                 break;
         }
@@ -313,7 +320,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
                                 log.info(FIELDS + " " + FIELDS_TEXT);
                                 // VALIDATIONS
-                                if (FIELDS.contains("TNA") || FIELDS.contains("CFT") || FIELDS.contains("Interés")) {
+                                if (FIELDS.contains("TNA") || FIELDS.contains("CFT")) {
                                     VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + "%";
                                 } else if (FIELDS.contains("Total Crédito a sola firma")) {
                                     String numberS = parseFromDoubleToString(VALUES, 2);
@@ -322,6 +329,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                     VALUES = " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                 } else if (FIELDS.contains("Cuota única, vencimiento:")) {
                                     VALUES = FIELDS + " " + getDateStringFormat(VALUES);
+                                } else if (FIELDS.contains("Interés")) {
+                                    VALUES = FIELDS + " $ " + parseFromDoubleToString(VALUES, 2);
                                 }
                                 Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
                                 i.getAndIncrement();
@@ -527,7 +536,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public boolean checkVolverButtonFunction() {
-        return false;
+        By element = HomeUltimasOperacionesPageObject.ORDENES_TITTLE;
+        waitVisibility(element, "10");
+        return isDisplayed(element);
     }
 
     public void hitApiSimulation(String sourceApi, String path, String body) {
@@ -585,8 +596,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     public void clickOnButttonErrorScreen(String butttonName) {
         if (response.statusCode() != 200) {
             clickOnButtonFromListButton(GenerarOrdenCompraSolaFirmaPageObject.BUTTON_CONTAINER_ERROR_SCREEN, butttonName);
-        }else {
-            log.info(String.format("El botón '%s' no está visible, el MS simulacion respondió con 200",butttonName));
+        } else {
+            log.info(String.format("El botón '%s' no está visible, el MS simulacion respondió con 200", butttonName));
         }
     }
 
@@ -611,6 +622,72 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 result = elementList.get(i).isDisplayed();
                 break;
             }
+        }
+        return result;
+    }
+
+    public boolean verifyErrorScreenProducerNoMargin() {
+        boolean result = false;
+        if (response.getStatusCode() == 400 && response.getBody().jsonPath().get("detail").equals("Could not validate available margin.")) {
+            result = verifyElementScreenProducerNoMargin("icono")
+                    && verifyElementScreenProducerNoMargin("Ahora no es posible solicitar esta financiación")
+                    && verifyElementScreenProducerNoMargin("Tu cliente no puede financiarse por este monto. Probá un monto menor o pedile que se contacte con su ejecutivo/a.");
+        } else {
+            Assert.fail("Se aceptó un margen de monto no disponible para la simulación");
+        }
+        return result;
+    }
+
+    public boolean verifyElementScreenProducerNoMargin(String elementName) {
+        explicitWait(GenerarOrdenCompraSolaFirmaPageObject.EMPTY_STATE_ICON);
+        By element = null;
+        boolean result = false;
+        switch (elementName) {
+            case "icono":
+                element = GenerarOrdenCompraSolaFirmaPageObject.EMPTY_STATE_ICON;
+                result = isDisplayed(element);
+                break;
+            case "Ahora no es posible solicitar esta financiación":
+                element = GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "Tu cliente no puede financiarse por este monto. Probá un monto menor o pedile que se contacte con su ejecutivo/a.":
+                element = GenerarOrdenCompraSolaFirmaPageObject.TU_CLIENTE_NO_PUEDE_SUBTITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+        }
+        return result;
+    }
+
+    public boolean verifyScreenErrorCostumerWithEmbargoedAccount() {
+        boolean result = verifyElementErrorCostumerWithEmbargoedAccount("icono")
+                && verifyElementErrorCostumerWithEmbargoedAccount("No es posible solicitar la financiación")
+                && verifyElementErrorCostumerWithEmbargoedAccount("debe comunicarse con su ejecutivo/a.")
+                && verifyElementErrorCostumerWithEmbargoedAccount("Ir a órdenes");
+        return result;
+    }
+
+    public boolean verifyElementErrorCostumerWithEmbargoedAccount(String elementName) {
+        explicitWait(GenerarOrdenCompraSolaFirmaPageObject.EMPTY_STATE_ICON);
+        By element = null;
+        boolean result = false;
+        switch (elementName) {
+            case "icono":
+                element = GenerarOrdenCompraSolaFirmaPageObject.EMPTY_STATE_ICON;
+                result = isDisplayed(element);
+                break;
+            case "debe comunicarse con su ejecutivo/a.":
+                element = GenerarOrdenCompraSolaFirmaPageObject.DEBE_COMUNICARSE_SUBTITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "No es posible solicitar la financiación":
+                element = GenerarOrdenCompraSolaFirmaPageObject.NO_ES_POSIBLE_TITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "Ir a órdenes":
+                element = GenerarOrdenCompraSolaFirmaPageObject.IR_A_ORDENES_BUTTON;
+                result = verifyVisibleText(element, elementName) && isEnabled(element);
+                break;
         }
         return result;
     }

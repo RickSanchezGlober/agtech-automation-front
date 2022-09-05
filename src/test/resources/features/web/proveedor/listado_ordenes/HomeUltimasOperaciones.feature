@@ -12,11 +12,11 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
   Proveedor - Home - Últimas Operaciones Realizadas - Validar máximas Operaciones mostradas
   Proveedor - Home - Últimas Operaciones Realizadas - Validar botón "Ver todas"
     When Validar datos de servicios api bff con ruta orders y parametros
-      | fields    | id_order,create_date,producer,payment_methods.financial_entity,payment_methods.financial_line,payment_methods.expiry_date,status,payment_methods.conditions.loan_amount |
-      | skip      | 0                                                                                                                                                                       |
-      | count     | 4                                                                                                                                                                       |
-      | type_sort | DESC                                                                                                                                                                    |
-      | sort      | create_date                                                                                                                                                             |
+      | fields    | provider,order_date,amount,producer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
+      | skip      | 0                                                                                                                                                    |
+      | count     | 4                                                                                                                                                    |
+      | type_sort | ASC                                                                                                                                                  |
+      | sort      | order_date                                                                                                                                           |
     Then Se visualizan no más de 4 órdenes
     And Se viaualizan los elementos
       | título Últimas realizadas |
@@ -37,6 +37,7 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
     Then Se visualiza el titulo Órdenes próximas a vencer
     And Se visualiza el icono contador de Ordenes próximas a vencer
     And Se visualiza el icono >
-    And Validar datos de servicio api bff con ruta orders/counter/nexttowin
+    And Validar datos de servicio api bff con ruta orders/counter/nexttowin y parámetros
+      | where | status:Pendiente,provider._id:2 |
     And El proveedor hace click en el boton > de Ordenes próximas a vencer del home
     And El botón > funciona correctamente
