@@ -96,6 +96,6 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And Se visualiza el título Información de contacto
     And Se visualiza el título Medio de pago
     #Esperar por Servicio para hacer validación de datos e2e
-    And El proveedor percibe el boton Enviar orden de compra Habilitado
+    And El proveedor percibe el boton Enviar orden Habilitado
     And El proveedor hace click sobre botón Volver
-    And El proveedor no visualiza el botón Enviar orden de compra
+    And El proveedor no visualiza el botón Enviar orden

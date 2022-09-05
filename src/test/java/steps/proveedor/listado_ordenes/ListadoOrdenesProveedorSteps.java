@@ -36,6 +36,11 @@ public class ListadoOrdenesProveedorSteps {
         listadoOrdenesProveedorPage.doSearchByCuitName(searchCriteria, criteriaStatus);
     }
 
+    @And("^Se muestra la pantalla de órdenes vacias$")
+    public void verifyEmptyStateOrdersScrenn() {
+        Assert.assertTrue(listadoOrdenesProveedorPage.verifyEmptyStateOrdersScrenn());
+    }
+
     @And("^Se verifica que se muestren resultados correctos$")
     public void checkCorrectResultDisplayed() {
         listadoOrdenesProveedorPage.checkCorrectResultDisplayed();
@@ -78,6 +83,7 @@ public class ListadoOrdenesProveedorSteps {
     public void checkRestOrders() {
         Assert.assertTrue(listadoOrdenesProveedorPage.checkRestOrders());
     }
+
     @And("^Se visualizan las primeras (.*) ordenes")
     public void verifyFirstOrders(String orderQuantity) {
         Assert.assertTrue(listadoOrdenesProveedorPage.verifyFirstOrders(orderQuantity));

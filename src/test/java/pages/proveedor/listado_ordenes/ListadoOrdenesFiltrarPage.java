@@ -39,6 +39,12 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
         for (int i = 0; i < elementList.size(); i++) {
             if (elementList.get(i).getText().contains(buttonName)) {
                 elementList.get(i).click();
+                //En ocaciones es necesario hacer click más de una vez en Filtrar
+                int count = 0;
+                while (buttonName.equalsIgnoreCase("Filtrar") && !waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "5") && count < 2) {
+                    elementList.get(i).click();
+                    count++;
+                }
                 break;
             }
         }
@@ -129,7 +135,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
         if (1 < currentDate.getDayOfMonth() && currentDate.getDayOfMonth() < 8) {
             cantMonth = 1;
         }
-        LocalDateTime fromDate = LocalDateTime.of(currentDate.getYear(), currentDate.getMonth().getValue() - cantMonth, currentDate.getDayOfMonth() - 7, currentDate.getHour(), currentDate.getMinute());
+        LocalDateTime fromDate = LocalDateTime.of(currentDate.getYear(), currentDate.getMonth().getValue() - cantMonth, currentDate.getDayOfMonth() - 1, currentDate.getHour(), currentDate.getMinute());
         return fromDate;
     }
 
@@ -240,12 +246,13 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
         LocalDateTime dateOrders = null;
         for (int i = 0; i < elementList.size(); i++) {
             dateOrders = getLocalDateFromString(elementList.get(i).getText());
-            Assert.assertTrue((dateOrders.isBefore(currentDate) || dateOrders.equals(currentDate)) && (dateOrders.isAfter(fromDate) || dateOrders.isEqual(fromDate)));
+            Assert.assertTrue((dateOrders.isBefore(currentDate) || dateOrders.equals(currentDate))
+                                   && (dateOrders.isAfter(fromDate) || dateOrders.isEqual(fromDate)));
         }
     }
 
     private LocalDateTime getLocalDateFromString(String stringDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.forLanguageTag("es-ES"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.forLanguageTag("es-ES"));
         LocalDateTime ldt = LocalDate.parse(stringDate, formatter).atStartOfDay();
         return ldt;
     }

@@ -2,7 +2,7 @@
     "cuit":"30597962793",
     "farmer_name": "QUIYU AGROPECUARIA SA",
     "id_convenio":"62dac574b0b8830001f075a3",
-    "monto":"1001",
+    "monto":"12345678910",
     "product_id":"1",
     "provider_id":"2"
 }

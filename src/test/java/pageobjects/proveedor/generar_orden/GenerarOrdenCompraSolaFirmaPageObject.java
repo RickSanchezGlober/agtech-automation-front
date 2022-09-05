@@ -32,7 +32,10 @@ public class GenerarOrdenCompraSolaFirmaPageObject {
     public static final By.ByClassName X_BUTTON = new By.ByClassName("aside_modal__icon");
     public static final By.ByClassName CUIT_INCORRECTO_TEXT = new By.ByClassName("input__container__helper_text_error");
     public static final By.ByClassName AHORA_NO_ES_POSIBLE_TITTLE = new By.ByClassName("error_page__title");
+    public static final By.ByClassName NO_ES_POSIBLE_TITTLE = new By.ByClassName("error_page__title");
     public static final By.ByClassName REVISA_TU_CONEXION_SUBTITTLE = new By.ByClassName("error_page__subtitle");
+    public static final By.ByClassName TU_CLIENTE_NO_PUEDE_SUBTITTLE = new By.ByClassName("error_page__subtitle");
+    public static final By.ByClassName DEBE_COMUNICARSE_SUBTITTLE = new By.ByClassName("error_page__subtitle");
     public static final By.ByClassName LOGO_ERROR_STATE = new By.ByClassName("rural-agro-icon-info");
     public static final By.ByTagName BUTTON_CONTAINER_ERROR_SCREEN = new By.ByTagName("button");
     public static final By.ByTagName BUTTON_CONTAINER = new By.ByTagName("button");
@@ -40,4 +43,5 @@ public class GenerarOrdenCompraSolaFirmaPageObject {
     public static final By.ByClassName ESTE_CUIT_NO_CUMPLE_TITTLE = new By.ByClassName("card_icon_description__disabled");
     public static final By.ByClassName CREDITO_SOLA_FIRMA_TITLE = new By.ByClassName("aside_modal__title");
     public static final By.ByTagName EMPTY_STATE_ICON = new By.ByTagName("i");
+    public static final By.ByXPath IR_A_ORDENES_BUTTON = new By.ByXPath("//button[contains(text(),'Ir a órdenes')]");
 }

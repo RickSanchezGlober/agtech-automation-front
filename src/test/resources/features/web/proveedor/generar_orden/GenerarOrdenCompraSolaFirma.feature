@@ -21,11 +21,11 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor hace click en el botón Buscar
     And Verificar pantalla de error si la conexion con el MS customer-validation no se realiza correctamente
     And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
-      | id_producer   |
       | cuit_teradata |
       | name          |
       | clean_loan    |
       | forward_loan  |
+      | is_mipyme     |
     And El proveedor puede ver Datos del Productor Asociado
       | name          |
       | cuit_teradata |
@@ -76,7 +76,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor seleciona medio de pago Crédito a sola firma
     Then El proveedor visualiza el boton Simular Crédito Deshabilitado
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
-    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Julio 2023
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
     And Validar datos de servicios api bff con ruta simulation con body bff_simulation.txt
       | TNA del crédito            | tna         |
@@ -104,9 +104,9 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor seleciona medio de pago Crédito a sola firma
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
     And Se permite ingresar hasta 2 decimales
-    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Julio 2023
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
-    And El proveedor cambia en subsidio de tasa opcion Sub 8% Vto Julio 2023
+    And El proveedor cambia en subsidio de tasa opcion Linea Base Vto Julio 2023
     And El proveedor visualiza el boton Simular Crédito Habilitado
     Then El proveedor no visualiza el boton Confirmar medio de pago
 
@@ -131,7 +131,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor ingresa CUIT Inválido en el campo Ingresá el CUIT
     #El mensaje debe ser "CUIT no válido", bug reportado
     Then El proveedor ve el mensaje de error El número de CUIT es incorrecto
-    And El proveedor ingresa 30714048186 en el campo Ingresá el CUIT
+    And El proveedor ingresa cuit no autorizado en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And Se visualiza pantalla de error Cuit no autorizado
 
@@ -156,9 +156,47 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor hace click en el botón Continuar
     And El proveedor seleciona medio de pago Crédito a sola firma
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
-    And El proveedor selecciona en subsidio de tasa opcion Sub 5% Vto Julio 2023
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
     And Consumir api bff con ruta simulation con body bff_simulation.txt
     Then Verificar pantalla de error si la conexion con el MS simulacion no se realiza correctamente
     And Se hace click en el boton Intentar nuevamente de la pantalla de error
     And Se puede ver el botón Simular Crédito
+
+  @TEST_SET_ID_AG-2113 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Simular Crédito a sola firma - Validar productor sin margen superior al monto
+    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And El proveedor hace click en el botón del Productor encontrado
+    And El proveedor ingresa Descripción Válida en el campo Descripción
+    And El proveedor hace click en el botón Continuar
+    And El proveedor seleciona medio de pago Crédito a sola firma
+    And El proveedor ingresa monto grande en el campo Ingresá el monto del crédito
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
+    And El proveedor hace click en el botón Simular Crédito
+    And Consumir api bff con ruta simulation con body bff_simulation_monto_grande.txt
+    Then Verificar pantalla de error productor sin margen superior al monto
+
+
+  @TEST_SET_ID_AG-2135 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Confirmar Orden - Validar Error cuenta embargada
+  Proveedor - Generar Orden de Compra - Confirmar Orden - Validar el botón "Ir a órdenes"
+    And El proveedor ingresa cuit cuenta embargada en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And El proveedor hace click en el botón del Productor encontrado
+    And El proveedor ingresa Descripción Válida en el campo Descripción
+    And El proveedor hace click en el botón Continuar
+    And El proveedor seleciona medio de pago Crédito a sola firma
+    And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
+    And El proveedor hace click en el botón Simular Crédito
+    And El proveedor hace click en el botón Confirmar medio de pago
+    And Se llena el campo Nombre y Apellido con valor Válidos
+    And Se llena el campo Correo electrónico con valor Válido
+    And Se llena el campo Cód de área con valor Válido
+    And Se llena el campo Número de celular con valor Válido
+    And El proveedor hace click en el botón Continuar
+    And El proveedor hace click en el botón Enviar orden
+    Then Ocurre un error. Cliente con cuenta embargada
+    And El proveedor hace click en el botón Ir a órdenes
+    And El proveedor vuelve a la Home

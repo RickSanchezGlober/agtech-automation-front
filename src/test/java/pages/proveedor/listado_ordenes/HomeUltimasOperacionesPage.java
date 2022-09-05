@@ -2,6 +2,7 @@ package pages.proveedor.listado_ordenes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.openqa.selenium.By;
@@ -65,7 +66,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
     public void getDataFromApiServicesOrders(String sourceApi, String path, List<List<String>> t_table) {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
         getAcessTokenFromApiServices("bff", "auth/login");
-        response = RestAssuredExtension.getMethodWithParams(sourceApi, path, t_table, getAccess_token());
+        response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
         if (!response.getBody().prettyPrint().equals("")) {
             explicitWait(HomeUltimasOperacionesPageObject.ORDENES_CONTAINER);
             try {
@@ -102,7 +103,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
         //CREATE_DATE
-        FIELD_TEXT_API = data.get("create_date").toString();
+        FIELD_TEXT_API = data.get("order_date").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.contains(getDateStringFormat(FIELD_TEXT_API)));
         //PRODUCER_CUIT
@@ -110,10 +111,21 @@ public class HomeUltimasOperacionesPage extends BasePage {
         FIELD_TEXT_API = PRODUCERS.get("cuit").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.replaceAll("-", "").contains(FIELD_TEXT_API.replaceAll("-", "")));
-//        //PRODUCER_NAME ya no viene el nombre en el response
-//        FIELD_TEXT_API = PRODUCERS.get("name").toString();
-//        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-//        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API));
+        //PRODUCER_NAME
+        FIELD_TEXT_API = PRODUCERS.get("name").toString();
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
+        //Monto de la deuda
+        if (data.get("amount") instanceof Long) {
+            Long LONG_AMOUNT = (Long) data.get("amount");
+            FIELD_TEXT_API = parseFromDoubleToString(LONG_AMOUNT.toString(), 2);
+        } else if (data.get("amount") instanceof Double) {
+            Double DOUBLE_AMOUNT = (Double) data.get("amount");
+            String STRING_AMOUNT = parseFromDoubleToString(DOUBLE_AMOUNT.toString(), 0);
+            FIELD_TEXT_API = StringUtils.chop(STRING_AMOUNT);
+        }
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
 
         try {
             ArrayList list = new ArrayList<>(response.getBody().jsonPath().get(String.format("result[%s].payment_methods", pos)));
@@ -136,21 +148,19 @@ public class HomeUltimasOperacionesPage extends BasePage {
         String FIELD_TEXT_API = data.get("financial_entity").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
-        //FINANCIAL_LINE este campo ya no esta en el response
-//        FIELD_TEXT_API = data.get("financial_line").toString();
-//        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-//        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
-
-        //Monto de la deuda, conditions viene vacio
-//        Long LOAN_AMOUNT = (Long) ((JSONObject) data.get("conditions")).get("loan_amount");
-//        FIELD_TEXT_API = parseFromDoubleToString(LOAN_AMOUNT.toString(), 2);
-//        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
-//        Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
+        //FINANCIAL_LINE
+        if (data.get("financial_line_id").toString().equals("1")) {
+            FIELD_TEXT_API = "A sola firma";
+        } else if (data.get("financial_line_id").toString().equals("2")) {
+            FIELD_TEXT_API = "Cesión de forward";
+        }
+        log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
+        Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
     }
 
     private String getDateStringFormat(String stringDate) {
         LocalDateTime ldt = LocalDateTime.parse(stringDate);
-        return ldt.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        return ldt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public boolean verifyVisibleElements(List<List<String>> t_table) {
@@ -187,12 +197,13 @@ public class HomeUltimasOperacionesPage extends BasePage {
                 element = HomeUltimasOperacionesPageObject.OPERACIONES_PROXIMAS_VENCER;
                 break;
         }
-        waitVisibility(element, "10");
+        waitVisibility(element, "20");
         return verifyVisibleText(element, tittle);
     }
 
     public boolean verifyVisibleIcon(String iconName) {
         boolean result = false;
+        waitVisibility(HomeUltimasOperacionesPageObject.CONTADOR_ORDENES_PROXIMAS_VENCER_ICONO, "10");
         switch (iconName) {
             case "contador de Ordenes próximas a vencer":
                 By element = HomeUltimasOperacionesPageObject.CONTADOR_ORDENES_PROXIMAS_VENCER_ICONO;
@@ -202,19 +213,18 @@ public class HomeUltimasOperacionesPage extends BasePage {
             case ">":
                 waitVisibility(HomeUltimasOperacionesPageObject.ULTIMAS_REALIZADAS_TITTLE, "5");
                 List<WebElement> elementList = driver.findElements(HomeUltimasOperacionesPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
-                //Verificamos que hayan 5 >, 4 son de las ultimas operaciones realizadas
-                result = elementList.size() == 5;
+                result = elementList.size() >= 1;
                 break;
         }
 
         return result;
     }
 
-    public void getDataFromApiServicesOrdersCounter(String sourceApi, String path) {
+    public void getDataFromApiServicesOrdersCounter(String sourceApi, String path, List<List<String>> t_table) {
         //API
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
         getAcessTokenFromApiServices("bff", "auth/login");
-        response = RestAssuredExtension.getMethod(sourceApi, path, getAccess_token());
+        response = RestAssuredExtension.getMethodWithParamsHeaderOrdersCounter(sourceApi, path, t_table, getAccess_token());
         String numberOrdersCloseToExpireAPI = "";
         try {
             numberOrdersCloseToExpireAPI = response.getBody().jsonPath().get("total").toString();
