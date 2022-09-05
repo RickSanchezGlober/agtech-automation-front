@@ -2,8 +2,8 @@
 Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la orden. Medios de pago.
 
   Background:
-    Given Se navega al portal New Agro proveedor
-    And Usuario logueado en el portal New Agro
+    Given Se navega al portal Nera proveedor
+    And Usuario logueado en el portal Nera
     When El proveedor hace click en el botón Crear Orden
 
   @TEST_ID_AG-529 @TEST_ID_AG-530 @TEST_SET_ID_AG-2078 @regression

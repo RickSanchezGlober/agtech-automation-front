@@ -2,8 +2,8 @@
 Feature: Generar Orden de Compra con Método de Pago Cesión Forward
 
   Background:
-    Given Se navega al portal New Agro proveedor
-    And Usuario logueado en el portal New Agro
+    Given Se navega al portal Nera proveedor
+    And Usuario logueado en el portal Nera
     And El proveedor hace click en el botón Crear Orden
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar

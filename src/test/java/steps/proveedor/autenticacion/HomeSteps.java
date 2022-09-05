@@ -21,7 +21,7 @@ public class HomeSteps {
 
     @Then("^Se visualiza el mensaje (.*)$")
     public void seCambioLaContraseña(String message) {
-        Assert.assertTrue(homePage.verifyMessageIsdisplayed("cambio",message));
+        Assert.assertTrue(homePage.verifyMessageIsdisplayed("cambio", message, "proveedor"));
         homePage.click(HomePageObject.LOGIN_BUTTON);
 
     }
