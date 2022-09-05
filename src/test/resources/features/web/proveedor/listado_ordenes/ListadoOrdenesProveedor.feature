@@ -2,8 +2,8 @@
 Feature: Proveedor - Listado de Órdenes
 
   Background:
-    Given Se navega al portal New Agro proveedor
-    And Usuario logueado en el portal New Agro
+    Given Se navega al portal Nera proveedor
+    And Usuario logueado en el portal Nera
     And El proveedor hace click en el boton Ver todas del home
 
   @TEST_SET_ID_AG-1667 @TEST_SET_ID_AG-1720 @regression

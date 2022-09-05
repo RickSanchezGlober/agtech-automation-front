@@ -2,8 +2,8 @@
 Feature:  Home Proveedor - Últimas Operaciones Realizadas
 
   Background:
-    Given Se navega al portal New Agro proveedor
-    And Usuario logueado en el portal New Agro
+    Given Se navega al portal Nera proveedor
+    And Usuario logueado en el portal Nera
 
 
   @TEST_SET_ID_AG-1667 @regression

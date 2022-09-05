@@ -52,16 +52,19 @@ public class BasePage {
 
     public void navigateTo(String rol) {
         String url = "";
+        By element = null;
         switch (rol) {
             case "productor":
                 url = webPropertiesConfig.getBaseUriProductor();
+                element = pageobjects.productor.autenticacion.LoginPageObject.INGRESAR;
                 break;
             case "proveedor":
                 url = webPropertiesConfig.getBaseUriProveedor();
+                element = pageobjects.proveedor.autenticacion.LoginPageObject.INGRESAR;
                 break;
         }
         driver.get(url);
-        explicitWait(LoginPageObject.INGRESAR);
+        explicitWait(element);
 
     }
 
@@ -384,27 +387,52 @@ public class BasePage {
         return Find(locator).getText().equals(textToCompare);
     }
 
-    public boolean verifyMessageIsdisplayed(String action, String message) {
-        switch (action) {
-            case "logueo":
-                return verifyVisibleText(LoginPageObject.MENSAJE_BIENVENIDA_TEXT, message);
+    public boolean verifyMessageIsdisplayed(String action, String message, String rol) {
+        switch (rol) {
+            case "proveedor":
+                switch (action) {
+                    case "logueo":
+                        return verifyVisibleText(pageobjects.proveedor.autenticacion.LoginPageObject.MENSAJE_BIENVENIDA_TEXT, message);
 
-            case "deslogueo":
-                return verifyVisibleText(LoginPageObject.MENSAJE_INICIO_SESION_TEXT, message);
+                    case "deslogueo":
+                        return verifyVisibleText(pageobjects.proveedor.autenticacion.LoginPageObject.MENSAJE_INICIO_SESION_TEXT, message);
 
-            case "login":
-                message = "Inicio de sesión";
-                return verifyVisibleText(LoginPageObject.MENSAJE_INICIO_SESION_TEXT, message);
+                    case "login":
+                        message = "Inicio de sesión";
+                        return verifyVisibleText(pageobjects.proveedor.autenticacion.LoginPageObject.MENSAJE_INICIO_SESION_TEXT, message);
 
-            case "signup":
-                message = "Creá tu cuenta";
-                return verifyVisibleText(LoginPageObject.MENSAJE_REGISTRO_TEXT, message);
+                    case "signup":
+                        message = "Creá tu cuenta";
+                        return verifyVisibleText(pageobjects.proveedor.autenticacion.LoginPageObject.MENSAJE_REGISTRO_TEXT, message);
 
-            case "cambio":
+                    case "cambio":
 
-                return verifyVisibleText(HomePageObject.MENSAJE_CAMBIO_CONTRASENA, message);
+                        return verifyVisibleText(HomePageObject.MENSAJE_CAMBIO_CONTRASENA, message);
+                }
+                break;
+            case "productor":
+                switch (action) {
+                    case "logueo":
+                        return verifyVisibleText(pageobjects.productor.autenticacion.LoginPageObject.MENSAJE_BIENVENIDA_TEXT, message);
 
+                    case "deslogueo":
+                        return verifyVisibleText(pageobjects.productor.autenticacion.LoginPageObject.MENSAJE_INICIO_SESION_TEXT, message);
+
+                    case "login":
+                        message = "Inicio de sesión";
+                        return verifyVisibleText(pageobjects.productor.autenticacion.LoginPageObject.MENSAJE_INICIO_SESION_TEXT, message);
+
+                    case "signup":
+                        message = "Creá tu cuenta";
+                        return verifyVisibleText(pageobjects.productor.autenticacion.LoginPageObject.MENSAJE_REGISTRO_TEXT, message);
+
+                    case "cambio":
+
+                        return verifyVisibleText(HomePageObject.MENSAJE_CAMBIO_CONTRASENA, message);
+                }
+                break;
         }
+
         return false;
     }
 
