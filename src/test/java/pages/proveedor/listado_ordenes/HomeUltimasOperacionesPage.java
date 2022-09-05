@@ -160,7 +160,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
 
     private String getDateStringFormat(String stringDate) {
         LocalDateTime ldt = LocalDateTime.parse(stringDate);
-        return ldt.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        return ldt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     }
 
     public boolean verifyVisibleElements(List<List<String>> t_table) {

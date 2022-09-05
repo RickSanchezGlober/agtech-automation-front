@@ -15,8 +15,9 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
       | fields    | provider,order_date,amount,producer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
       | skip      | 0                                                                                                                                                    |
       | count     | 4                                                                                                                                                    |
-      | type_sort | ASC                                                                                                                                                  |
+      | type_sort | DESC                                                                                                                                                 |
       | sort      | order_date                                                                                                                                           |
+      | where     | provider._id:2                                                                                                                                       |
     Then Se visualizan no más de 4 órdenes
     And Se viaualizan los elementos
       | título Últimas realizadas |
