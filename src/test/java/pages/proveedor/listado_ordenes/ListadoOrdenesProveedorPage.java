@@ -4,12 +4,14 @@ package pages.proveedor.listado_ordenes;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.sl.In;
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import pageobjects.productor.listado_ordenes.ListadoOrdenesPageObject;
 import pageobjects.proveedor.generar_orden.GenerarOrdenCompraCesionForwardPageObject;
 import pageobjects.proveedor.generar_orden.GenerarOrdenCompraSolaFirmaPageObject;
 import pageobjects.proveedor.listado_ordenes.HomeUltimasOperacionesPageObject;
@@ -108,11 +110,32 @@ public class ListadoOrdenesProveedorPage extends BasePage {
             }
         } else {
             //Validar empty state
-//            verifyElementEmptyStateScreen("icono");
-//            verifyElementEmptyStateScreen("Todavía no tenés órdenes de compra");
-//            verifyElementEmptyStateScreen("Cuando las tengas vas a ver tus órdenes de compra acá.");
+            Assert.assertTrue(verifyElementEmptyStateScreen("icono"));
+            Assert.assertTrue(verifyElementEmptyStateScreen("Todavía no tenés órdenes de compra"));
+            Assert.assertTrue(verifyElementEmptyStateScreen("Cuando las tengas vas a ver tus órdenes de compra acá."));
         }
 
+    }
+
+    public boolean verifyElementEmptyStateScreen(String elementName) {
+        explicitWait(ListadoOrdenesProveedorPageObject.EMPTY_STATE_ICON);
+        By element = null;
+        boolean result = false;
+        switch (elementName) {
+            case "icono":
+                element = ListadoOrdenesProveedorPageObject.EMPTY_STATE_ICON;
+                result = isDisplayed(element);
+                break;
+            case "Todavía no tenés órdenes de compra":
+                element = ListadoOrdenesProveedorPageObject.NO_ENCONTRAMOS_OPERACIONES_TITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+            case "Cuando las tengas vas a ver tus órdenes de compra acá.":
+                element = ListadoOrdenesProveedorPageObject.REVISA_LOS_FILTROS_SUBTITTLE;
+                result = verifyVisibleText(element, elementName);
+                break;
+        }
+        return result;
     }
 
     private void getObjectAllOrder(Object dataEntry) {
@@ -132,11 +155,11 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.contains(FIELD_TEXT_API));
         //CREATE_DATE
-        FIELD_TEXT_API = data.get("create_date").toString();
+        FIELD_TEXT_API = data.get("order_date").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.contains(getDateStringFormat(FIELD_TEXT_API)));
         //PRODUCER_CUIT
-        JSONObject PRODUCERS = (JSONObject) data.get("producer");
+        JSONObject PRODUCERS = (JSONObject) data.get("farmer");
         FIELD_TEXT_API = PRODUCERS.get("cuit").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.replaceAll("-", "").contains(FIELD_TEXT_API.replaceAll("-", "")));
@@ -147,8 +170,16 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
 
         //Monto de la deuda,
-        Double DOUBLE_AMOUNT = (Double) data.get("amount");
-        FIELD_TEXT_API = parseFromDoubleToString(DOUBLE_AMOUNT.toString(), 2);
+        if (data.get("amount") instanceof Long) {
+            Long LONG_AMOUNT = (Long) data.get("amount");
+            FIELD_TEXT_API = parseFromDoubleToString(LONG_AMOUNT.toString(), 2);
+        } else if (data.get("amount") instanceof Double) {
+            Double DOUBLE_AMOUNT = (Double) data.get("amount");
+            String STRING_AMOUNT = parseFromDoubleToString(DOUBLE_AMOUNT.toString(), 0);
+            FIELD_TEXT_API = StringUtils.chop(STRING_AMOUNT);
+        }
+//        Double DOUBLE_AMOUNT = (Double) data.get("amount");
+//        FIELD_TEXT_API = parseFromDoubleToString(DOUBLE_AMOUNT.toString(), 2);
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
         try {
@@ -175,7 +206,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         Assert.assertTrue(FIELD_TEXT_UI.replace(".", "").contains(FIELD_TEXT_API));
         //FINANCIAL_LINE
         if (data.get("financial_line_id").toString().equals("1")) {
-            FIELD_TEXT_API = "A solo firma";
+            FIELD_TEXT_API = "A sola firma";
         } else if (data.get("financial_line_id").toString().equals("2")) {
             FIELD_TEXT_API = "Cesión de forward";
         }
