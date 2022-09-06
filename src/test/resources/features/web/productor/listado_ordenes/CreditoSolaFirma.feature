@@ -1,4 +1,4 @@
-@productor @creditosolofirma
+@financing @productor @creditosolofirma
 Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
 
   Background:
@@ -9,9 +9,9 @@ Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
     And Selecciona el medio de pago Credito a sola firma
     And Se presiona sobre el boton Continuar
 
-  @financing @regression @TEST_ID_AG-44 @TEST_ID_AG-261 @TEST_ID_AG-283 @TEST_ID_AG-347 @TEST_ID_AG-348
+  @regression @AG-44 @TEST_ID_AG-261 @TEST_ID_AG-283 @TEST_ID_AG-347 @TEST_ID_AG-348
   @TEST_ID_AG-285 @TEST_ID_AG-286 @TEST_ID_AG-313 @TEST_ID_AG-314 @TEST_ID_AG-315 @TEST_ID_AG-316
-  @TEST_ID_AG-101 @TEST_ID_AG-354
+  @AG-101 @TEST_ID_AG-354
   Scenario: Productor - Simulación Crédito a sola firma - Visualización de confirmación de detalle de ordenes
             Productor - Simulación Credito a sola firma - Validar visual de boton deshabilitado
             Productor - Simulación Credito a sola firma - Validar visual de boton habilitado
@@ -50,15 +50,15 @@ Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
     And Verificar datos de servicio api que lista todas las ordenes bff con ruta orders/producer/as768dfa2s-22dada2-awe2da-2sdi79
     #Método Payments
 
-#  @financing @TEST_ID_AG-44 @TEST_ID_AG-272
+#  @TEST_ID_AG-44 @TEST_ID_AG-272
 #  Scenario: Productor - Simulación Crédito a sola firma - Productor no tiene ubicación de cuenta corriente radicada en CABA
 #  No se cuenta con usuario logueado con cuenta corriente del productor estando radicada en CABA
 
-#  @financing @TEST_ID_AG-44 @TEST_ID_AG-274
+#  @TEST_ID_AG-44 @TEST_ID_AG-274
 #  Scenario: Productor - Simulación Crédito a sola firma - Productor no tiene ubicación de cuenta corriente radicada en CABA
 #  No se cuenta con usuario logueado sin cuenta corriente del productor estando radicada en CABA
 
 
-#  @financing @TEST_ID_AG-44 @TEST_ID_AG-349
+#  @TEST_ID_AG-44 @TEST_ID_AG-349
 #  Scenario: Productor - Simulación Crédito a sola firma - Validar boton anclado en versión mobile
 #  Pendiente validación en versión mobile
