@@ -264,13 +264,12 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
     public void verifyOrderGeneratedScreen() {
         boolean result = false;
-        if (response.statusCode() == 200) {
-            waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "10");
+        if (waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "10")) {
             result = verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "Orden generada y enviada exitosamente")
-                    && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto Productor S.A acepte la orden.")
+                    && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto FORTIN VEGA SOCIEDAD ANONIMA acepte la orden.")
                     && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
                     && isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON);
-            log.info(String.format("El servicio Confirm respónde con estado %s", response.statusCode()));
+            log.info(String.format("El servicio Confirm respónde con estado 200"));
             Assert.assertTrue(result);
         } else {
             //Valido el Empty State
@@ -278,7 +277,6 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                     && verifyElementEmptyStateScreen("No es posible continuar en este momento")
                     && verifyElementEmptyStateScreen("Te pedimos disculpas. Hay un problema técnico. Por favor volvé a intentar en unos minutos.")
                     && verifyElementEmptyStateScreen("Ir a órdenes");
-            log.info(String.format("El servicio Confirm respónde con estado %s", response.statusCode()));
             if (result) {
                 log.info("Se vusializan correctamente los elementos del Empty State");
             } else {
@@ -322,6 +320,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     public void getDataFromApiServicesConfirm(String sourceApi, String path, String body) {
         log.info(String.format("Consumiendo API: '%s' '%s' '%s'", sourceApi, path, body));
         getAcessTokenFromApiServices("bff", "auth/login");
+        response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation_confirm.txt", "");
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
     }
 }
