@@ -78,6 +78,7 @@ public class ListadoOrdenesExportarPage extends BasePage {
             }
         }
         //Verifico la cantidad de filas(cantidad de ordenes) más el HEADER
+        //Esto va a cambiar por bug reportado, debe decargar todas las ordenes.
         log.info(String.format("La cantidad de órdenes en la UI es '%s' y el en el excel '%s'", elementList.size(), iRow - 1));
         Assert.assertTrue(iRow == elementList.size() + 1);
     }

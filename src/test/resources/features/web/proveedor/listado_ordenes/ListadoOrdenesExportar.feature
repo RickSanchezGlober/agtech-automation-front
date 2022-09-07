@@ -9,6 +9,7 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
     And El proveedor hace click en el boton Exportar de la pantalla ordenes
 
 # Este caso solo funciona con el modo setHeadless(false), con lo que en el Job no funciona
+# Correrlo local
   @TEST_ID_AG-1822
   Scenario: Proveedor - Listado de Órdenes - CTA "Exportar" - Validar botón "Exportar"
   Proveedor - Listado de Órdenes - CTA "Exportar" - Validar botón "Exportar" con filtros aplicados
@@ -19,4 +20,5 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
     And El proveedor hace click en el boton Cerrar Filtros de la pantalla ordenes
     And Se elimina el archivo Tusordenes_Nera.xlsx si existe
     And El proveedor hace click en el boton Exportar de la pantalla ordenes
+    #Agregar vrificacion de la cantidad de ordenes bug reportado (AG-2662)
     And Se descarga Tusordenes_Nera.xlsx exitosamente
