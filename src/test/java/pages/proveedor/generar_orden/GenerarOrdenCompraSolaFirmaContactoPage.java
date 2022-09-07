@@ -148,10 +148,10 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
                                 // WEB ELEMENTS
                                 switch (FIELDS) {
-                                    case "farmer_cuit":
+                                    case "farmer.cuit":
                                         VALUES = "CUIT " + getCuitWithFormat(VALUES);
                                         break;
-                                    case "loan_amount":
+                                    case "amount":
                                         String numberS = parseFromDoubleToString(VALUES, 2);
                                         VALUES = "Monto " + "$" + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                         break;
@@ -162,19 +162,23 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                         String cuotaFormat = String.format("%02d", Integer.parseInt(VALUES));
                                         VALUES = "Cantidad de cuotas " + cuotaFormat;
                                         break;
-                                    case "tna":
+                                    case "farmer.tna":
                                     case "cft":
                                         //no verifico este texto "CFT" y "TNA del crédito" pq para mapear no esta por filas sino por columnas
                                         VALUES = parseFromDoubleToString(VALUES, 2) + "%";
                                         break;
-                                    case "interest":
-                                    case "interest_iva":
+                                    case "installments.interest_nominal":
+                                    case "installments.vat_interest":
                                         //no verifico este texto "Sellado"
                                         // "IVA s/ interés" "Sellado" pq para mapear
                                         // no esta por filas sino por columnas
-                                        VALUES = "$ " + parseFromDoubleToString(VALUES, 2);
+                                        if (!VALUES.equals("[null]")) {
+                                            VALUES = "$ " + parseFromDoubleToString(VALUES, 2);
+                                        } else {
+                                            VALUES = "";
+                                        }
                                         break;
-                                    case "end_to_pay":
+                                    case "total_amount":
                                         String amount = parseFromDoubleToString(VALUES, 2);
                                         VALUES = "$ " + amount.substring(0, 1) + "." + amount.substring(1, 7);
                                         break;

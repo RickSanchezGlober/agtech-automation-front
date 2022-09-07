@@ -15,15 +15,16 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
     And Recuperar datos de servicios api bff con ruta simulation con body bff_simulation.txt
-      | farmer_cuit    |
-      | loan_amount    |
-      | financing_type |
-      | fees           |
-      | tna            |
-      | cft            |
-      | interest       |
-      | interest_iva   |
-      | end_to_pay     |
+      | provider.name                 |
+      | farmer.cuit                   |
+      | amount                        |
+      | financing_type                |
+      | fees                          |
+      | farmer.tna                    |
+      | cft                           |
+      | installments.interest_nominal |
+      | installments.vat_interest     |
+      | total_amount                  |
     And El proveedor hace click en el botón Confirmar medio de pago
 
   @TEST_ID_AG-1390 @TEST_ID_AG-1391 @TEST_ID_AG-1393 @TEST_ID_AG-1394 @TEST_ID_AG-1395
@@ -65,15 +66,16 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And Se visualiza el título Información de contacto
     And Se visualiza el título Medio de pago
     And Se muestra la pantalla confirmacion datos del contacto
-      | farmer_cuit    |
-      | loan_amount    |
-      | financing_type |
-      | fees           |
-      | tna            |
-      | cft            |
-      | interest       |
-      | interest_iva   |
-      | end_to_pay     |
+      | provider.name                 |
+      | farmer.cuit                   |
+      | amount                        |
+      | financing_type                |
+      | fees                          |
+      | farmer.tna                    |
+      | cft                           |
+      | installments.interest_nominal |
+      | installments.vat_interest     |
+      | total_amount                  |
     And El proveedor visualiza el botón Enviar orden Habilitado
     And El proveedor hace click sobre botón Volver
     And El proveedor no visualiza el botón Enviar orden
