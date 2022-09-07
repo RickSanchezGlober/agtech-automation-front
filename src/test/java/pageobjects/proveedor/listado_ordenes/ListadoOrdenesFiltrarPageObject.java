@@ -14,4 +14,5 @@ public class ListadoOrdenesFiltrarPageObject {
     public static final By.ByClassName DATE_PICKER_INPUT_DESDE = new By.ByClassName("orders_filter__date_picker_start");
     public static final By.ByClassName DATE_PICKER_INPUT_HASTA = new By.ByClassName("orders_filter__date_picker_end");
     public static final By.ByClassName FECHA_ORDENES_CONTAINER = new By.ByClassName("last_order__item_dates");
+    public static final By.ByClassName X_FILTROS_BUTTON = new By.ByClassName("rural-agro-icon-close");
 }
