@@ -332,7 +332,11 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                 } else if (FIELDS.contains("Cuota única, vencimiento:")) {
                                     VALUES = FIELDS + " " + getDateStringFormat(VALUES);
                                 } else if (FIELDS.contains("Interés")) {
-                                    VALUES = FIELDS + " $ " + parseFromDoubleToString(VALUES, 2);
+                                    if (!VALUES.equals("[null]")) {
+                                        VALUES = FIELDS + " $ " + parseFromDoubleToString(VALUES, 2);
+                                    } else {
+                                        VALUES = "";
+                                    }
                                 }
                                 Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
                                 i.getAndIncrement();
@@ -630,7 +634,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
     public boolean verifyErrorScreenProducerNoMargin() {
         boolean result = false;
-        if (response.getStatusCode() == 400 && response.getBody().jsonPath().get("detail").equals("Could not validate available margin.")) {
+        if (response.getStatusCode() == 400) {
             result = verifyElementScreenProducerNoMargin("icono")
                     && verifyElementScreenProducerNoMargin("Ahora no es posible solicitar esta financiación")
                     && verifyElementScreenProducerNoMargin("Tu cliente no puede financiarse por este monto. Probá un monto menor o pedile que se contacte con su ejecutivo/a.");
@@ -680,7 +684,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 break;
             case "debe comunicarse con su ejecutivo/a.":
                 element = GenerarOrdenCompraSolaFirmaPageObject.DEBE_COMUNICARSE_SUBTITTLE;
-                result = verifyVisibleText(element, elementName);
+                result = getText(element).contains(elementName);
                 break;
             case "No es posible solicitar la financiación":
                 element = GenerarOrdenCompraSolaFirmaPageObject.NO_ES_POSIBLE_TITTLE;

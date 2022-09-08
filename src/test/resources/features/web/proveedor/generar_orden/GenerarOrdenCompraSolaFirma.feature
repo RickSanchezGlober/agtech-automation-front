@@ -79,11 +79,11 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
     And Validar datos de servicios api bff con ruta simulation con body bff_simulation.txt
-      | TNA del crédito            | tna         |
-      | CFT                        | cft         |
-      | Interés                    | interest    |
-      | Total Crédito a sola firma | loan_amount |
-      | Cuota única, vencimiento:  | due_date    |
+      | TNA del crédito            | farmer.tna                    |
+      | CFT                        | cft                           |
+      | Interés                    | installments.interest_nominal |
+      | Total Crédito a sola firma | amount                   |
+      | Cuota única, vencimiento:  | due_date                      |
     And El proveedor visualiza el boton Confirmar medio de pago Habilitado
     #usando la respuesta del servicio custumer-validation usado en el caso @TEST_ID_AG-529
     And Validar Nombre del Productor
