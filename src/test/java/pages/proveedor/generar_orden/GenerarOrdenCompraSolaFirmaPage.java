@@ -630,7 +630,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
     public boolean verifyErrorScreenProducerNoMargin() {
         boolean result = false;
-        if (response.getStatusCode() == 400 && response.getBody().jsonPath().get("detail").equals("Could not validate available margin.")) {
+        if (response.getStatusCode() == 400) {
             result = verifyElementScreenProducerNoMargin("icono")
                     && verifyElementScreenProducerNoMargin("Ahora no es posible solicitar esta financiación")
                     && verifyElementScreenProducerNoMargin("Tu cliente no puede financiarse por este monto. Probá un monto menor o pedile que se contacte con su ejecutivo/a.");
