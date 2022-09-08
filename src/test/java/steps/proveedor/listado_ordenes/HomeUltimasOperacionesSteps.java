@@ -50,9 +50,4 @@ public class HomeUltimasOperacionesSteps {
     public void verifyVisibleIcon(String iconName) {
         Assert.assertTrue(homeUltimasOperacionesPage.verifyVisibleIcon(iconName));
     }
-
-    @And("^El botón (.*) funciona correctamente")
-    public void checkuttonFuction(String buttonName) {
-        Assert.assertTrue(homeUltimasOperacionesPage.checkuttonFuction(buttonName));
-    }
 }

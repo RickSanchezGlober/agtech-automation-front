@@ -2,8 +2,8 @@
 Feature: Generar Orden de Compra. Información del Contacto. Confimación.
 
   Background:
-    Given Se navega al portal New Agro proveedor
-    And Usuario logueado en el portal New Agro
+    Given Se navega al portal Nera proveedor
+    And Usuario logueado en el portal Nera
     When El proveedor hace click en el botón Crear Orden
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
@@ -15,15 +15,16 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
     And Recuperar datos de servicios api bff con ruta simulation con body bff_simulation.txt
-      | farmer_cuit    |
-      | loan_amount    |
-      | financing_type |
-      | fees           |
-      | tna            |
-      | cft            |
-      | interest       |
-      | interest_iva   |
-      | end_to_pay     |
+      | provider.name                 |
+      | farmer.cuit                   |
+      | amount                        |
+      | financing_type                |
+      | fees                          |
+      | farmer.tna                    |
+      | cft                           |
+      | installments.interest_nominal |
+      | installments.vat_interest     |
+      | total_amount                  |
     And El proveedor hace click en el botón Confirmar medio de pago
 
   @TEST_ID_AG-1390 @TEST_ID_AG-1391 @TEST_ID_AG-1393 @TEST_ID_AG-1394 @TEST_ID_AG-1395
@@ -65,34 +66,19 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And Se visualiza el título Información de contacto
     And Se visualiza el título Medio de pago
     And Se muestra la pantalla confirmacion datos del contacto
-      | farmer_cuit    |
-      | loan_amount    |
-      | financing_type |
-      | fees           |
-      | tna            |
-      | cft            |
-      | interest       |
-      | interest_iva   |
-      | end_to_pay     |
+      | provider.name                 |
+      | farmer.cuit                   |
+      | amount                        |
+      | financing_type                |
+      | fees                          |
+      | farmer.tna                    |
+      | cft                           |
+      | installments.interest_nominal |
+      | installments.vat_interest     |
+      | total_amount                  |
     And El proveedor visualiza el botón Enviar orden Habilitado
     And El proveedor hace click sobre botón Volver
     And El proveedor no visualiza el botón Enviar orden
-
-  @TEST_SET_ID_AG-1543 @TEST_SET_ID_AG-2123 @regression
-  Scenario: Proveedor - Generar Orden de Compra - Confirmar - Verificar Loader
-  Proveedor - Generar Orden de Compra - Confirmar - Verificar pantalla de éxito
-  Proveedor - Generar Orden de Compra - Confirmar Orden - Validar Error State al Enviar la Orden
-  Proveedor - Generar Orden de Compra - Confirmar Orden - Validar el botón "Ir a órdenes"
-    And Se llena el campo Nombre y Apellido con valor Válidos
-    And Se llena el campo Correo electrónico con valor Válido
-    And Se llena el campo Cód de área con valor Válido
-    And Se llena el campo Número de celular con valor Válido
-    And El proveedor hace click en el botón Continuar
-    And El proveedor hace click en el botón Enviar orden
-    And Consumir api que que confirma la creacion de orden bff con ruta orders/confirm y body bff_confirm.txt
-    Then Se visualiza la pantalla de Orden generada y enviada exitosamente
-    And El proveedor hace click en el botón Ir a órdenes
-    And El proveedor vuelve a la Home
 
   @TEST_SET_ID_AG-2153 @regression
   Scenario: Proveedor - Generar Orden de Compra - Formato del mail incorrecto - Validar error formato del mail incorrecto

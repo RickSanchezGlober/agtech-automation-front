@@ -241,11 +241,4 @@ public class HomeUltimasOperacionesPage extends BasePage {
         log.info(String.format("Verificando que se muestre '%s' '%s'", numberOrdersCloseToExpireAPI, "Ordenes próximas a vencer"));
         Assert.assertEquals(numberOrdersCloseToExpireUI, numberOrdersCloseToExpireAPI);
     }
-
-    public boolean checkuttonFuction(String buttonName) {
-        //No tengo un user con Ordenes proximas a vencer, cuando las operaciones
-        // se filtren por user eso cambiara
-        waitVisibility(HomeUltimasOperacionesPageObject.ORDENES_TITTLE, "10");
-        return isDisplayed(HomeUltimasOperacionesPageObject.ORDENES_TITTLE);
-    }
 }

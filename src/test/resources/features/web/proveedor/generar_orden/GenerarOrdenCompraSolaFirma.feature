@@ -2,8 +2,8 @@
 Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la orden. Medios de pago.
 
   Background:
-    Given Se navega al portal New Agro proveedor
-    And Usuario logueado en el portal New Agro
+    Given Se navega al portal Nera proveedor
+    And Usuario logueado en el portal Nera
     When El proveedor hace click en el botón Crear Orden
 
   @TEST_ID_AG-529 @TEST_ID_AG-530 @TEST_SET_ID_AG-2078 @regression
@@ -79,11 +79,11 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
     And Validar datos de servicios api bff con ruta simulation con body bff_simulation.txt
-      | TNA del crédito            | tna         |
-      | CFT                        | cft         |
-      | Interés                    | interest    |
-      | Total Crédito a sola firma | loan_amount |
-      | Cuota única, vencimiento:  | due_date    |
+      | TNA del crédito            | farmer.tna                    |
+      | CFT                        | cft                           |
+      | Interés                    | installments.interest_nominal |
+      | Total Crédito a sola firma | amount                   |
+      | Cuota única, vencimiento:  | due_date                      |
     And El proveedor visualiza el boton Confirmar medio de pago Habilitado
     #usando la respuesta del servicio custumer-validation usado en el caso @TEST_ID_AG-529
     And Validar Nombre del Productor
@@ -198,5 +198,33 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor hace click en el botón Continuar
     And El proveedor hace click en el botón Enviar orden
     Then Ocurre un error. Cliente con cuenta embargada
+    And El proveedor hace click en el botón Ir a órdenes
+    And El proveedor vuelve a la Home
+
+    #Cambio este caso para aca pq tuve a cambiar el cuit a 30568143120
+  @TEST_SET_ID_AG-1543 @TEST_SET_ID_AG-2123 @regression
+  Scenario: Proveedor - Generar Orden de Compra - Confirmar - Verificar Loader
+  Proveedor - Generar Orden de Compra - Confirmar - Verificar pantalla de éxito
+  Proveedor - Generar Orden de Compra - Confirmar Orden - Validar Error State al Enviar la Orden
+  Proveedor - Generar Orden de Compra - Confirmar Orden - Validar el botón "Ir a órdenes"
+    And El proveedor ingresa cuit para confirmación en el campo Ingresá el CUIT
+    And El proveedor hace click en el botón Buscar
+    And El proveedor hace click en el botón del Productor encontrado
+    And El proveedor ingresa Descripción Válida en el campo Descripción
+    And El proveedor hace click en el botón Continuar
+    And El proveedor seleciona medio de pago Crédito a sola firma
+    And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
+    And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
+    And El proveedor hace click en el botón Simular Crédito
+    And El proveedor hace click en el botón Confirmar medio de pago
+    And Se llena el campo Nombre y Apellido con valor Válidos
+    And Se llena el campo Correo electrónico con valor Válido
+    And Se llena el campo Cód de área con valor Válido
+    And Se llena el campo Número de celular con valor Válido
+    And El proveedor hace click en el botón Continuar
+    And El proveedor hace click en el botón Enviar orden
+    #Coemnto este paso pq hay que pegarle a simulacion para volver a confirmar
+#    And Consumir api que que confirma la creacion de orden bff con ruta orders/confirm y body bff_confirm.txt
+    Then Se visualiza la pantalla de Orden generada y enviada exitosamente
     And El proveedor hace click en el botón Ir a órdenes
     And El proveedor vuelve a la Home

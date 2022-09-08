@@ -14,7 +14,7 @@ public class LoginSteps {
     public void iGoToNewAgroPortal(String rol) {
         loginPage.navigateTo(rol);
         String actualPageTitle = loginPage.getPageTitle();
-        Assert.assertEquals(actualPageTitle, "Nera - La nueva era del Agro");
+        Assert.assertEquals(actualPageTitle, "AgTech");
     }
 
     @Given("^Usuario logueado en el portal New Agro")
@@ -40,7 +40,7 @@ public class LoginSteps {
 
     @Then("^Se (.*) y visualiza el mensaje (.*)$")
     public void elUsuarioPuedoLoguearse(String action, String message) {
-        Assert.assertTrue(loginPage.verifyMessageIsdisplayed(action, message));
+        Assert.assertTrue(loginPage.verifyMessageIsdisplayed(action, message, "productor"));
     }
 
     @Then("^Ocurre un error en el proceso de (.*)$")
@@ -56,7 +56,7 @@ public class LoginSteps {
     @Then("^Después de darle click en el botón (.*) Debería ser redirigido a la página del (.*)")
     public void verifyRedirectErrorPage(String button, String action) {
         loginPage.clickOnButtonByName(button);
-        Assert.assertTrue(loginPage.verifyMessageIsdisplayed(action, ""));
+        Assert.assertTrue(loginPage.verifyMessageIsdisplayed(action, "", "productor"));
     }
 
     @Then("^Se espera que se deniegue el acceso con (.*)$")

@@ -2,7 +2,7 @@
 Feature: Login
 
   Background:
-  Given Se navega al portal New Agro productor
+    Given Se navega al portal New Agro productor
 
   @regression
   Scenario: Verificar login exitoso productor
@@ -13,14 +13,14 @@ Feature: Login
   Scenario Outline: Usuario no se puede autenticar con credenciales invalidas
     Given Se ingresa con usuario <user> y password <password>
     Then Se espera que se deniegue el acceso con <reason>
-
+#Se comenta las credenciales incorrectas, pq se bloquea el user
     Examples:
-    |user                      |password     |reason|
-    |cristian.duque@globant.com|badpassword  |credenciales_incorrectas|
-    |bob4@bob.com               |testing123  |credenciales_incorrectas|
-    |cristian.duqye@globant.com|             |boton_deshabilitado     |
-    |                          |testing123   |boton_deshabilitado     |
-    |                          |             |boton_deshabilitado     |
+      | user                       | password   | reason                   |
+#    |cristian.duque@globant.com|badpassword  |credenciales_incorrectas|
+      | bob4@bob.com               | testing123 | credenciales_incorrectas |
+      | cristian.duqye@globant.com |            | boton_deshabilitado      |
+      |                            | testing123 | boton_deshabilitado      |
+      |                            |            | boton_deshabilitado      |
 
   @regression
   Scenario: Usuario puede desloguearse del portal
@@ -35,9 +35,9 @@ Feature: Login
     Then  Debería ver la página de error del <process>
     And Después de darle click en el botón <button> Debería ser redirigido a la página del <process>
     Examples:
-      |process |button          |
-      |login   |Iniciar sesion  |
-      |signup  |Registrarse     |
+      | process | button         |
+      | login   | Iniciar sesion |
+      | signup  | Registrarse    |
 
 
 
