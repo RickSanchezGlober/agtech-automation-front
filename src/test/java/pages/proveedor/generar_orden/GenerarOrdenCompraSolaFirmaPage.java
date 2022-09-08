@@ -332,7 +332,11 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                 } else if (FIELDS.contains("Cuota única, vencimiento:")) {
                                     VALUES = FIELDS + " " + getDateStringFormat(VALUES);
                                 } else if (FIELDS.contains("Interés")) {
-                                    VALUES = FIELDS + " $ " + parseFromDoubleToString(VALUES, 2);
+                                    if (!VALUES.equals("[null]")) {
+                                        VALUES = FIELDS + " $ " + parseFromDoubleToString(VALUES, 2);
+                                    } else {
+                                        VALUES = "";
+                                    }
                                 }
                                 Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
                                 i.getAndIncrement();
