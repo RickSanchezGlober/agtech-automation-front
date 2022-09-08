@@ -148,10 +148,10 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
                                 // WEB ELEMENTS
                                 switch (FIELDS) {
-                                    case "farmer_cuit":
+                                    case "farmer.cuit":
                                         VALUES = "CUIT " + getCuitWithFormat(VALUES);
                                         break;
-                                    case "loan_amount":
+                                    case "amount":
                                         String numberS = parseFromDoubleToString(VALUES, 2);
                                         VALUES = "Monto " + "$" + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                         break;
@@ -162,19 +162,23 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                         String cuotaFormat = String.format("%02d", Integer.parseInt(VALUES));
                                         VALUES = "Cantidad de cuotas " + cuotaFormat;
                                         break;
-                                    case "tna":
+                                    case "farmer.tna":
                                     case "cft":
                                         //no verifico este texto "CFT" y "TNA del crédito" pq para mapear no esta por filas sino por columnas
                                         VALUES = parseFromDoubleToString(VALUES, 2) + "%";
                                         break;
-                                    case "interest":
-                                    case "interest_iva":
+                                    case "installments.interest_nominal":
+                                    case "installments.vat_interest":
                                         //no verifico este texto "Sellado"
                                         // "IVA s/ interés" "Sellado" pq para mapear
                                         // no esta por filas sino por columnas
-                                        VALUES = "$ " + parseFromDoubleToString(VALUES, 2);
+                                        if (!VALUES.equals("[null]")) {
+                                            VALUES = "$ " + parseFromDoubleToString(VALUES, 2);
+                                        } else {
+                                            VALUES = "";
+                                        }
                                         break;
-                                    case "end_to_pay":
+                                    case "total_amount":
                                         String amount = parseFromDoubleToString(VALUES, 2);
                                         VALUES = "$ " + amount.substring(0, 1) + "." + amount.substring(1, 7);
                                         break;
@@ -264,13 +268,12 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
     public void verifyOrderGeneratedScreen() {
         boolean result = false;
-        if (response.statusCode() == 200) {
-            waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "10");
+        if (waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "10")) {
             result = verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "Orden generada y enviada exitosamente")
-                    && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto Productor S.A acepte la orden.")
+                    && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto FORTIN VEGA SOCIEDAD ANONIMA acepte la orden.")
                     && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
                     && isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON);
-            log.info(String.format("El servicio Confirm respónde con estado %s", response.statusCode()));
+            log.info(String.format("El servicio Confirm respónde con estado 200"));
             Assert.assertTrue(result);
         } else {
             //Valido el Empty State
@@ -278,7 +281,6 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                     && verifyElementEmptyStateScreen("No es posible continuar en este momento")
                     && verifyElementEmptyStateScreen("Te pedimos disculpas. Hay un problema técnico. Por favor volvé a intentar en unos minutos.")
                     && verifyElementEmptyStateScreen("Ir a órdenes");
-            log.info(String.format("El servicio Confirm respónde con estado %s", response.statusCode()));
             if (result) {
                 log.info("Se vusializan correctamente los elementos del Empty State");
             } else {
@@ -322,6 +324,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     public void getDataFromApiServicesConfirm(String sourceApi, String path, String body) {
         log.info(String.format("Consumiendo API: '%s' '%s' '%s'", sourceApi, path, body));
         getAcessTokenFromApiServices("bff", "auth/login");
+        response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation_confirm.txt", "");
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
     }
 }

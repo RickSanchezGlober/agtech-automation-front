@@ -85,6 +85,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                     text = "30637063479";
                 } else if (text.contains("no autorizado")) {
                     text = "20389907260";
+                } else if (text.contains("confirmación")) {
+                    text = "30568143120";
                 }
                 break;
             case "Descripción":

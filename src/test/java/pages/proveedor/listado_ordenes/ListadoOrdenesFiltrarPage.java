@@ -34,20 +34,26 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
     }
 
     public void clicOnButtonByNameOrders(String buttonName) {
-        waitVisibility(ListadoOrdenesFiltrarPageObject.ORDENES_TITTLE, "30");
-        List<WebElement> elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER);
-        for (int i = 0; i < elementList.size(); i++) {
-            if (elementList.get(i).getText().contains(buttonName)) {
-                elementList.get(i).click();
-                //En ocaciones es necesario hacer click más de una vez en Filtrar
-                int count = 0;
-                while (buttonName.equalsIgnoreCase("Filtrar") && !waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "5") && count < 2) {
+        if (buttonName.equals("Cerrar Filtros")) {
+            waitVisibility(ListadoOrdenesFiltrarPageObject.X_FILTROS_BUTTON, "20");
+            click(ListadoOrdenesFiltrarPageObject.X_FILTROS_BUTTON);
+        } else {
+            waitVisibility(ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER, "30");
+            List<WebElement> elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER);
+            for (int i = 0; i < elementList.size(); i++) {
+                if (elementList.get(i).getText().contains(buttonName)) {
                     elementList.get(i).click();
-                    count++;
+                    //En ocaciones es necesario hacer click más de una vez en Filtrar
+                    int count = 0;
+                    while (buttonName.equalsIgnoreCase("Filtrar") && !waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "5") && count < 2) {
+                        elementList.get(i).click();
+                        count++;
+                    }
+                    break;
                 }
-                break;
             }
         }
+
     }
 
     public void validateDataFromOrderWithFilters(String sourceApi, String path, List<List<String>> t_table) {
@@ -247,7 +253,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
         for (int i = 0; i < elementList.size(); i++) {
             dateOrders = getLocalDateFromString(elementList.get(i).getText());
             Assert.assertTrue((dateOrders.isBefore(currentDate) || dateOrders.equals(currentDate))
-                                   && (dateOrders.isAfter(fromDate) || dateOrders.isEqual(fromDate)));
+                    && (dateOrders.isAfter(fromDate) || dateOrders.isEqual(fromDate)));
         }
     }
 
