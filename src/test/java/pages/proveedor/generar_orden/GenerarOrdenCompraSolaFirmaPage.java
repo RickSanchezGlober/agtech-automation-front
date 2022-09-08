@@ -680,7 +680,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                 break;
             case "debe comunicarse con su ejecutivo/a.":
                 element = GenerarOrdenCompraSolaFirmaPageObject.DEBE_COMUNICARSE_SUBTITTLE;
-                result = verifyVisibleText(element, elementName);
+                result = getText(element).contains(elementName);
                 break;
             case "No es posible solicitar la financiación":
                 element = GenerarOrdenCompraSolaFirmaPageObject.NO_ES_POSIBLE_TITTLE;
