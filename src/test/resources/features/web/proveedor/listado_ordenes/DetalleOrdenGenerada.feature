@@ -18,9 +18,9 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
       | Cliente                              |
       | Descripción                          |
       | Información de contacto              |
-      | Nombre y Apellido                    |
+#      | Nombre y Apellido                    |
       | Correo electrónico                   |
-      | Número de celular                    |
+#      | Número de celular                    |
       | A sola firma                         |
       | Pendiente                            |
       | Banco Galicia                        |
@@ -29,3 +29,4 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
       | Vencimiento                          |
       | TNA del crédito                      |
       | Monto                                |
+    And Obtener datos de endpoint -GET- en bff con ruta orders/detail/

@@ -310,7 +310,6 @@ public class BasePage {
     }
 
     public void getAcessTokenFromApiServices(String sourceApi, String path) {
-        log.info("Consumiendo API " + sourceApi + path);
         RestAssuredExtension.response = RestAssuredExtension.postMethodLogin(sourceApi, path, "login.txt");
         setAccess_token(RestAssuredExtension.response.getBody().jsonPath().getString("id_token"));
 
