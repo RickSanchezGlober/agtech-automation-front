@@ -74,7 +74,7 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
       | farmer.tna                    |
       | cft                           |
       | installments.interest_nominal |
-      | installments.vat_interest     |
+#      | installments.vat_interest     |ya no aparece
       | total_amount                  |
     And El proveedor visualiza el botón Enviar orden Habilitado
     And El proveedor hace click sobre botón Volver
