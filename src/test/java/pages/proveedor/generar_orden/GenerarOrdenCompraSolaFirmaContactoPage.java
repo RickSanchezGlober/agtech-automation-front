@@ -168,11 +168,13 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                         VALUES = parseFromDoubleToString(VALUES, 2) + "%";
                                         break;
                                     case "installments.interest_nominal":
-                                    case "installments.vat_interest":
+//                                    case "installments.vat_interest": ya no aparece
                                         //no verifico este texto "Sellado"
                                         // "IVA s/ interés" "Sellado" pq para mapear
                                         // no esta por filas sino por columnas
                                         if (!VALUES.equals("[null]")) {
+                                            VALUES = VALUES.replace("]", "");
+                                            VALUES = VALUES.replace("[", "");
                                             VALUES = "$ " + parseFromDoubleToString(VALUES, 2);
                                         } else {
                                             VALUES = "";
