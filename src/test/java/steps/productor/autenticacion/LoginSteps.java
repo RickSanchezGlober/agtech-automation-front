@@ -19,7 +19,7 @@ public class LoginSteps {
 
     @Given("^Usuario logueado en el portal New Agro")
     public void loginFixedUser() {
-        loginPage.loginWithUserPasswd("cristian.duque@globant.com", "Colombia123");
+        loginPage.loginWithUserPasswd("cristian.duque@globant.com", "Test123+");
     }
 
     @And("^Se hace click sobre el botón (.*)$")

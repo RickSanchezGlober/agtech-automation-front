@@ -6,7 +6,7 @@ Feature: Login
 
   @regression
   Scenario: Verificar login exitoso productor
-    Given Se ingresa con usuario cristian.duque@globant.com y password Colombia123
+    Given Se ingresa con usuario cristian.duque@globant.com y password Test123+
     Then Se logueo y visualiza el mensaje Te damos la bienvenida a Agtech
 
   @regression

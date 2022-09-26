@@ -216,7 +216,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     }
 
     public void getDataFromApiServicesSimulation(String sourceApi, String path, String body, List<List<String>> t_table) {
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
         DataTable data = createDataTable(t_table);
         if (data != null) {
@@ -268,7 +268,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
     public void verifyOrderGeneratedScreen() {
         boolean result = false;
-        if (waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "10")) {
+        if (waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "20")) {
             result = verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "Orden generada y enviada exitosamente")
                     && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto FORTIN VEGA SOCIEDAD ANONIMA acepte la orden.")
                     && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
@@ -323,7 +323,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
     public void getDataFromApiServicesConfirm(String sourceApi, String path, String body) {
         log.info(String.format("Consumiendo API: '%s' '%s' '%s'", sourceApi, path, body));
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation_confirm.txt", "");
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
     }

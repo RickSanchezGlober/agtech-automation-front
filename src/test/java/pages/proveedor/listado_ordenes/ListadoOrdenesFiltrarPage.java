@@ -59,7 +59,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
     public void validateDataFromOrderWithFilters(String sourceApi, String path, List<List<String>> t_table) {
 
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
         if (!response.getBody().prettyPrint().equals("")) {
             explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);

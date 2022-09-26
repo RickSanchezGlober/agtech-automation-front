@@ -259,7 +259,7 @@ public class BasePage {
     }
 
     public void getDataFromApiServices(String path, String body, String sourceApi, List<List<String>> t_table) {
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
 
         DataTable data = createDataTable(t_table);
@@ -290,8 +290,8 @@ public class BasePage {
 
     public void getDataFromApiServices(String path, String sourceApi, List<List<String>> t_table) {
 
-        getAcessTokenFromApiServices("bff", "auth/login");
-        RestAssuredExtension.response = RestAssuredExtension.getMethod(sourceApi, path, getAccess_token());
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
+        response = RestAssuredExtension.getMethod(sourceApi, path, getAccess_token());
         DataTable data = createDataTable(t_table);
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
@@ -302,7 +302,7 @@ public class BasePage {
                                 String KEY = rField.get(0);
                                 // SAVE
                                 try {
-                                    saveInScenarioContext(KEY, RestAssuredExtension.response.getBody().jsonPath().get(KEY).toString());
+                                    saveInScenarioContext(KEY, response.getBody().jsonPath().get(KEY).toString());
                                 } catch (NullPointerException e) {
                                 }
                             });

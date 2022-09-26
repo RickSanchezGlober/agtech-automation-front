@@ -6,7 +6,7 @@ Feature: Productor - Login
 
   @regression
   Scenario: Verificar login exitoso proveedor
-    Given El proveedor ingresa con usuario cristian.duque@globant.com y password Colombia123
+    Given El proveedor ingresa con usuario cristian.duque@globant.com y password Test123+
     Then El proveedor visualiza el mensaje Hola MONSANTO ARGENTINA S.R.L.
 
   @regresion

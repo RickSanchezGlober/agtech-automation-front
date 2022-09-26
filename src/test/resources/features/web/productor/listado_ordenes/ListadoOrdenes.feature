@@ -3,7 +3,7 @@ Feature:  Productor - Listado de órdenes
 
   Background:
     Given Se navega al portal New Agro productor
-    And Se ingresa con usuario cristian.duque@globant.com y password Colombia123
+    And Se ingresa con usuario cristian.duque@globant.com y password Test123+
 
     #Caso comentado pq el user ya no existe
 #  @TEST_ID_AG-275 @regression
