@@ -10,7 +10,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
   @AG-1522 @TEST_ID_AG-1604 @regression @ordenSolaFirma
   Scenario: Proveedor - Validar Detalle Orden Enviada - Todos los Status - Sola Firma
     Then Se selecciona el filtro Pendiente
-    And Se selecciona el filtro A sola Firma
+    And Se selecciona el filtro A sola firma
     And El proveedor hace click en el boton Aplicar Filtros de la sección modal Filtros de ordenes
     And El proveedor hace click en el boton Cerrar de la sección modal Filtros de ordenes
     And Se verifica que existan ordenes en status Pendiente y se verifica el Detalle de la Orden Enviada
@@ -29,4 +29,4 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
       | Vencimiento                          |
       | TNA del crédito                      |
       | Monto                                |
-    And Obtener datos de endpoint -GET- en bff con ruta orders/detail/
+    #And Obtener datos de endpoint -GET- en bff con ruta orders/detail/

@@ -117,7 +117,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
                 }
                 break;
             case "Cesión de forward":
-            case "A sola Firma":
+            case "A sola firma":
             case "Pago con granos":
                 elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.FILTRO_MEDIO_PAGO_CONTAINER);
                 clickOnButtonListButton(elementList, filterName);

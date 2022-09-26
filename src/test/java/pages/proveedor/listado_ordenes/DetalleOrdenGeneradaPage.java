@@ -73,7 +73,7 @@ public class DetalleOrdenGeneradaPage extends BasePage {
         for (int j = 0; j < resultList.size(); j++) {
             if (!resultList.get(j)) {
                 finalResult = resultList.get(j);
-                log.info(String.format("No se pudo encontrar el elemento '%s' '%s'", (j + 1), "de la tabla"));
+                log.info(String.format("No se pudo encontrar el elemento '%s' de la tabla de datos", (j + 1)));
                 break;
             }
         }
