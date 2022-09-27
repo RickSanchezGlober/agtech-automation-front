@@ -26,16 +26,13 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
       | el check Cesión de forward              |
       | el check A sola firma                   |
       | el botón Aplicar filtros                |
-    #El boton Aplicar filtros debe esta Deshabilitado, bug reportado
-#    And Se visualiza el boton Aplicar filtros Deshabilitado
-    #El boton Limpiar filtros no esta
-#    And Se visualiza el boton Limpiar filtros Deshabiltado
+    And Se visualiza el boton Aplicar filtros Deshabilitado
+    And Se visualiza el boton Limpiar filtros Deshabiltado
     And Se selecciona el filtro Pendiente
     And Se visualiza el boton Aplicar filtros Habilitado
-    #El boton Limpiar filtros no esta
-#    And Se visualiza el boton Limpiar filtros Habilitado
-#    And El proveedor hace click en el boton Limpiar filtros de la pantalla ordenes
-#    And Se visualiza el boton Aplicar filtros Deshabilitado
+    And Se visualiza el boton Limpiar filtros Habilitado
+    And El proveedor hace click en el boton Limpiar filtros de la pantalla ordenes
+    And Se visualiza el boton Aplicar filtros Deshabilitado
 
   #Falata agregar las demas combinaciones, agregar cuando este el boton limpiar filtros
   @TEST_ID_AG-1803 @TEST_ID_AG-1808 @TEST_ID_AG-1809 @regression
@@ -53,7 +50,6 @@ Feature:  Home Proveedor - Últimas Operaciones Realizadas
       | like      | farmer.name,farmer.cuit                                                                                                                                     |
       | fields    | provider,order_date,id_order,amount,farmer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
 
-  #Los campos de fecha no estan, bug reportado
   @TEST_ID_AG-1805 @TEST_ID_AG-1806 @TEST_ID_AG-1807 @TEST_ID_AG-1810 @TEST_ID_AG-1811
   Scenario: Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar campo Desde
   Proveedor - Listado de Órdenes - CTA "Filtrar" - Validar campo Hasta

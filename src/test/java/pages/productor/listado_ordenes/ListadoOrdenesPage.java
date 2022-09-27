@@ -115,7 +115,7 @@ public class ListadoOrdenesPage extends BasePage {
 
     public void getDataFromApiServicesAllOrders(String sourceApi, String path) {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         response = RestAssuredExtension.getMethod(sourceApi, path, getAccess_token());
         if (!response.getBody().prettyPrint().equals("")) {
             explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);

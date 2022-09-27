@@ -26,7 +26,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
     public static List<WebElement> elementList;
     public static String FIELD_TEXT_UI;
     public static String filterSelected;
-    public static LocalDateTime currentDate = LocalDateTime.now();
+    public static LocalDate currentDate = LocalDate.now();
 
     public ListadoOrdenesFiltrarPage() {
         super();
@@ -59,7 +59,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
     public void validateDataFromOrderWithFilters(String sourceApi, String path, List<List<String>> t_table) {
 
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
         if (!response.getBody().prettyPrint().equals("")) {
             explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
@@ -124,7 +124,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
                 break;
             case "Desde":
                 element = ListadoOrdenesFiltrarPageObject.DATE_PICKER_INPUT_DESDE;
-                LocalDateTime fromDate = getLocalDateFrom();
+                LocalDate fromDate = getLocalDateFrom();
                 clearField(element);
                 write(element, fromDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 break;
@@ -136,12 +136,12 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
         }
     }
 
-    private LocalDateTime getLocalDateFrom() {
+    private LocalDate getLocalDateFrom() {
         int cantMonth = 0;
         if (1 < currentDate.getDayOfMonth() && currentDate.getDayOfMonth() < 8) {
             cantMonth = 1;
         }
-        LocalDateTime fromDate = LocalDateTime.of(currentDate.getYear(), currentDate.getMonth().getValue() - cantMonth, currentDate.getDayOfMonth() - 1, currentDate.getHour(), currentDate.getMinute());
+        LocalDate fromDate = LocalDate.of(currentDate.getYear(), currentDate.getMonth().getValue() - cantMonth, currentDate.getDayOfMonth() - 1);
         return fromDate;
     }
 
@@ -248,8 +248,8 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
     public void verifyListOrdersInRange() {
         waitVisibility(ListadoOrdenesFiltrarPageObject.FECHA_ORDENES_CONTAINER, "20");
         List<WebElement> elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.FECHA_ORDENES_CONTAINER);
-        LocalDateTime fromDate = getLocalDateFrom();
-        LocalDateTime dateOrders = null;
+        LocalDate fromDate = getLocalDateFrom();
+        LocalDate dateOrders = null;
         for (int i = 0; i < elementList.size(); i++) {
             dateOrders = getLocalDateFromString(elementList.get(i).getText());
             Assert.assertTrue((dateOrders.isBefore(currentDate) || dateOrders.equals(currentDate))
@@ -257,9 +257,9 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
         }
     }
 
-    private LocalDateTime getLocalDateFromString(String stringDate) {
+    private LocalDate getLocalDateFromString(String stringDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.forLanguageTag("es-ES"));
-        LocalDateTime ldt = LocalDate.parse(stringDate, formatter).atStartOfDay();
+        LocalDate ldt = LocalDate.parse(stringDate, formatter);
         return ldt;
     }
 

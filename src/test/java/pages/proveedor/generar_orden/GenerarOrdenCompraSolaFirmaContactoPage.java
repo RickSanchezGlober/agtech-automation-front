@@ -158,7 +158,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                     case "financing_type":
                                         VALUES = "Tipo de convenio " + VALUES;
                                         break;
-                                    case "fees":
+                                    case "installment_cuantity":
                                         String cuotaFormat = String.format("%02d", Integer.parseInt(VALUES));
                                         VALUES = "Cantidad de cuotas " + cuotaFormat;
                                         break;
@@ -168,11 +168,13 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                         VALUES = parseFromDoubleToString(VALUES, 2) + "%";
                                         break;
                                     case "installments.interest_nominal":
-                                    case "installments.vat_interest":
+//                                    case "installments.vat_interest": ya no aparece
                                         //no verifico este texto "Sellado"
                                         // "IVA s/ interés" "Sellado" pq para mapear
                                         // no esta por filas sino por columnas
                                         if (!VALUES.equals("[null]")) {
+                                            VALUES = VALUES.replace("]", "");
+                                            VALUES = VALUES.replace("[", "");
                                             VALUES = "$ " + parseFromDoubleToString(VALUES, 2);
                                         } else {
                                             VALUES = "";
@@ -216,7 +218,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
     }
 
     public void getDataFromApiServicesSimulation(String sourceApi, String path, String body, List<List<String>> t_table) {
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
         DataTable data = createDataTable(t_table);
         if (data != null) {
@@ -268,7 +270,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
     public void verifyOrderGeneratedScreen() {
         boolean result = false;
-        if (waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "10")) {
+        if (waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "20")) {
             result = verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "Orden generada y enviada exitosamente")
                     && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto FORTIN VEGA SOCIEDAD ANONIMA acepte la orden.")
                     && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
@@ -323,7 +325,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
     public void getDataFromApiServicesConfirm(String sourceApi, String path, String body) {
         log.info(String.format("Consumiendo API: '%s' '%s' '%s'", sourceApi, path, body));
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation_confirm.txt", "");
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
     }

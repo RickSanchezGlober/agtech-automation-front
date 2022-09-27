@@ -5,7 +5,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     Given Se navega al portal Nera proveedor
     And Usuario logueado en el portal Nera
     And El proveedor hace click en el botón Crear Orden
-    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor ingresa 30568143120 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado
     And El proveedor ingresa Descripción Válida en el campo Descripción
@@ -54,7 +54,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     Then Se navega al portal New Agro proveedor
     And Se ingresa con usuario ronaldinho@yopmail.com y password Brasil123
     And El proveedor hace click en el botón Crear Orden
-    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor ingresa 30568143120 en el campo Ingresá el CUIT
     And El proveedor hace click en el botón Buscar
     And El proveedor hace click en el botón del Productor encontrado
     And El proveedor ingresa Descripción Válida en el campo Descripción
