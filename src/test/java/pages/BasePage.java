@@ -290,7 +290,7 @@ public class BasePage {
 
     public void getDataFromApiServices(String path, String sourceApi, List<List<String>> t_table) {
 
-        getAcessTokenFromApiServices("bff", "provider/auth/login");
+        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
         response = RestAssuredExtension.getMethod(sourceApi, path, getAccess_token());
         DataTable data = createDataTable(t_table);
         if (data != null) {
