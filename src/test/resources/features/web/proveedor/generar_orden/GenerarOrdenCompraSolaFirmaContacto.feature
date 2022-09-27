@@ -19,7 +19,7 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
       | farmer.cuit                   |
       | amount                        |
       | financing_type                |
-      | fees                          |
+      | installment_cuantity          |
       | farmer.tna                    |
       | cft                           |
       | installments.interest_nominal |
@@ -70,7 +70,7 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
       | farmer.cuit                   |
       | amount                        |
       | financing_type                |
-      | fees                          |
+      | installment_cuantity          |
       | farmer.tna                    |
       | cft                           |
       | installments.interest_nominal |

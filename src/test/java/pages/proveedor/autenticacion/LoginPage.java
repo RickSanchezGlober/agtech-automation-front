@@ -12,7 +12,7 @@ public class LoginPage extends BasePage {
 
 
     public boolean verifyMessageWellcome(String message) {
-        explicitWait(LoginPageObject.NERA_LOGO);
+        waitVisibility(LoginPageObject.NERA_LOGO, "10");
         return verifyVisibleText(LoginPageObject.MENSAJE_BIENVENIDA_TEXT, message);
     }
 

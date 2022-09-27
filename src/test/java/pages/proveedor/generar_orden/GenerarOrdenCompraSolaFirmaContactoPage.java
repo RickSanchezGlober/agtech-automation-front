@@ -158,7 +158,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                     case "financing_type":
                                         VALUES = "Tipo de convenio " + VALUES;
                                         break;
-                                    case "fees":
+                                    case "installment_cuantity":
                                         String cuotaFormat = String.format("%02d", Integer.parseInt(VALUES));
                                         VALUES = "Cantidad de cuotas " + cuotaFormat;
                                         break;

@@ -1,5 +1,5 @@
 @onboarding @proveedor @loginproveedor @prueba
-Feature: Productor - Login
+Feature: Proveedor - Login
 
   Background:
     Given Se navega al portal Nera proveedor
@@ -7,7 +7,8 @@ Feature: Productor - Login
   @regression
   Scenario: Verificar login exitoso proveedor
     Given El proveedor ingresa con usuario cristian.duque@globant.com y password Test123+
-    Then El proveedor visualiza el mensaje Hola MONSANTO ARGENTINA S.R.L.
+#    Then El proveedor visualiza el mensaje Hola MONSANTO ARGENTINA S.R.L.
+    Then El proveedor visualiza el mensaje Hola
 
   @regresion
   Scenario Outline: Usuario no se puede autenticar con credenciales invalidas
@@ -25,8 +26,9 @@ Feature: Productor - Login
   @regression
   Scenario: Usuario puede desloguearse del portal
     Given Usuario logueado en el portal Nera
-    When El proveedor visualiza el mensaje Hola MONSANTO ARGENTINA S.R.L.
-    When Se hace click sobre el botón Cerrar sesión
+#    When El proveedor visualiza el mensaje Hola MONSANTO ARGENTINA S.R.L.
+    When El proveedor visualiza el mensaje Hola
+    And Se hace click sobre el botón Cerrar sesión
     Then El proveedor se deslogueo y visualiza el mensaje Inicio de sesión
 
   @AG-592 @AG-1436 @AG-1437 @AG-1308
