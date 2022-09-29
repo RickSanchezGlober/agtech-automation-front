@@ -8,11 +8,11 @@ Feature: Validar el detalle de la Orden desde el listado de Ordenes
     And El proveedor hace click en el boton Filtrar de la sección Ordenes
 
   @AG-1522 @TEST_ID_AG-1604 @regression @ordenSolaFirma @dalia
-  Scenario: Proveedor - Validar Detalle Orden Enviada - Todos los Status - Sola Firma
-    Then Se selecciona el filtro Pendiente
+  Scenario: Proveedor - Validar Detalle Orden Pagada - Exportar
+    Then Se selecciona el filtro Pagada
     And El proveedor hace click en el boton Aplicar Filtros de la sección modal Filtros de ordenes
     And El proveedor hace click en el boton Cerrar de la sección modal Filtros de ordenes
-    And Se verifica que existan ordenes en status Pendiente y se verifica el Detalle de la Orden Enviada
+    And Se verifica que existan ordenes en status Pagada y se verifica el Detalle de la Orden Enviada
       | N° de orden:                         |
       | Cliente                              |
       | Descripción                          |
@@ -21,11 +21,12 @@ Feature: Validar el detalle de la Orden desde el listado de Ordenes
       | Correo electrónico                   |
       | Número de celular                    |
       | A sola firma                         |
-      | Pendiente                            |
+      | Pagada                               |
       | Banco Galicia                        |
-      | El productor debe confirmar la orden |
       | Cantidad de cuotas                   |
       | Vencimiento                          |
       | TNA del crédito                      |
       | Monto                                |
     #And Obtener datos de endpoint -GET- en bff con ruta orders/detail/
+
+  And Se valida que el boton Descargar detalle exista
