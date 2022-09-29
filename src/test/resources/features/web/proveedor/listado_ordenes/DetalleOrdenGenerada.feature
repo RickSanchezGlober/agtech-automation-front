@@ -1,5 +1,5 @@
 @financing @proveedor @DetalleOrdenGenerada
-Feature: Generar Orden de Compra con Método de Pago Cesión Forward
+Feature: Validar el detalle de la Orden desde el listado de Ordenes
 
   Background:
     Given Se navega al portal New Agro proveedor
