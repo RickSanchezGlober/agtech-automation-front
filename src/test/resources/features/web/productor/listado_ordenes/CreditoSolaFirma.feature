@@ -1,5 +1,6 @@
 @financing @productor @creditosolofirma
 Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
+  #Comentado hasta que tengamos algo mas de productor
 
   Background:
     Given Se navega al portal New Agro productor

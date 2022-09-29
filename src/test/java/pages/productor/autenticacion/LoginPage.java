@@ -22,7 +22,7 @@ public class LoginPage extends BasePage {
                 element = LoginPageObject.INICIAR_SESION_BUTTON;
                 break;
             case "Cerrar sesión":
-//                click(LoginPageObject.HOME_MENU_BUTTON);
+                click(LoginPageObject.HOME_MENU_BUTTON);
                 element = LoginPageObject.CERRAR_SESION_BUTTON;
                 break;
             case "Registrarse":

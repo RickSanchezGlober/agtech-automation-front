@@ -1,4 +1,4 @@
 {
     "email":"cristian.duque@globant.com"
-    ,"password":"Colombia123"
+    ,"password":"Test123+"
 }

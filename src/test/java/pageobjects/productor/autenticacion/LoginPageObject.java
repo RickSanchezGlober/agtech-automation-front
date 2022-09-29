@@ -10,7 +10,7 @@ public class LoginPageObject {
     public static final By.ByXPath INICIAR_SESION_BUTTON = new By.ByXPath("//button[contains(text(),'Iniciar sesión')]");
     public static final By.ByClassName MENSAJE_BIENVENIDA_TEXT = new By.ByClassName("home__container__subtitle");
     public static final By.ByCssSelector MENSAJE_ERROR_LOGIN = new By.ByCssSelector("p.login__container__error_message_first_line");
-    public static final By.ByXPath CERRAR_SESION_BUTTON = new By.ByXPath("//button[contains(text(),'Cerrar sesión')]");
+    public static final By.ByXPath CERRAR_SESION_BUTTON = new By.ByXPath("//div[contains(text(),'Cerrar sesión')]");
     public static final By.ByClassName MENSAJE_INICIO_SESION_TEXT = new By.ByClassName("login__container__subtitle");
     public static final By.ByClassName MENSAJE_REGISTRO_TEXT = new By.ByClassName("register__container__subtitle");
     public static final By.ByCssSelector PAGINA_ERROR = new By.ByCssSelector(".confirmation_page__container__title");

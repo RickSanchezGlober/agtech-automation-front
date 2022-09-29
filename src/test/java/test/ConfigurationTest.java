@@ -92,7 +92,7 @@ public class ConfigurationTest {
     @Test
     public void testGetOrders() {
         BasePage basePage = new BasePage();
-        basePage.getAcessTokenFromApiServices("bff", "auth/login");
+        basePage.getAcessTokenFromApiServices("bff", "provider/auth/login");
         List<List<String>> t_table = null;
         //Para probar agregar paramatros a la lista
         response = RestAssuredExtension.getMethodWithParams("bff", "orders", t_table, basePage.getAccess_token());

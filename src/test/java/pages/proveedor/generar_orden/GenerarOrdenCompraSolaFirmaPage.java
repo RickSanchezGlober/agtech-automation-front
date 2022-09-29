@@ -333,6 +333,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                     VALUES = FIELDS + " " + getDateStringFormat(VALUES);
                                 } else if (FIELDS.contains("Interés")) {
                                     if (!VALUES.equals("[null]")) {
+                                        VALUES = VALUES.replace("[", "");
+                                        VALUES = VALUES.replace("]", "");
                                         VALUES = FIELDS + " $ " + parseFromDoubleToString(VALUES, 2);
                                     } else {
                                         VALUES = "";
@@ -452,11 +454,12 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
     public boolean checkErrorMessage(String messageError) {
         By webElement = GenerarOrdenCompraSolaFirmaPageObject.CUIT_INCORRECTO_TEXT;
+        waitVisibility(webElement, "15");
         return verifyVisibleText(webElement, messageError);
     }
 
     public void chekErrorScreen(String cuit) {
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         response = RestAssuredExtension.getMethod("bff", "customer-validation/" + cuit, getAccess_token());
         if (response.getStatusCode() != 200) {
             waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE, "5");
@@ -504,7 +507,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void chekErrorScreenPaymentMethod() {
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         response = RestAssuredExtension.getMethod("bff", "agreement?payment_method=2&provider_id=116", getAccess_token());
         if (response.getStatusCode() != 200) {
             waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE, "20");
@@ -548,7 +551,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void hitApiSimulation(String sourceApi, String path, String body) {
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getAcessTokenFromApiServices("bff", "provider/auth/login");
         log.info(String.format("Consumiendo API '%s' con body '%s'", sourceApi + path, body));
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
     }

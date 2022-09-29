@@ -26,7 +26,7 @@ public class LoginSteps {
 
     @Given("^Usuario logueado en el portal Nera")
     public void loginFixedUser() {
-        loginPage.loginWithUserPasswd("cristian.duque@globant.com", "Colombia123");
+        loginPage.loginWithUserPasswd("cristian.duque@globant.com", "Test123+");
     }
 
     @Then("^Se produce un error en el proceso de (.*)$")
