@@ -33,6 +33,9 @@ public class DetalleOrdenGeneradaPage extends BasePage {
             case "Ver todas":
                 element = DetalleOrdenGeneradaPageObject.VER_TODAS_BUTTON;
                 break;
+            case "Descargar detalle":
+                element = DetalleOrdenGeneradaPageObject.DESCARGAR_DETALLE_BUTTON;
+                break;
         }
         log.info(String.format("====>  Click en el botón: '%s', de la sección: '%s' ====", sButton, sPantalla));
         waitVisibility(element, "10");
@@ -97,94 +100,123 @@ public class DetalleOrdenGeneradaPage extends BasePage {
         return isVisibleButton;
     }
 
-    public Boolean getDataFromApiGetMethod(String sourceApi, String path) {
+    public Boolean getDataFromApiGetMethod(String sourceApi, String path, String sType, List<List<String>> table) {
         path = path + sOrdenNumber;
         log.info("===> Ejecutando MS en <" + sourceApi + "> y path: <" + path + "> ===");
-        getAcessTokenFromApiServices("bff", "auth/login");
+        getDataFromApiServices(path, sourceApi, table);
+
         response = RestAssuredExtension.getMethod(sourceApi, path, getAccess_token());
-        List<WebElement> elementList = driver.findElements(DetalleOrdenGeneradaPageObject.ORDER_DETAIL_CONTAINER);
+        List<WebElement> elementList = null;
+
+        switch (sType){
+            case ("detalle"):
+                elementList = driver.findElements(DetalleOrdenGeneradaPageObject.ORDER_DETAIL_CONTAINER);
+                break;
+            case ("reporte"):
+                driver.switchTo().window(driver.getWindowHandles().toArray()[1].toString());
+                elementList = driver.findElements(DetalleOrdenGeneradaPageObject.ORDER_DETAIL_CONTAINER);
+                break;
+        }
 
         String sElemento = elementList.get(0).getText();
         Boolean isContained = true;
 
-
+        //Se validan que estén todos los campos del detalle de la orden
         if (!response.getBody().prettyPrint().equals("")) {
-
-//            N° de orden: 00010767
-//            Cliente
-//            Fortin Vega CB
-//            30568143120
-//            Descripción
-//            Orden Generada Vía API
-//            Información de contacto
-//            Correo electrónico
-//            yailin.valdivia@globant.com
-//            A sola firma
-//                    Pendiente
-//            Banco Galicia
-//            El productor debe confirmar la orden
-//            Cantidad de cuotas
-//            01
-//            Vencimiento
-//            15/09/2022
-//            TNA del crédito
-//            52,00 %
-//                    Monto
-//            $ 2.000,00
-
-
-//            {
-//                "orderId": "00010767",
-//                    "companyName": "Fortin Vega CB",
-//                    "farmerCuit": "30568143120",
-//                    "orderDesc": "Orden Generada Vía API",
-//                    "farmerName": "",
-//                    "farmerNumber": "",
-//                    "farmerMail": "yailin.valdivia@globant.com",
-//                    "paymentLine": "1",
-//                    "bankEntity": "Banco Galicia",
-//                    "orderStatus": "Nueva",
-//                    "paymentStatus": "Pendiente Productor",
-//                    "fees": 1,
-//                    "dueDate": "2022-12-01T23:59:59.999",
-//                    "orderAmount": 2000,
-//                    "orderTna": 52,
-//                    "businessType": null,
-//                    "brokerName": null,
-//                    "providerName": "MONSANTO ARGENTINA S.R.L."
-//            }
-
             DecimalFormat formatValue = new DecimalFormat("###,###.##");
             String companyName = response.getBody().jsonPath().get("companyName").toString();
+            String orderDesc = response.getBody().jsonPath().get("orderDesc").toString();
+            String farmerCuit = response.getBody().jsonPath().get("farmerCuit").toString();
             String farmerMail = response.getBody().jsonPath().get("farmerMail").toString();
+            String farmerName = response.getBody().jsonPath().get("farmerName").toString();
+            String farmerNumber = response.getBody().jsonPath().get("farmerNumber").toString();
+            String installmentCuantity = "0" + response.getBody().jsonPath().get("installmentCuantity").toString();
             String orderTna = response.getBody().jsonPath().get("orderTna").toString();
             String orderAmount = formatValue.format(response.getBody().jsonPath().get("orderAmount"));
             orderAmount = orderAmount.replace(".","&").replace(",", ".").replace("&", ",");
-            String orderDesc = response.getBody().jsonPath().get("orderDesc").toString();
-            String paymentStatus = response.getBody().jsonPath().get("paymentStatus").toString();
-            String statusDetails = "";
-            String statusTextoPendiente = "El productor debe confirmar la orden";
+            String orderStatus = response.getBody().jsonPath().get("orderStatus").toString();
+            String statusType = "";
+            String statusTexto = "";
 
-            //VALIDAR CONFIRMAR TEXTO - SI ES PENDIENTE O EN EJECUCION
-            switch (paymentStatus) {
-                case "Pendiente Productor":
-                    statusDetails = "Pendiente";
-                    break;
-                case "En Ejecución":
-                    statusDetails = "Pendiente";
-                    break;
+            //A sola firma = 1
+            if(response.getBody().jsonPath().get("paymentLine").toString().equals("1")) {
+                switch (orderStatus) {
+                    case "Nueva":
+                        statusType = "Pendiente";
+                        statusTexto = "recibió la orden y está cerrando el negocio.";
+                        break;
+                    case "En Ejecución":
+                        statusType = "Pendiente";
+                        statusTexto = "El productor debe confirmar la orden";
+                        break;
+                    case "Pagada":
+                        statusType = "Pagada";
+                        break;
+                }
             }
 
             if (!sElemento.contains(companyName) && isContained) { isContained = false; }
             if (!sElemento.contains(farmerMail) && isContained) { isContained = false; }
+            if (!sElemento.contains(farmerCuit) && isContained) { isContained = false; }
+            if (!sElemento.contains(farmerName) && isContained) { isContained = false; }
+            if (!sElemento.contains(farmerNumber) && isContained) { isContained = false; }
             if (!sElemento.contains(orderTna) && isContained) { isContained = false; }
             if (!sElemento.contains(orderDesc) && isContained) { isContained = false; }
-            if (!sElemento.contains(statusDetails) && isContained) { isContained = false; }
             if (!sElemento.contains(orderAmount) && isContained) { isContained = false; }
+            if (!sElemento.contains(installmentCuantity) && isContained) { isContained = false; }
+            if (!sElemento.contains(statusType) && isContained) { isContained = false; }
+            if (!sElemento.contains(statusTexto) && isContained) { isContained = false; }
         }else {
             isContained = false;
         }
         return isContained;
     }
+
+//    {
+//        "orderId": "00012708",
+//            "companyName": "FORTIN VEGA SOCIEDAD ANONIMA",
+//            "farmerCuit": "30568143120",
+//            "orderDesc": "SolaFirma-Automation",
+//            "farmerName": "dalia cortes",
+//            "farmerNumber": "90040230630",
+//            "farmerMail": "dalia.cortes@globant.com",
+//            "paymentLine": "1",
+//            "bankEntity": "Banco Galicia",
+//            "orderStatus": "Pagada",
+//            "paymentStatus": "Ejecutada Con Éxito",
+//            "installmentCuantity": 1,
+//            "dueDate": "2023-04-03T23:59:59.999",
+//            "orderAmount": 1001.05,
+//            "orderTna": 90,
+//            "businessType": null,
+//            "brokerName": null,
+//            "providerName": "MONSANTO ARGENTINA S.R.L."
+//    }
+
+
+//    N° de orden: 00012708
+//    Cliente
+//    FORTIN VEGA SOCIEDAD ANONIMA
+//30568143120
+//    Descripción
+//    SolaFirma-Automation
+//    Información de contacto
+//    Nombre y Apellido
+//    dalia cortes
+//    Correo electrónico
+//    dalia.cortes@globant.com
+//    Número de celular
+//90040230630
+//    A sola firma
+//            Pagada
+//    Banco Galicia
+//    Cantidad de cuotas
+//01
+//    Vencimiento
+//03/04/2023
+//    TNA del crédito
+//90,00 %
+//    Monto
+//    $ 1.001,05
 
 }
