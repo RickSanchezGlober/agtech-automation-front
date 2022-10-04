@@ -314,7 +314,7 @@ public class BasePage {
         String bodySource = "";
         if (path.contains("farmer")) {
             bodySource = "bff_productor_login.txt";
-        } else if (path.contains("producer")) {
+        } else if (path.contains("producer")||path.contains("provider")) {
             bodySource = "bff_proveedor_login.txt";
         }
         RestAssuredExtension.response = RestAssuredExtension.postMethodLogin(sourceApi, path, bodySource);
