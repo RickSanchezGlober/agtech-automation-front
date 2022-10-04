@@ -1,27 +1,22 @@
 @payments @productor @listadoOrdenes
 Feature:  Productor - Listado de órdenes
-  #Comentado hasta que tengamos algo mas de productor
 
-#  Background:
-#    Given Se navega al portal New Agro productor
-#    And Se ingresa con usuario cristian.duque@globant.com y password Test123+
-#
-#    #Caso comentado pq el user ya no existe
-##  @TEST_ID_AG-275 @regression
-##  Scenario:  Productor - Listado de órdenes - Verifico pantalla Empty State
-##    And Se hace click en el botón Ver órdenes
-##    Then Se visualiza icono en la pantalla Empty State
-##    And Se visualiza Todavía no tenés órdenes de compra en la pantalla Empty State
-##    And Se visualiza Cuando las tengas vas a ver tus órdenes de compra acá. en la pantalla Empty State
-##    #En Firtma no esta el boton volver, pero deberia estar
-##    And Se visualiza Botón Volver en la pantalla Empty State
-#
-#  @TEST_ID_AG-276 @TEST_ID_AG-277 @TEST_ID_AG-278 @regression
-#  Scenario:  Productor - Listado de órdenes - Verifico listado de órdenes recientes
-#  Productor - Listado de órdenes - Verifico orden del listado de las órdenes
-#  Productor - Listado de órdenes - Verifico pantalla de Error State
-#    And Se hace click en el botón Ver órdenes
-#    And La conexion con el MS orders/producer se realiza correctamente
-#    Then Verificar datos de servicio api que lista todas las ordenes bff con ruta orders/producer/as768dfa2s-22dada2-awe2da-2sdi79
-#    #Ahora mismo todos las ordenes tienen la misma fecha
-##    And Se muestra un listado de órdenes ascendente
+  Background:
+    Given Se navega al portal New Agro productor
+    And Se ingresa con usuario payment@non-email.com y password Test123+
+
+  @TEST_SET_ID_AG-2355 @regression
+  Scenario:  Productor - Listado de Órdenes Productor - Validar pantalla Listado de Ordenes
+  Productor - Listado de Órdenes Productor - Validar orden del Listado de Ordenes
+    When Se hace click en el botón Órdenes
+    And La conexion con el MS orders/producer se realiza correctamente
+    Then Verificar datos de servicio api que lista todas las ordenes bff con ruta farmer/orders/filter y parámetros
+      | type_sort | DESC                                                                                                                                                        |
+      | sort      | order_date                                                                                                                                                  |
+      | skip      | 0                                                                                                                                                           |
+      | count     | 10                                                                                                                                                          |
+      | where     | farmer.cuit:30707633197,status                                                                                                                              |
+      | like      | farmer.name,farmer.cuit                                                                                                                                     |
+      | fields    | provider,order_date,id_order,amount,farmer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
+    And Se muestra un listado de órdenes descendente
+    And El productor visualiza los elementos de la HomePage

@@ -15,10 +15,10 @@ public class DetallesOrdenesPage extends BasePage {
 
     public void clickOnButtonByName(String buttonName) {
         By element = null;
-        waitVisibility(DetallesOrdenesPageObject.VER_ORDENES_BUTTON, "6");
+        waitVisibility(DetallesOrdenesPageObject.ORDENES_BUTTON, "6");
         switch (buttonName) {
-            case "Ver órdenes":
-                element = DetallesOrdenesPageObject.VER_ORDENES_BUTTON;
+            case "Órdenes":
+                element = DetallesOrdenesPageObject.ORDENES_BUTTON;
                 break;
         }
         click(element);
