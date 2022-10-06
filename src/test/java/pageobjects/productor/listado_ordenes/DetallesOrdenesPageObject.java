@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 
 public class DetallesOrdenesPageObject {
     public static final By.ByXPath ORDENES_BUTTON = new By.ByXPath("//p[contains(text(),'Órdenes')]");
-    public static final By.ByClassName ORDENES_CONTAINER = new By.ByClassName("card__content");
+    public static final By.ByClassName ORDENES_CONTAINER = new By.ByClassName("last_order__order");
     public static final By.ByXPath DETALLE_ORDENES_SIDESHEET = new By.ByXPath("//body/div[@id='root-portal']/div[1]/div[1]/div[1]");
     public static final By.ByClassName FECHA_HORA_TEXT = new By.ByClassName("order__properties_dates");
     public static final By.ByClassName NUMERO_ORDEN_TEXT = new By.ByClassName("order__properties_ordernumber");

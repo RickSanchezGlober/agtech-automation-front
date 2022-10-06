@@ -14,12 +14,12 @@ public class LoginSteps {
     public void iGoToNewAgroPortal(String rol) {
         loginPage.navigateTo(rol);
         String actualPageTitle = loginPage.getPageTitle();
-//        Assert.assertEquals(actualPageTitle, "Nera - La nueva era del Agro");
+        Assert.assertEquals(actualPageTitle, "Nera - La nueva era del Agro");
     }
 
     @Given("^Usuario logueado en el portal New Agro")
     public void loginFixedUser() {
-        loginPage.loginWithUserPasswd("cristian.duque@globant.com", "Test123+");
+        loginPage.loginWithUserPasswd("aut.prod@test.com", "Test123+");
     }
 
     @And("^Se hace click sobre el botón (.*)$")

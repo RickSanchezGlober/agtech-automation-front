@@ -5,7 +5,7 @@ Feature: Visualizar Simulación de Pago c/Crédito a Sola Firma
   Background:
     Given Se navega al portal New Agro productor
     And Usuario logueado en el portal New Agro
-    When Se hace click en el botón Ver órdenes
+    When Se hace click en el botón Órdenes
     And Se hace click sobre el detalle de una orden
     And Selecciona el medio de pago Credito a sola firma
     And Se presiona sobre el boton Continuar
