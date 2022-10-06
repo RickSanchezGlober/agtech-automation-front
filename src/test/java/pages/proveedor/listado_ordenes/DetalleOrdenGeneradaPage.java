@@ -20,6 +20,7 @@ public class DetalleOrdenGeneradaPage extends BasePage {
     public static String sOrdenNumber;
     public void clickOnScreenButton(String sButton, String sPantalla) {
         By element = null;
+        String sSeconds = "10";
         switch (sButton) {
             case "Cerrar":
                 element = DetalleOrdenGeneradaPageObject.CERRAR_MODAL_FILTRAR_BUTTON;
@@ -32,13 +33,14 @@ public class DetalleOrdenGeneradaPage extends BasePage {
                 break;
             case "Ver todas":
                 element = DetalleOrdenGeneradaPageObject.VER_TODAS_BUTTON;
+                sSeconds = "20";
                 break;
             case "Descargar detalle":
                 element = DetalleOrdenGeneradaPageObject.DESCARGAR_DETALLE_BUTTON;
                 break;
         }
         log.info(String.format("====>  Click en el botón: '%s', de la sección: '%s' ====", sButton, sPantalla));
-        waitVisibility(element, "10");
+        waitVisibility(element, sSeconds);
         click(element);
     }
 
