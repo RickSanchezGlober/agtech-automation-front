@@ -20,8 +20,8 @@ public class DetalleOrdenGeneradaSteps {
     }
 
     @And("^Obtener datos de endpoint -GET- en (.*) con ruta (.*) y tipo (.*) de la Orden$")
-    public void getDataFromApiGetMethod(String sourceApi, String path, String sType, List<List<String>> table) {
-        Assert.assertTrue(detalleOrdenGeneradaPage.getDataFromApiGetMethod(sourceApi, path, sType, table));
+    public void getDataFromApiGetMethod(String sourceApi, String path, String sType) {
+        Assert.assertTrue(detalleOrdenGeneradaPage.getDataFromApiGetMethod(sourceApi, path, sType));
     }
 
 

@@ -30,6 +30,5 @@ Feature: Validar el detalle de la Orden Pagada desde el listado de Ordenes y Exp
     And Se valida que el boton Descargar detalle exista
     And El proveedor hace click en el boton Descargar detalle de la sección Detalle de la orden
     And Se valida que el boton Descargar PDF exista
-    #Se espera por implementación de desarrollo
-#    And Obtener datos de endpoint -GET- en bff con ruta orders/report/ y tipo reporte de la Orden
-#      | farmerCuit |
+    #Se espera por implementación de desarrollo CONSULTAR ACCESO AL BFF DE REPORT
+    And Obtener datos de endpoint -GET- en bff con ruta orders/report/ y tipo reporte de la Orden

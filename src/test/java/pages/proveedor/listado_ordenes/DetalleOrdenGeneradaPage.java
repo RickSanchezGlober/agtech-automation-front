@@ -100,12 +100,14 @@ public class DetalleOrdenGeneradaPage extends BasePage {
         return isVisibleButton;
     }
 
-    public Boolean getDataFromApiGetMethod(String sourceApi, String path, String sType, List<List<String>> table) {
+    public Boolean getDataFromApiGetMethod(String sourceApi, String path, String sType) {
         path = path + sOrdenNumber;
         log.info("===> Ejecutando MS en <" + sourceApi + "> y path: <" + path + "> ===");
-        getDataFromApiServices(path, sourceApi, table);
 
+        //Se obtiene el token y se ejecuta getMethod del bff
+        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
         response = RestAssuredExtension.getMethod(sourceApi, path, getAccess_token());
+
         List<WebElement> elementList = null;
 
         switch (sType){
@@ -114,15 +116,15 @@ public class DetalleOrdenGeneradaPage extends BasePage {
                 break;
             case ("reporte"):
                 driver.switchTo().window(driver.getWindowHandles().toArray()[1].toString());
-                elementList = driver.findElements(DetalleOrdenGeneradaPageObject.ORDER_DETAIL_CONTAINER);
+                elementList = driver.findElements(DetalleOrdenGeneradaPageObject.ORDER_PDF_CONTAINER);
                 break;
         }
 
         String sElemento = elementList.get(0).getText();
         Boolean isContained = true;
 
-        //Se validan que estén todos los campos del detalle de la orden
-        if (!response.getBody().prettyPrint().equals("")) {
+        //Se validan que estén todos los campos del detalle de la orden y que no contenga el response de error
+        if (!response.getBody().prettyPrint().equals("") && !response.getBody().prettyPrint().contains("detail_message")) {
             DecimalFormat formatValue = new DecimalFormat("###,###.##");
             String companyName = response.getBody().jsonPath().get("companyName").toString();
             String orderDesc = response.getBody().jsonPath().get("orderDesc").toString();
@@ -135,24 +137,47 @@ public class DetalleOrdenGeneradaPage extends BasePage {
             String orderAmount = formatValue.format(response.getBody().jsonPath().get("orderAmount"));
             orderAmount = orderAmount.replace(".","&").replace(",", ".").replace("&", ",");
             String orderStatus = response.getBody().jsonPath().get("orderStatus").toString();
+            String paymentStatus = response.getBody().jsonPath().get("paymentStatus").toString();
+            String paymentLine = response.getBody().jsonPath().get("paymentLine").toString();
             String statusType = "";
             String statusTexto = "";
 
-            //A sola firma = 1
-            if(response.getBody().jsonPath().get("paymentLine").toString().equals("1")) {
-                switch (orderStatus) {
-                    case "Nueva":
-                        statusType = "Pendiente";
-                        statusTexto = "recibió la orden y está cerrando el negocio.";
-                        break;
-                    case "En Ejecución":
-                        statusType = "Pendiente";
-                        statusTexto = "El productor debe confirmar la orden";
-                        break;
-                    case "Pagada":
-                        statusType = "Pagada";
-                        break;
+            //Sola firma = paymentLine = 1 | Cesion Forward = paymentLine = 2
+            //Con corredor = business_type = 1 | Sin corredor = business_type = 1
+            //Status de la orden--> https://ag-tech.atlassian.net/wiki/spaces/AGTECH/pages/28082404/Estados+de+orden
+            if(orderStatus.equals("Nueva") && paymentStatus.equals("Pendiente Productor")) {
+                statusType = "Pendiente";
+                statusTexto = "El productor debe confirmar la orden";
+            } else if (orderStatus.equals("Autorizada Productor") && paymentStatus.equals("En Ejecución")) {
+                statusType = "Pendiente";
+            } else if (orderStatus.equals("Nueva") && paymentStatus.equals("En Gestión del Forward")) {
+                statusType = "Pendiente";
+
+                //Con corredor
+                if (response.getBody().jsonPath().get("business_type").toString().equals("1")){
+                    //Debe indicar el nombre del corredor
+                    statusTexto = response.getBody().jsonPath().get("brokerName").toString() + " recibió la orden y está cerrando el negocio.";
+                }else{
+                    //Debe indicar el nombre del proveedor logueado
+                    statusTexto = response.getBody().jsonPath().get("providerName").toString() + " recibió la orden y está cerrando el negocio.";
                 }
+            } else if (orderStatus.equals("Autorizada Productor") && paymentStatus.equals("Pendiente Firma de contrato")) {
+                statusType = "Pendiente";
+                statusTexto = "El negocio ingresó a Confirma. A la espera de las firmas y el registro del contrato.";
+            } else if ((orderStatus.equals("Rechazada Productor") && paymentStatus.equals("Rechazada Productor")) ||
+                    (orderStatus.equals("Anulada") && paymentStatus.equals("Anulada")) ||
+                    (orderStatus.equals("Rechazada Banco") && paymentStatus.equals("Rechazada Banco"))) {
+                statusType = "Rechazada";
+                statusTexto = "No pudimos ejecutar la orden. Podés solicitar una nueva financiación";
+            } else if (orderStatus.equals("Vencida") && paymentStatus.equals("Vencida")) {
+                statusType = "Vencida";
+                if(paymentLine.equals("1")){ //Sola firma
+                    statusTexto = "Venció el plazo del productor para aprobar la orden.";
+                }else{
+                    statusTexto = "Se venció el plazo para la gestión del Forward.";
+                }
+            } else if (orderStatus.equals("Pagada") && paymentStatus.equals("Ejecutada Con Éxito")) {
+                statusType = "Pagada";
             }
 
             if (!sElemento.contains(companyName) && isContained) { isContained = false; }
@@ -171,52 +196,5 @@ public class DetalleOrdenGeneradaPage extends BasePage {
         }
         return isContained;
     }
-
-//    {
-//        "orderId": "00012708",
-//            "companyName": "FORTIN VEGA SOCIEDAD ANONIMA",
-//            "farmerCuit": "30568143120",
-//            "orderDesc": "SolaFirma-Automation",
-//            "farmerName": "dalia cortes",
-//            "farmerNumber": "90040230630",
-//            "farmerMail": "dalia.cortes@globant.com",
-//            "paymentLine": "1",
-//            "bankEntity": "Banco Galicia",
-//            "orderStatus": "Pagada",
-//            "paymentStatus": "Ejecutada Con Éxito",
-//            "installmentCuantity": 1,
-//            "dueDate": "2023-04-03T23:59:59.999",
-//            "orderAmount": 1001.05,
-//            "orderTna": 90,
-//            "businessType": null,
-//            "brokerName": null,
-//            "providerName": "MONSANTO ARGENTINA S.R.L."
-//    }
-
-
-//    N° de orden: 00012708
-//    Cliente
-//    FORTIN VEGA SOCIEDAD ANONIMA
-//30568143120
-//    Descripción
-//    SolaFirma-Automation
-//    Información de contacto
-//    Nombre y Apellido
-//    dalia cortes
-//    Correo electrónico
-//    dalia.cortes@globant.com
-//    Número de celular
-//90040230630
-//    A sola firma
-//            Pagada
-//    Banco Galicia
-//    Cantidad de cuotas
-//01
-//    Vencimiento
-//03/04/2023
-//    TNA del crédito
-//90,00 %
-//    Monto
-//    $ 1.001,05
 
 }
