@@ -1,4 +1,4 @@
-@financing @proveedor @DetalleOrdenGenerada @testing
+@financing @proveedor @DetalleOrdenGenerada
 Feature: Validar el detalle de la Orden desde el listado de Ordenes
 
   Background:

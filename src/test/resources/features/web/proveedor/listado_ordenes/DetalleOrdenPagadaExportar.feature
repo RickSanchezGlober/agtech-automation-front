@@ -7,7 +7,7 @@ Feature: Validar el detalle de la Orden Pagada desde el listado de Ordenes y Exp
     When El proveedor hace click en el boton Ver todas de la sección Home
     And El proveedor hace click en el boton Filtrar de la sección Ordenes
 
-  @AG-1540 @regression @testing
+  @AG-1540 @regression 
   Scenario: Proveedor - Validar Detalle Orden Pagada - Exportar
     Then Se selecciona el filtro Pagada
     And El proveedor hace click en el boton Aplicar Filtros de la sección modal Filtros de ordenes
