@@ -27,6 +27,7 @@ public class DetalleOrdenGeneradaPage extends BasePage {
                 break;
             case "Aplicar Filtros":
                 element = DetalleOrdenGeneradaPageObject.APLICAR_FILTROS_BUTTON;
+                sSeconds = "20";
                 break;
             case "Filtrar":
                 element = DetalleOrdenGeneradaPageObject.FILTRAR_BUTTON;
