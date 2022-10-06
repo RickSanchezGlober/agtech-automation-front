@@ -11,7 +11,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And El proveedor ingresa Descripción Válida en el campo Descripción
     When El proveedor hace click en el botón Continuar
 
-  @TEST_ID_AG-970 @regression
+  @AG-970 @regression @TEST_ID_AG_1177 @TEST_ID_AG_1178 @TEST_ID_AG_754
   Scenario: Proveedor - Generar Orden de Compra - Visualizar el medio de pago en la lista de los disponibles credito forward
     Then El proveedor verifica que se muestre Elegí el medio de pago con el cual el productor va a pagar la orden.
     And El proveedor verifica que se muestre Medios de Pagos Disponibles
@@ -23,7 +23,8 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And El proveedor verifica que se muestre Ingresá el Monto del Crédito
     And El proveedor verifica que se muestre Tipo de Convenio
 
-  @TEST_ID_AG-788 @regression
+  @AG-788 @regression @TEST_ID_AG_1135 @TEST_ID_AG_1139 @TEST_ID_AG_1140 @TEST_ID_AG_1141 @TEST_ID_AG_1151 @TEST_ID_AG_1152
+  @TEST_ID_AG_1153 @TEST_ID_AG_1155
   Scenario: Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado Cesion de Forward
     Then El proveedor seleciona medio de pago Cesión de forward
     And El proveedor percibe el boton Simular Crédito Deshabilitado
@@ -41,13 +42,15 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
       | name |
     And El proveedor escoge en gestión del forward la opcion name
     And El proveedor percibe el boton Simular Crédito Habilitado
+    #Pendiente boton simular TEST_ID_AG_1156
 
 
-    @TEST_ID_AG-1119 @regression
+    @AG-1119 @regression @TEST_ID_AG_1205 @TEST_ID_AG_1204
   Scenario: Proveedor - Generar Orden de Compra - Visualizar campo desplegable Gestión del Forward al ingresar con usuario sin/con negocio directo
     #Se valida que con este usuario <Si contenga> la opción de negocio directo - Sin Corredor
     Then El proveedor seleciona medio de pago Cesión de forward
-    #No se está guardando el valor withoutbroker en jwt BUG: https://ag-tech.atlassian.net/browse/AG-1775
+    ######No se está guardando el valor withoutbroker en jwt BUG: https://ag-tech.atlassian.net/browse/AG-1775
+
     #And El proveedor presiona el campo desplegable de Gestion del forward y se muestra la opción Sin corredor
 
     #Se valida que con este usuario <No contenga> la opción de negocio directo - Sin Corredor
@@ -63,11 +66,13 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And El proveedor presiona el campo desplegable de Gestion del forward y no se muestra la opción Sin Corredor
     #Cuando se desarrolle el MS que devuelva los datos del usuario hay que verificar el valor withbroker que indica true si tiene negocio directo
 
-  @TEST_ID_AG-877 @regression
+    ### Pendiente @TEST_ID_AG_1038
+
+  @AG-877 @regression @TEST_ID_AG_1462
   Scenario: Proveedor - Generar Orden de Compra - Respuesta a la Consulta de Márgenes Cesión de Forward (Paso 3)
     Then El proveedor seleciona medio de pago Cesión de forward
     And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
-    And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2023
+    And El proveedor escoge en tipo de convenio la opcion Sub 15% Vto Julio 2023 (FORWARD)
     And El proveedor escoge en gestión del forward la opcion Intagro
     And El proveedor presiona el botón Simular Crédito
     # PENDIENTE: Esperar que esté listo endpoint y comunicación con el banco para e2e
@@ -78,11 +83,11 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     # Se espera por resolución de BUG https://ag-tech.atlassian.net/browse/AG-1516
     # And El proveedor no percibe el boton Confirmar medio de pago
 
-  @TEST_ID_AG-1148 @regression
+  @AG-1148 @regression @TEST_ID_AG_1485
   Scenario: Proveedor - Generar Orden de Compra - Resumen/Simulación P.D. Crédito c/Cesión de Forward (Paso 5)
     Then El proveedor seleciona medio de pago Cesión de forward
     And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
-    And El proveedor escoge en tipo de convenio la opcion Sub 8% Vto Julio 2023
+    And El proveedor escoge en tipo de convenio la opcion Sub 15% Vto Julio 2023 (FORWARD)
     And El proveedor escoge en gestión del forward la opcion Intagro
     And El proveedor presiona el botón Simular Crédito
     And El proveedor presiona el botón Confirmar medio de pago
