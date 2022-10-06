@@ -3,7 +3,7 @@ Feature:  Productor - Listado de órdenes
 
   Background:
     Given Se navega al portal New Agro productor
-    And Se ingresa con usuario payment@non-email.com y password Test123+
+    And Se ingresa con usuario aut.prod@test.com y password Test123+
 
   @TEST_SET_ID_AG-2355 @regression
   Scenario:  Productor - Listado de Órdenes Productor - Validar pantalla Listado de Ordenes
