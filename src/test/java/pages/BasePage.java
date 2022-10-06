@@ -310,7 +310,14 @@ public class BasePage {
     }
 
     public void getAcessTokenFromApiServices(String sourceApi, String path) {
-        RestAssuredExtension.response = RestAssuredExtension.postMethodLogin(sourceApi, path, "login.txt");
+        log.info("Consumiendo API " + sourceApi + path);
+        String bodySource = "";
+        if (path.contains("farmer")) {
+            bodySource = "bff_productor_login.txt";
+        } else if (path.contains("producer")||path.contains("provider")) {
+            bodySource = "bff_proveedor_login.txt";
+        }
+        RestAssuredExtension.response = RestAssuredExtension.postMethodLogin(sourceApi, path, bodySource);
         setAccess_token(RestAssuredExtension.response.getBody().jsonPath().getString("id_token"));
 
     }
