@@ -7,7 +7,7 @@ Feature: Validar el detalle de la Orden desde el listado de Ordenes
     When El proveedor hace click en el boton Ver todas de la sección Home
     And El proveedor hace click en el boton Filtrar de la sección Ordenes
 
-  @AG-1522 @regression
+  @AG-1522 @regression @testing
   Scenario: Proveedor - Validar Detalle Orden Enviada - Todos los Status - Sola Firma
     Then Se selecciona el filtro Pendiente
     And El proveedor hace click en el boton Aplicar Filtros de la sección modal Filtros de ordenes
