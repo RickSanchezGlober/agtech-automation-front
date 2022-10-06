@@ -143,7 +143,7 @@ public class DetalleOrdenGeneradaPage extends BasePage {
             String statusTexto = "";
 
             //Sola firma = paymentLine = 1 | Cesion Forward = paymentLine = 2
-            //Con corredor = business_type = 1 | Sin corredor = business_type = 1
+            //Con corredor = businessType = 1 | Sin corredor = businessType = 1
             //Status de la orden--> https://ag-tech.atlassian.net/wiki/spaces/AGTECH/pages/28082404/Estados+de+orden
             if(orderStatus.equals("Nueva") && paymentStatus.equals("Pendiente Productor")) {
                 statusType = "Pendiente";
@@ -154,7 +154,7 @@ public class DetalleOrdenGeneradaPage extends BasePage {
                 statusType = "Pendiente";
 
                 //Con corredor
-                if (response.getBody().jsonPath().get("business_type").toString().equals("1")){
+                if (response.getBody().jsonPath().get("businessType").toString().equals("1")){
                     //Debe indicar el nombre del corredor
                     statusTexto = response.getBody().jsonPath().get("brokerName").toString() + " recibió la orden y está cerrando el negocio.";
                 }else{
