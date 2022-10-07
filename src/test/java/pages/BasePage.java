@@ -296,21 +296,21 @@ public class BasePage {
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
             data.cells()
-                    .forEach(
-                            value -> {
-                                List<String> rField = Collections.singletonList(value.get(0));
-                                String KEY = rField.get(0);
-                                // SAVE
-                                try {
-                                    saveInScenarioContext(KEY, response.getBody().jsonPath().get(KEY).toString());
-                                } catch (NullPointerException e) {
-                                }
-                            });
+                .forEach(
+                    value -> {
+                        List<String> rField = Collections.singletonList(value.get(0));
+                        String KEY = rField.get(0);
+                        // SAVE
+                        try {
+                            saveInScenarioContext(KEY, response.getBody().jsonPath().get(KEY).toString());
+                        } catch (NullPointerException e) {
+                        }
+                    });
         }
     }
 
     public void getAcessTokenFromApiServices(String sourceApi, String path) {
-        log.info("Consumiendo API " + sourceApi + path);
+        log.info("Consumiendo API " + sourceApi + " y path: " + path);
         String bodySource = "";
         if (path.contains("farmer")) {
             bodySource = "bff_productor_login.txt";

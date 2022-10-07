@@ -232,7 +232,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void getDataFromApiServicesValidation(String sourceApi, String path, String cuit, List<List<String>> table) {
-        log.info("Consumiendo API " + sourceApi + path);
+        log.info("Consumiendo API " + sourceApi + " y path: " + path);
         getDataFromApiServices(path + cuit, sourceApi, table);
     }
 
