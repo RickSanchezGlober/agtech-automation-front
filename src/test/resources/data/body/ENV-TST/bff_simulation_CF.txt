@@ -1,0 +1,10 @@
+{
+    "amount":"1501000",
+    "broker_id":"61bb8804d2c1bd4fda122f42",
+    "business_type":"1",
+    "farmer_cuit":"30637300764",
+    "farmer_name":"EL BOYERO S A",
+    "financial_line_id":"2",
+    "id_agreement":"622a3bfc0db1e3000104caff",
+    "provider_id":"32"
+}

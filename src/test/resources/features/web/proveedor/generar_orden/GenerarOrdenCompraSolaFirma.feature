@@ -23,8 +23,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
       | cuit_teradata |
       | name          |
-      | clean_loan    |
-      | forward_loan  |
+      | ok_bank       |
       | is_mipyme     |
     And El proveedor puede ver Datos del Productor Asociado
       | name          |
@@ -78,12 +77,12 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
     And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
-    And Validar datos de servicios api bff con ruta simulation con body bff_simulation.txt
-      | TNA del crédito            | farmer.tna                    |
-      | CFT                        | cft                           |
-      | Interés                    | installments.interest_nominal |
-      | Total Crédito a sola firma | amount                   |
-      | Cuota única, vencimiento:  | due_date                      |
+    And Validar datos de servicios api bff con ruta simulation con body bff_simulation_SF.txt
+      | TNA del crédito           | farmer.tna                    |
+      | CFT                       | cft                           |
+      | Interés                   | installments.interest_nominal |
+      | Monto                     | amount                        |
+      | Cuota única, vencimiento: | due_date                      |
     And El proveedor visualiza el boton Confirmar medio de pago Habilitado
     #usando la respuesta del servicio custumer-validation usado en el caso @TEST_ID_AG-529
     And Validar Nombre del Productor
@@ -158,7 +157,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
     And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
-    And Consumir api bff con ruta simulation con body bff_simulation.txt
+    And Consumir api bff con ruta simulation con body bff_simulation_SF.txt
     Then Verificar pantalla de error si la conexion con el MS simulacion no se realiza correctamente
     And Se hace click en el boton Intentar nuevamente de la pantalla de error
     And Se puede ver el botón Simular Crédito
