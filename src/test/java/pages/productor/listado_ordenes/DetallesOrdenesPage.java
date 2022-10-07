@@ -25,7 +25,7 @@ public class DetallesOrdenesPage extends BasePage {
     }
 
     public void clickOnDetailOrder() {
-        waitVisibility(DetallesOrdenesPageObject.DETALLE_ORDENES_SIDESHEET, "2");
+        waitVisibility(DetallesOrdenesPageObject.ORDENES_CONTAINER, "2");
         List<WebElement> elementList = driver.findElements(DetallesOrdenesPageObject.ORDENES_CONTAINER);
         elementList.get(0).click();
     }

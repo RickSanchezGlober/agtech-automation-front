@@ -360,7 +360,7 @@ public class BasePage {
         Find(locator).clear();
     }
 
-    private WebElement Find(By locator) {
+    protected WebElement Find(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 

@@ -108,6 +108,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                     log.info("Ingresando monto de crédito: " + text);
                 } else if (text.equals("monto grande")) {
                     text = DataGenerator.getNumber(13);
+                } else if (text.contains("$1.500.000")) {
+                    text = "150100000";
                 }
                 break;
         }
@@ -232,8 +234,8 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void getDataFromApiServicesValidation(String sourceApi, String path, String cuit, List<List<String>> table) {
-        log.info("Consumiendo API " + sourceApi + " y path: " + path);
-        getDataFromApiServices(path + cuit, sourceApi, table);
+        log.info(String.format("Consumiendo API '%s'/'%s'/1", sourceApi, path));
+        getDataFromApiServices(path + cuit + "/1", sourceApi, table);
     }
 
     public boolean checkPaymentMethods(String paymentMethods) {
@@ -295,6 +297,15 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "subsidio de tasa":
                 dropDownList = new Select(driver.findElement(GenerarOrdenCompraSolaFirmaPageObject.SUBSIDIO_TASA_DROP_DOWN_LIST));
                 break;
+            case "Tipo de convenio":
+            case "Gestión del forward":
+                List<WebElement> elementList = driver.findElements(GenerarOrdenCompraSolaFirmaPageObject.SUBSIDIO_TASA_DROP_DOWN_LIST);
+                if (dropDownName.equals("Gestión del forward")) {
+                    dropDownList = new Select(elementList.get(1));
+                } else if (dropDownName.equals("Tipo de convenio")) {
+                    dropDownList = new Select(elementList.get(0));
+                }
+                break;
         }
         dropDownList.selectByVisibleText(option);
     }
@@ -324,11 +335,11 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                 // VALIDATIONS
                                 if (FIELDS.contains("TNA") || FIELDS.contains("CFT")) {
                                     VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + "%";
-                                } else if (FIELDS.contains("Total Crédito a sola firma")) {
-                                    String numberS = parseFromDoubleToString(VALUES, 2);
+                                } else if (FIELDS.contains("Monto")) {
+                                    VALUES= parseFromDoubleToString(VALUES, 2);
 //                                    Ya no viene la oracion 'Total Crédito a sola firma'
 //                                    VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
-                                    VALUES = " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
+//                                    VALUES = " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                 } else if (FIELDS.contains("Cuota única, vencimiento:")) {
                                     VALUES = FIELDS + " " + getDateStringFormat(VALUES);
                                 } else if (FIELDS.contains("Interés")) {
@@ -340,7 +351,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                         VALUES = "";
                                     }
                                 }
-                                Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
+                                Assert.assertTrue(FIELDS_TEXT.replaceAll(".","").contains(VALUES.replaceAll(".","")));
                                 i.getAndIncrement();
                             });
         }
@@ -460,7 +471,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
     public void chekErrorScreen(String cuit) {
         getAcessTokenFromApiServices("bff", "provider/auth/login");
-        response = RestAssuredExtension.getMethod("bff", "customer-validation/" + cuit, getAccess_token());
+        response = RestAssuredExtension.getMethod("bff", "customer-validation/" + cuit + "/1", getAccess_token());
         if (response.getStatusCode() != 200) {
             waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.AHORA_NO_ES_POSIBLE_TITTLE, "5");
             String ahoraTitle = "Ahora no es posible mostrar información";
