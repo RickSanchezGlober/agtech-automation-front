@@ -272,7 +272,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
         boolean result = false;
         if (waitVisibility(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "20")) {
             result = verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.ORDEN_GENERADA_ENVIADA_TITLE, "Orden generada y enviada exitosamente")
-                    && verifyVisibleText(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE, "Recibirás una notificación tan pronto FORTIN VEGA SOCIEDAD ANONIMA acepte la orden.")
+                    && Find(GenerarOrdenCompraSolaFirmaContactoPageObject.RECIBIRAS_NOTIFICACION_SUBTITLE).getText().contains("Recibirás una notificación tan pronto")
                     && isDisplayed(GenerarOrdenCompraSolaFirmaContactoPageObject.CONFIRMATION_ICON)
                     && isEnabled(GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON);
             log.info(String.format("El servicio Confirm respónde con estado 200"));

@@ -14,7 +14,7 @@ Feature: Generar Orden de Compra. Información del Contacto. Confimación.
     And El proveedor ingresa monto mayor a $1.000 en el campo Ingresá el monto del crédito
     And El proveedor selecciona en subsidio de tasa opcion Linea Base Vto Abril 2023
     And El proveedor hace click en el botón Simular Crédito
-    And Recuperar datos de servicios api bff con ruta simulation con body bff_simulation.txt
+    And Recuperar datos de servicios api bff con ruta simulation con body bff_simulation_SF.txt
       | provider.name                 |
       | farmer.cuit                   |
       | amount                        |
