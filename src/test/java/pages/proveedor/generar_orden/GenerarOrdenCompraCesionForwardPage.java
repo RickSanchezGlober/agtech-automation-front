@@ -43,6 +43,7 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
             sOption = getScenarioContextVariables(option);
             arrOptions = sOption.split(",");
             selectedOption = arrOptions[arrOptions.length - 1];
+            selectedOption = selectedOption.substring(0, selectedOption.length()-1);
         }
 
         switch (dropDownName) {
@@ -65,6 +66,12 @@ public class GenerarOrdenCompraCesionForwardPage extends BasePage {
                 break;
             case "Confirmar medio de pago":
                 element = GenerarOrdenCompraCesionForwardPageObject.CONFIRMAR_MEDIO_PAGO_BUTTON;
+                break;
+            case "Escoger Proveedor":
+                element = GenerarOrdenCompraCesionForwardPageObject.COMPANY_DROPDOWN;
+                break;
+            case "Proveedor Profertil":
+                element = GenerarOrdenCompraCesionForwardPageObject.PROVIDER_BUTTON;
                 break;
         }
         waitVisibility(element, "30");

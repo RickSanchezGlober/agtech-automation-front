@@ -27,6 +27,7 @@ public class GenerarOrdenCompraCesionForwardSteps {
 
     @Then("^El proveedor verifica que se muestre (.*)$")
     public void elProveedorVisualiza(String text) {
+        System.out.println("El proveedor verifica que se muestre "+text);
         Assert.assertTrue(generarOrdenCompraCesionForwardPage.viewItem(text));
     }
 

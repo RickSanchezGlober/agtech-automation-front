@@ -17,4 +17,8 @@ public class GenerarOrdenCompraCesionForwardPageObject {
     public static final By.ByClassName ERROR_ICON = new By.ByClassName("input__container__wrapper__icon");
     public static final By.ByClassName CONFIRMAR_MEDIO_PAGO_BUTTON = new By.ByClassName("button__container_primary");
     public static final By.ByClassName ENVIAR_ORDEN_COMPRA_BUTTON = new By.ByClassName("button__container_primary");
+    public static final By.ByClassName COMPANY_DROPDOWN = new By.ByClassName("company__dropdown_icon");
+    public static final By.ByXPath PROVIDER_BUTTON = new By.ByXPath("//div[@class = 'dropdown_menu__container']//child::li[2]");
+
+
 }
