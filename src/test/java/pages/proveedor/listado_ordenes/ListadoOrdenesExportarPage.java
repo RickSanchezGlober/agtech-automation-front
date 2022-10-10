@@ -83,7 +83,7 @@ public class ListadoOrdenesExportarPage extends BasePage {
         Assert.assertTrue(iRow == elementList.size() + 1);
     }
 
-    public File createFile() {
+    public static File createFile() {
         String dayOfMonth = String.format("%02d", LocalDateTime.now().getDayOfMonth());
         String month = String.format("%02d", LocalDateTime.now().getMonth().getValue());
         int year = LocalDateTime.now().getYear();

@@ -13,6 +13,7 @@ import pageobjects.proveedor.listado_ordenes.ListadoOrdenesProveedorPageObject;
 import pages.BasePage;
 import utils.RestAssuredExtension;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -47,6 +48,13 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
                     while (buttonName.equalsIgnoreCase("Filtrar") && !waitVisibility(ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE, "5") && count < 2) {
                         elementList.get(i).click();
                         count++;
+                    }
+                    //En ocaciones es necesario hacer click mas de una vez en Exportar
+                    File file = ListadoOrdenesExportarPage.createFile();
+                    int countExportarButton = 0;
+                    while (buttonName.equalsIgnoreCase("Exportar") && !file.exists() && countExportarButton < 2) {
+                        elementList.get(i).click();
+                        countExportarButton++;
                     }
                     break;
                 }
