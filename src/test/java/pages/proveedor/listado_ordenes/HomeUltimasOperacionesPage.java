@@ -65,7 +65,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
 
     public void getDataFromApiServicesOrders(String sourceApi, String path, List<List<String>> t_table) {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
-        getAcessTokenFromApiServices("bff", "provider/auth/login");
+        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
         response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
         if (!response.getBody().prettyPrint().equals("")) {
             explicitWait(HomeUltimasOperacionesPageObject.ORDENES_CONTAINER);
@@ -223,7 +223,7 @@ public class HomeUltimasOperacionesPage extends BasePage {
     public void getDataFromApiServicesOrdersCounter(String sourceApi, String path, List<List<String>> t_table) {
         //API
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
-        getAcessTokenFromApiServices("bff", "provider/auth/login");
+        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
         response = RestAssuredExtension.getMethodWithParamsHeaderOrdersCounter(sourceApi, path, t_table, getAccess_token());
         String numberOrdersCloseToExpireAPI = "";
         try {

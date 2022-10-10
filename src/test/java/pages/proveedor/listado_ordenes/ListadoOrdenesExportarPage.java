@@ -4,9 +4,9 @@ package pages.proveedor.listado_ordenes;
 import org.apache.poi.ss.usermodel.*;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import pageobjects.proveedor.listado_ordenes.ListadoOrdenesFiltrarPageObject;
 import pageobjects.proveedor.listado_ordenes.ListadoOrdenesProveedorPageObject;
 import pages.BasePage;
+import utils.RestAssuredExtension;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -40,11 +40,11 @@ public class ListadoOrdenesExportarPage extends BasePage {
         //Creando el archivo
         File file = createFile();
 
-        sleep(10);
+        sleep(15);
         log.info(String.format("Verificando que exista el archivo '%s'", file.getName()));
         Assert.assertTrue(file.exists());
 
-        int iRow = 0;
+        Integer iRow = 0;
         if (file.exists()) {
             try {
                 InputStream inputStream = new FileInputStream(file);
@@ -78,9 +78,9 @@ public class ListadoOrdenesExportarPage extends BasePage {
             }
         }
         //Verifico la cantidad de filas(cantidad de ordenes) más el HEADER
-        //Esto va a cambiar por bug reportado, debe decargar todas las ordenes.
-        log.info(String.format("La cantidad de órdenes en la UI es '%s' y el en el excel '%s'", elementList.size(), iRow - 1));
-        Assert.assertTrue(iRow == elementList.size() + 1);
+        Integer cantOrders = response.getBody().jsonPath().get("_pagination.total_count");
+        log.info(String.format("La cantidad de órdenes en la UI es '%s' y el en el excel '%s'", cantOrders, (iRow - 1)));
+        Assert.assertTrue(iRow == cantOrders + 1);
     }
 
     public static File createFile() {
@@ -89,5 +89,11 @@ public class ListadoOrdenesExportarPage extends BasePage {
         int year = LocalDateTime.now().getYear();
         String fileName = String.format("C:\\Users\\yailin.valdivia\\Downloads\\Tusordenes_Nera_%s_%s_%s.xlsx", dayOfMonth, month, year);
         return new File(fileName);
+    }
+
+    public void consumeApiFilterOrders(String sourceApi, String path, List<List<String>> t_table) {
+        log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
+        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
+        response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
     }
 }

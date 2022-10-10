@@ -325,8 +325,8 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
 
     public void getDataFromApiServicesConfirm(String sourceApi, String path, String body) {
         log.info(String.format("Consumiendo API: '%s' '%s' '%s'", sourceApi, path, body));
-        getAcessTokenFromApiServices("bff", "provider/auth/login");
-        response = RestAssuredExtension.postMethod("bff", "simulation", "bff_simulation_confirm.txt", "");
+        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
+        response = RestAssuredExtension.postMethod(sourceApi, "simulation", "bff_simulation_confirm.txt", "");
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
     }
 }

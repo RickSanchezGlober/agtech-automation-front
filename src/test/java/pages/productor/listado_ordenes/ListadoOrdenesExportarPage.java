@@ -7,6 +7,7 @@ import org.testng.Assert;
 import pageobjects.proveedor.listado_ordenes.ListadoOrdenesProveedorPageObject;
 import pages.BasePage;
 import pages.proveedor.listado_ordenes.ListadoOrdenesFiltrarPage;
+import utils.RestAssuredExtension;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -89,5 +90,11 @@ public class ListadoOrdenesExportarPage extends BasePage {
         int year = LocalDateTime.now().getYear();
         String fileName = String.format("C:\\Users\\yailin.valdivia\\Downloads\\Tusordenes_Nera_%s_%s_%s.xlsx", dayOfMonth, month, year);
         return new File(fileName);
+    }
+
+    public void consumeApiFilterOrders(String sourceApi, String path, List<List<String>> t_table) {
+        log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
+        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
+        response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
     }
 }
