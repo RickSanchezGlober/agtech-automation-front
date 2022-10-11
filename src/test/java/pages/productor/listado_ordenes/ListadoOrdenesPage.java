@@ -119,7 +119,7 @@ public class ListadoOrdenesPage extends BasePage {
 
     public void getDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
-        getAcessTokenFromApiServices("bff", "farmer/auth/login");
+        getAcessTokenFromApiServices(sourceApi, "farmer/auth/login");
         response = RestAssuredExtension.getMethodWithParams(sourceApi, path, t_table, getAccess_token());
         if (!response.getBody().prettyPrint().equals("")) {
             explicitWait(ListadoOrdenesPageObject.ORDENES_CONTAINER);

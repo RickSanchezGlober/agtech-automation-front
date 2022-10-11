@@ -336,7 +336,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                 if (FIELDS.contains("TNA") || FIELDS.contains("CFT")) {
                                     VALUES = FIELDS + " " + parseFromDoubleToString(VALUES, 2) + "%";
                                 } else if (FIELDS.contains("Monto")) {
-                                    VALUES= parseFromDoubleToString(VALUES, 2);
+                                    VALUES = parseFromDoubleToString(VALUES, 2);
 //                                    Ya no viene la oracion 'Total Crédito a sola firma'
 //                                    VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
 //                                    VALUES = " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
@@ -351,7 +351,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                         VALUES = "";
                                     }
                                 }
-                                Assert.assertTrue(FIELDS_TEXT.replaceAll(".","").contains(VALUES.replaceAll(".","")));
+                                Assert.assertTrue(FIELDS_TEXT.replaceAll(".", "").contains(VALUES.replaceAll(".", "")));
                                 i.getAndIncrement();
                             });
         }
@@ -562,7 +562,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
     }
 
     public void hitApiSimulation(String sourceApi, String path, String body) {
-        getAcessTokenFromApiServices("bff", "provider/auth/login");
+        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
         log.info(String.format("Consumiendo API '%s' con body '%s'", sourceApi + path, body));
         response = RestAssuredExtension.postMethod(sourceApi, path, body, getAccess_token());
     }

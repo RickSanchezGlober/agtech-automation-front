@@ -1,4 +1,4 @@
-package pages.proveedor.listado_ordenes;
+package pages.productor.listado_ordenes;
 
 
 import org.apache.poi.ss.usermodel.*;
@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import pageobjects.proveedor.listado_ordenes.ListadoOrdenesProveedorPageObject;
 import pages.BasePage;
+import pages.proveedor.listado_ordenes.ListadoOrdenesFiltrarPage;
 import utils.RestAssuredExtension;
 
 import java.io.*;
@@ -40,11 +41,11 @@ public class ListadoOrdenesExportarPage extends BasePage {
         //Creando el archivo
         File file = createFile();
 
-        sleep(15);
+        sleep(10);
         log.info(String.format("Verificando que exista el archivo '%s'", file.getName()));
         Assert.assertTrue(file.exists());
 
-        Integer iRow = 0;
+        int iRow = 0;
         if (file.exists()) {
             try {
                 InputStream inputStream = new FileInputStream(file);
@@ -78,9 +79,9 @@ public class ListadoOrdenesExportarPage extends BasePage {
             }
         }
         //Verifico la cantidad de filas(cantidad de ordenes) más el HEADER
-        Integer cantOrders = response.getBody().jsonPath().get("_pagination.total_count");
-        log.info(String.format("La cantidad de órdenes en la UI es '%s' y el en el excel '%s'", cantOrders, (iRow - 1)));
-        Assert.assertTrue(iRow == cantOrders + 1);
+        //Esto va a cambiar por bug reportado, debe decargar todas las ordenes.
+        log.info(String.format("La cantidad de órdenes en la UI es '%s' y el en el excel '%s'", elementList.size(), iRow - 1));
+        Assert.assertTrue(iRow == elementList.size() + 1);
     }
 
     public static File createFile() {

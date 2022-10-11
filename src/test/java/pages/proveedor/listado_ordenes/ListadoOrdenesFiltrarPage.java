@@ -13,6 +13,7 @@ import pageobjects.proveedor.listado_ordenes.ListadoOrdenesProveedorPageObject;
 import pages.BasePage;
 import utils.RestAssuredExtension;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -48,6 +49,13 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
                         elementList.get(i).click();
                         count++;
                     }
+                    //En ocaciones es necesario hacer click mas de una vez en Exportar
+                    File file = ListadoOrdenesExportarPage.createFile();
+                    int countExportarButton = 0;
+                    while (buttonName.contains("Exportar") && !file.exists() && countExportarButton < 2) {
+                        elementList.get(i).click();
+                        countExportarButton++;
+                    }
                     break;
                 }
             }
@@ -58,7 +66,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
     public void validateDataFromOrderWithFilters(String sourceApi, String path, List<List<String>> t_table) {
 
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
-        getAcessTokenFromApiServices("bff", "provider/auth/login");
+        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
         response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
         if (!response.getBody().prettyPrint().equals("")) {
             explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
