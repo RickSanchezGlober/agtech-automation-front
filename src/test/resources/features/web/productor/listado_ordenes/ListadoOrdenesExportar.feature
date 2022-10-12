@@ -4,7 +4,7 @@ Feature:  Home Productor - Últimas Operaciones Realizadas
   Background:
     Given Se navega al portal Nera productor
     And Se ingresa con usuario aut.prod@test.com y password Test123+
-    When El proveedor hace click en el boton Ver todas del home
+    When El productor hace click en el boton Ver todas del home
     And Se elimina el file Tusordenes_Nera.xlsx si existe
 
 # Este caso solo funciona con el modo setHeadless(false), con lo que en el Job no funciona
@@ -14,11 +14,11 @@ Feature:  Home Productor - Últimas Operaciones Realizadas
   Scenario: Productor - Listado de Órdenes Productor - Descarga Excel - Validar botón "Exportar"
   Productor - Listado de Órdenes Productor - Descarga Excel - Validar botón "Exportar" con filtros aplicados
   Productor - Listado de Órdenes Productor - Descarga Excel - Validar botón "Exportar" con búsqueda previa
-    And El proveedor hace click en el boton Filtrar de la pantalla ordenes
-    And Se selecciona el filtro Pendiente
-    And El proveedor hace click en el boton Aplicar filtros de la pantalla ordenes
-    And El proveedor hace click en el boton Cerrar Filtros de la pantalla ordenes
-    And El proveedor hace click en el boton Exportar XLS de la pantalla ordenes
+    And El productor hace click en el boton Filtrar de la pantalla ordenes
+    And El productor selecciona el filtro Pendiente
+    And El productor hace click en el boton Aplicar filtros de la pantalla ordenes
+    And El productor hace click en el boton Cerrar Filtros de la pantalla ordenes
+    And El productor hace click en el boton Exportar XLS de la pantalla ordenes
     Then Consumir api productor que filtra las ordenes bff con ruta farmer/orders/filter y parámetros
       | type_sort | DESC                                                                                                                                                        |
       | sort      | order_date                                                                                                                                                  |

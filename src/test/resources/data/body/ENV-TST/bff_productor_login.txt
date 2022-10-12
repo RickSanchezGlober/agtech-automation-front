@@ -1,4 +1,4 @@
 {
-    "email":"payment@non-email.com"
+    "email":"aut.prod@test.com"
     ,"password":"Test123+"
 }
