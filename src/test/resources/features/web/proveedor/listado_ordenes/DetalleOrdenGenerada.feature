@@ -1,9 +1,9 @@
-@financing @proveedor @DetalleOrdenGenerada
+@financing @proveedor @DetalleOrdenGenerada 
 Feature: Validar el detalle de la Orden desde el listado de Ordenes
 
   Background:
     Given Se navega al portal New Agro proveedor
-    And Usuario logueado en el portal New Agro
+    And Usuario logueado en el portal Nera
     When El proveedor hace click en el boton Ver todas de la sección Home
     And El proveedor hace click en el boton Filtrar de la sección Ordenes
 
