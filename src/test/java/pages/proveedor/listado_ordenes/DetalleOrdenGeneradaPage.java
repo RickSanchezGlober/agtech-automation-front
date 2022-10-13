@@ -132,6 +132,7 @@ public class DetalleOrdenGeneradaPage extends BasePage {
             String companyName = response.getBody().jsonPath().get("companyName").toString();
             String orderDesc = response.getBody().jsonPath().get("orderDesc").toString();
             String farmerCuit = response.getBody().jsonPath().get("farmerCuit").toString();
+            farmerCuit = farmerCuit.substring(0,2) + "-" + farmerCuit.substring(2,10) + "-" + farmerCuit.substring(10,farmerCuit.length());
             String farmerMail = response.getBody().jsonPath().get("farmerMail").toString();
             String farmerName = response.getBody().jsonPath().get("farmerName").toString();
             String farmerNumber = response.getBody().jsonPath().get("farmerNumber").toString();
