@@ -23,4 +23,5 @@ public class GenerarOrdenCompraSolaFirmaContactoPageObject {
     public static final By.ByTagName EMPTY_STATE_ICON = new By.ByTagName("i");
     public static final By.ByClassName NO_ES_POSIBLE_CONTINUAR_TITLE = new By.ByClassName("error_page__title");
     public static final By.ByClassName TE_PEDIMOS_DISCULPAS_SUBTITLE = new By.ByClassName("error_page__subtitle");
+    public static final By.ByClassName DETALLE_DEL_PAGO_CONTAINER = new By.ByClassName("installments__main_container");
 }
