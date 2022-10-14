@@ -77,11 +77,13 @@ Feature:  Home Productor - Últimas Operaciones Realizadas
     And El productor hace click en el boton Aplicar filtros de la pantalla ordenes
     And Se muestra listado de órdenes en el rango seleccionado en productor
 
-  @TEST_SET_ID_AG-2381 @TEST_SET_ID_AG-2383 @TEST_SET_ID_AG-2384 @TEST_SET_ID_AG-2386 @regression
+  @TEST_SET_ID_AG-2381 @TEST_SET_ID_AG-2383 @TEST_SET_ID_AG-2384 @TEST_SET_ID_AG-2386
+  @TEST_SET_ID_AG-2407 @regression
   Scenario: Productor - Listado de Órdenes Productor - Buscador + Filtro - Validar búsqueda por botón buscar
   Productor - Listado de Órdenes Productor - Buscador + Filtro - Validar búsqueda con CUIT valido
   Productor - Listado de Órdenes Productor - Buscador + Filtro - Validar búsqueda con Razón Social valida
   Productor - Listado de Órdenes Productor - Buscador + Filtro - Verifico búsqueda parcial
+  Productor - Listado de Órdenes Productor - Buscador + Filtro - Verifico Empty State buscador
     And Consumir api productor que lista todas las ordenes bff con ruta farmer/orders/filter y parámetros
       | type_sort | DESC                                                                                                                                                        |
       | sort      | order_date                                                                                                                                                  |
@@ -98,3 +100,12 @@ Feature:  Home Productor - Últimas Operaciones Realizadas
     And El productor visualiza los resultados correctos
     And El productor hace una busqueda por CUIT inexistente
     And El productor visualiza la pantalla de órdenes vacias
+
+  @TEST_SET_ID_AG-2406 @regression
+  Scenario: Productor - Listado de Órdenes Productor - Buscador + Filtro - Verifico Empty State filtros
+    And El productor hace click en el boton Filtrar de la pantalla ordenes
+    #Elegimos un filtro que no tenga ordenes, con fechas en el futuro
+    And El productor selecciona el filtro Desde Fecha Futura
+    And El productor selecciona el filtro Hasta Fecha Futura
+    And El productor hace click en el boton Aplicar filtros de la pantalla ordenes
+    Then El productor visualiza la pantalla de órdenes vacias

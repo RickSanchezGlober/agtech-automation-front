@@ -177,6 +177,18 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
                 clearField(element);
                 write(element, currentDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
                 break;
+            case "Desde Fecha Futura":
+                element = ListadoOrdenesFiltrarPageObject.DATE_PICKER_INPUT_DESDE;
+                LocalDate futureDateFrom = getLocalDateFuture(0, 1, 0);
+                clearField(element);
+                write(element, futureDateFrom.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                break;
+            case "Hasta Fecha Futura":
+                element = ListadoOrdenesFiltrarPageObject.DATE_PICKER_INPUT_HASTA;
+                LocalDate futureDateUntil = getLocalDateFuture(0, 2, 0);
+                clearField(element);
+                write(element, futureDateUntil.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+                break;
         }
     }
 
@@ -187,6 +199,11 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
         }
         LocalDate fromDate = LocalDate.of(currentDate.getYear(), currentDate.getMonth().getValue() - cantMonth, currentDate.getDayOfMonth() - 1);
         return fromDate;
+    }
+
+    private LocalDate getLocalDateFuture(int futureYear, int futureMonth, int futureDayOfMonth) {
+        LocalDate futureDate = LocalDate.of(currentDate.getYear() + futureYear, currentDate.getMonth().getValue() + futureMonth, currentDate.getDayOfMonth() + futureDayOfMonth);
+        return futureDate;
     }
 
     public void clearField(By element) {
@@ -390,12 +407,14 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
         }
 
     }
+
     public boolean verifyEmptyStateOrdersScrenn() {
         boolean result = verifyElementEmptyStateOrdersScreen("icono")
                 && verifyElementEmptyStateOrdersScreen("No encontramos operaciones")
                 && verifyElementEmptyStateOrdersScreen("revisá los filtros y volvé a intentarlo.");
         return result;
     }
+
     public boolean verifyElementEmptyStateOrdersScreen(String elementName) {
         explicitWait(ListadoOrdenesFiltrarPageObject.EMPTY_STATE_ICON);
         By element = null;

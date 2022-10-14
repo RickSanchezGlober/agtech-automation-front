@@ -1,9 +1,8 @@
-package pages.proveedor.listado_ordenes;
+package pages.productor.listado_ordenes;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cucumber.java.sl.In;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -11,12 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
-import pageobjects.productor.listado_ordenes.ListadoOrdenesPageObject;
-import pageobjects.proveedor.generar_orden.GenerarOrdenCompraCesionForwardPageObject;
-import pageobjects.proveedor.generar_orden.GenerarOrdenCompraSolaFirmaPageObject;
-import pageobjects.proveedor.listado_ordenes.HomeUltimasOperacionesPageObject;
-import pageobjects.proveedor.listado_ordenes.ListadoOrdenesFiltrarPageObject;
-import pageobjects.proveedor.listado_ordenes.ListadoOrdenesProveedorPageObject;
+import pageobjects.productor.listado_ordenes.ListadoOrdenesProductorPageObject;
 import pages.BasePage;
 import utils.DataGenerator;
 import utils.RestAssuredExtension;
@@ -27,45 +21,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ListadoOrdenesProveedorPage extends BasePage {
+public class ListadoOrdenesProductorPage extends BasePage {
     public static int pos;
     public static List<WebElement> elementList;
     public static String FIELD_TEXT_UI;
     public static String searchCriteria;
 
-    public ListadoOrdenesProveedorPage() {
+    public ListadoOrdenesProductorPage() {
         super();
         pos = 0;
     }
 
     public boolean verifyVisibleElementsOrdersScreen(List<List<String>> t_table) {
         By byElement = null;
-        explicitWait(ListadoOrdenesProveedorPageObject.BUSCAR_CUIT_NOMBRE_INPUT);
+        waitVisibility(ListadoOrdenesProductorPageObject.BUSCAR_CUIT_NOMBRE_INPUT,"20");
         List<Boolean> resultList = new ArrayList<>();
         for (int i = 0; i < t_table.size(); i++) {
             String elementName = t_table.get(i).get(0);
             log.info(String.format("Buscando el elemento '%s'", elementName));
             switch (elementName) {
                 case "el buscador Buscar CUIT o nombre de cliente":
-                    byElement = ListadoOrdenesProveedorPageObject.BUSCAR_CUIT_NOMBRE_INPUT;
+                    byElement = ListadoOrdenesProductorPageObject.BUSCAR_CUIT_NOMBRE_INPUT;
                     resultList.add(getAttribute(byElement, "placeholder").equalsIgnoreCase("Buscar CUIT o nombre de cliente"));
                     break;
-                case "el boton Exportar":
+                case "el boton Exportar XLS":
                 case "el boton Filtrar":
                 case "el boton Crear Orden":
-                    resultList.add(findElementOrdesScreen(elementName.replace("el boton ", ""), ListadoOrdenesProveedorPageObject.BUTTON_CONTAINER_PANTALLA_ORDENES));
+                    resultList.add(findElementOrdesScreen(elementName.replace("el boton ", ""), ListadoOrdenesProductorPageObject.BUTTON_CONTAINER_PANTALLA_ORDENES));
                     break;
                 case "la columna Creación":
-                case "la columna Cliente":
+                case "la columna Proveedor":
                 case "la columna Entidad":
                 case "la columna Medio de Pago":
                 case "la columna Monto":
-                case "la columna Estado":
-                    resultList.add(findElementOrdesScreen(elementName.replace("la columna ", ""), ListadoOrdenesProveedorPageObject.ENCABEZADO_TABLA_CONTAINER_PANTALLA_ORDENES));
+                case "la columna Estado de la orden":
+                    resultList.add(findElementOrdesScreen(elementName.replace("la columna ", ""), ListadoOrdenesProductorPageObject.ENCABEZADO_TABLA_CONTAINER_PANTALLA_ORDENES));
                     break;
                 case "los botones >":
                     //Cambiar esto cuando en Ver todas se vean mas de 4 ordenes
-                    List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
+                    List<WebElement> elementList = driver.findElements(ListadoOrdenesProductorPageObject.FLECHA_DERECHA_ICONO_CONTAINER);
                     resultList.add(elementList.size() > 0);
                     break;
             }
@@ -95,11 +89,11 @@ public class ListadoOrdenesProveedorPage extends BasePage {
 
     public void checkDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
-        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
+        getAcessTokenFromApiServices(sourceApi, "farmer/auth/login");
         response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
         pos = 0;
         if (!response.getBody().prettyPrint().equals("")) {
-            explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+            explicitWait(ListadoOrdenesProductorPageObject.ORDENES_CONTAINER);
             try {
                 ArrayList list = new ArrayList<>(response.getBody().jsonPath().get("result"));
                 list.stream().forEach(dataEntry -> getObjectAllOrder(dataEntry));
@@ -118,20 +112,20 @@ public class ListadoOrdenesProveedorPage extends BasePage {
     }
 
     public boolean verifyElementEmptyStateScreen(String elementName) {
-        explicitWait(ListadoOrdenesProveedorPageObject.EMPTY_STATE_ICON);
+        explicitWait(ListadoOrdenesProductorPageObject.EMPTY_STATE_ICON);
         By element = null;
         boolean result = false;
         switch (elementName) {
             case "icono":
-                element = ListadoOrdenesProveedorPageObject.EMPTY_STATE_ICON;
+                element = ListadoOrdenesProductorPageObject.EMPTY_STATE_ICON;
                 result = isDisplayed(element);
                 break;
             case "Todavía no tenés órdenes de compra":
-                element = ListadoOrdenesProveedorPageObject.NO_ENCONTRAMOS_OPERACIONES_TITTLE;
+                element = ListadoOrdenesProductorPageObject.NO_ENCONTRAMOS_OPERACIONES_TITTLE;
                 result = verifyVisibleText(element, elementName);
                 break;
             case "Cuando las tengas vas a ver tus órdenes de compra acá.":
-                element = ListadoOrdenesProveedorPageObject.REVISA_LOS_FILTROS_SUBTITTLE;
+                element = ListadoOrdenesProductorPageObject.REVISA_LOS_FILTROS_SUBTITTLE;
                 result = verifyVisibleText(element, elementName);
                 break;
         }
@@ -146,7 +140,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
             e.printStackTrace();
         }
         //Texto de la ultima operacion, UI
-        elementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+        elementList = driver.findElements(ListadoOrdenesProductorPageObject.ORDENES_CONTAINER);
         FIELD_TEXT_UI = elementList.get(pos).getText();
 
 
@@ -221,8 +215,8 @@ public class ListadoOrdenesProveedorPage extends BasePage {
     }
 
     public boolean verifyMaxNumberOrders(String orderQuantity) {
-        explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
-        List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+        explicitWait(ListadoOrdenesProductorPageObject.ORDENES_CONTAINER);
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesProductorPageObject.ORDENES_CONTAINER);
         log.info(String.format("Verificando que se muestren máximo '%s' órdenes", orderQuantity));
         return (elementList.size() <= Integer.parseInt(orderQuantity));
     }
@@ -239,14 +233,14 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         }
         this.searchCriteria = searchCriteria;
         fillField(searchCriteria, "Buscar CUIT o nombre de cliente");
-        click(ListadoOrdenesProveedorPageObject.LUPA_BUTTON);
+        click(ListadoOrdenesProductorPageObject.LUPA_BUTTON);
     }
 
     public void fillField(String text, String field) {
         By element = null;
         switch (field) {
             case "Buscar CUIT o nombre de cliente":
-                element = ListadoOrdenesProveedorPageObject.BUSCAR_CUIT_NOMBRE_INPUT;
+                element = ListadoOrdenesProductorPageObject.BUSCAR_CUIT_NOMBRE_INPUT;
                 break;
         }
         waitVisibility(element, "40");
@@ -255,8 +249,8 @@ public class ListadoOrdenesProveedorPage extends BasePage {
     }
 
     public void checkCorrectResultDisplayed() {
-        waitVisibility(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER, "30");
-        List<WebElement> listWebElement = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+        waitVisibility(ListadoOrdenesProductorPageObject.ORDENES_CONTAINER, "30");
+        List<WebElement> listWebElement = driver.findElements(ListadoOrdenesProductorPageObject.ORDENES_CONTAINER);
         if (listWebElement.size() != 0) {
             for (int i = 0; i < listWebElement.size(); i++) {
                 log.info(String.format("Verificando que se muestre en la orden '%s' el criterio '%s'", (i + 1), searchCriteria));
@@ -270,12 +264,12 @@ public class ListadoOrdenesProveedorPage extends BasePage {
 
     public void getDataFromApiServicesAllOrders(String sourceApi, String path, List<List<String>> t_table) {
         log.info(String.format("Consumiendo API: '%s' '%s'", sourceApi, path));
-        getAcessTokenFromApiServices(sourceApi, "provider/auth/login");
+        getAcessTokenFromApiServices(sourceApi, "farmer/auth/login");
         response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
     }
 
     public boolean verifyButtonState(String buttonName, String buttonStatus) {
-        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "10");
+        waitVisibility(ListadoOrdenesProductorPageObject.RESULTADOS_SPAN, "10");
         boolean isEnableButton = false;
         switch (buttonStatus) {
             case "Deshabilitado":
@@ -284,7 +278,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         }
         //Si esta deshabiltado trae en class la palabra disabled
         //Si esta habiltado no trae nada
-        List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.COUNTER_BUTTON_CONTAINER);
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesProductorPageObject.COUNTER_BUTTON_CONTAINER);
         switch (buttonName) {
             case "<":
                 isEnableButton = elementList.get(0).getAttribute("class").contains(buttonStatus);
@@ -301,11 +295,11 @@ public class ListadoOrdenesProveedorPage extends BasePage {
     }
 
     public boolean checkPagingOptions() {
-        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "10");
+        waitVisibility(ListadoOrdenesProductorPageObject.RESULTADOS_SPAN, "10");
         boolean resultOpt1 = false;
         boolean resultOpt2 = false;
         boolean resultOpt3 = false;
-        Select dropDownList = new Select(driver.findElement(ListadoOrdenesProveedorPageObject.PAGINADO_SELECT));
+        Select dropDownList = new Select(driver.findElement(ListadoOrdenesProductorPageObject.PAGINADO_SELECT));
         List<WebElement> lisOptions = dropDownList.getOptions();
         for (int i = 0; i < lisOptions.size(); i++) {
             if (lisOptions.get(i).getText().equals("1 - 10")) {
@@ -320,14 +314,14 @@ public class ListadoOrdenesProveedorPage extends BasePage {
     }
 
     public void selectPaging(String option) {
-        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "10");
-        Select dropDownList = new Select(driver.findElement(ListadoOrdenesProveedorPageObject.PAGINADO_SELECT));
+        waitVisibility(ListadoOrdenesProductorPageObject.RESULTADOS_SPAN, "10");
+        Select dropDownList = new Select(driver.findElement(ListadoOrdenesProductorPageObject.PAGINADO_SELECT));
         dropDownList.selectByVisibleText(option);
     }
 
     public void clickOnButtonPaging(String buttonName) {
-        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "10");
-        List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.COUNTER_BUTTON_CONTAINER);
+        waitVisibility(ListadoOrdenesProductorPageObject.RESULTADOS_SPAN, "10");
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesProductorPageObject.COUNTER_BUTTON_CONTAINER);
         switch (buttonName) {
             case "<":
                 elementList.get(0).click();
@@ -342,16 +336,16 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         Integer countOrders = response.getBody().jsonPath().get("_pagination.total_count");
         boolean result = false;
         if (countOrders > 10) {
-            waitVisibility(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER, "10");
-            List<WebElement> webElementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+            waitVisibility(ListadoOrdenesProductorPageObject.ORDENES_CONTAINER, "10");
+            List<WebElement> webElementList = driver.findElements(ListadoOrdenesProductorPageObject.ORDENES_CONTAINER);
             result = webElementList.size() <= 10;
         }
         return result;
     }
 
     public boolean verifyFirstOrders(String orderQuantity) {
-        explicitWait(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
-        List<WebElement> elementList = driver.findElements(ListadoOrdenesProveedorPageObject.ORDENES_CONTAINER);
+        explicitWait(ListadoOrdenesProductorPageObject.ORDENES_CONTAINER);
+        List<WebElement> elementList = driver.findElements(ListadoOrdenesProductorPageObject.ORDENES_CONTAINER);
         return (elementList.size() == Integer.parseInt(orderQuantity));
     }
 
@@ -363,21 +357,21 @@ public class ListadoOrdenesProveedorPage extends BasePage {
     }
 
     public boolean verifyElementEmptyStateOrdersScreen(String elementName) {
-        explicitWait(ListadoOrdenesProveedorPageObject.EMPTY_STATE_ICON);
+        explicitWait(ListadoOrdenesProductorPageObject.EMPTY_STATE_ICON);
         By element = null;
         List<WebElement> elementList = null;
         boolean result = false;
         switch (elementName) {
             case "icono":
-                element = ListadoOrdenesProveedorPageObject.EMPTY_STATE_ICON;
+                element = ListadoOrdenesProductorPageObject.EMPTY_STATE_ICON;
                 result = isDisplayed(element);
                 break;
             case "No encontramos operaciones":
-                element = ListadoOrdenesProveedorPageObject.NO_ENCONTRAMOS_OPERACIONES_TITTLE;
+                element = ListadoOrdenesProductorPageObject.NO_ENCONTRAMOS_OPERACIONES_TITTLE;
                 result = verifyVisibleText(element, elementName);
                 break;
             case "revisá los filtros y volvé a intentarlo.":
-                element = ListadoOrdenesProveedorPageObject.REVISA_LOS_FILTROS_SUBTITTLE;
+                element = ListadoOrdenesProductorPageObject.REVISA_LOS_FILTROS_SUBTITTLE;
                 result = verifyVisibleText(element, elementName);
                 break;
         }
@@ -388,14 +382,15 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         }
         return result;
     }
+
     public boolean verifyVisibleTittle(String tittle) {
         By element = null;
         switch (tittle) {
             case "Órdenes":
-                element = HomeUltimasOperacionesPageObject.ORDENES_TITTLE;
+                element = ListadoOrdenesProductorPageObject.ORDENES_TITTLE;
                 break;
             case "Órdenes próximas a vencer":
-                element = HomeUltimasOperacionesPageObject.OPERACIONES_PROXIMAS_VENCER;
+                element = ListadoOrdenesProductorPageObject.OPERACIONES_PROXIMAS_VENCER;
                 break;
         }
         waitVisibility(element, "20");
