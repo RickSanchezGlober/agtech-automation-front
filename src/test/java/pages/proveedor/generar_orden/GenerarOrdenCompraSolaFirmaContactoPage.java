@@ -156,6 +156,10 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                         VALUES = "Monto " + "$" + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                         break;
                                     case "financing_type":
+                                        //Para linea 12 meses
+                                        if (VALUES.contains("Semestral")) {
+                                            VALUES = "12M " + VALUES;
+                                        }
                                         VALUES = "Tipo de convenio " + VALUES;
                                         break;
                                     case "installment_cuantity":
@@ -168,6 +172,12 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                         VALUES = parseFromDoubleToString(VALUES, 2) + "%";
                                         break;
                                     case "installments.interest_nominal":
+                                    case "installments[0].interest_nominal":
+                                    case "installments[1].interest_nominal":
+                                    case "installments[0].total_vat_interest":
+                                    case "installments[1].total_vat_interest":
+                                    case "installments[0].amount":
+                                    case "installments[1].amount":
 //                                    case "installments.vat_interest": ya no aparece
                                         //no verifico este texto "Sellado"
                                         // "IVA s/ interés" "Sellado" pq para mapear
@@ -188,7 +198,7 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                 log.info(FIELDS + " " + FIELDS_TEXT);
 
                                 // VALIDATIONS
-                                Assert.assertTrue(FIELDS_TEXT.contains(VALUES));
+                                Assert.assertTrue(FIELDS_TEXT.replaceAll(".", "").contains(VALUES.replaceAll(".", "")));
                                 i.getAndIncrement();
                             }
                     );

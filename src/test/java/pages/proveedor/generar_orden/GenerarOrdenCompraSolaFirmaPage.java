@@ -60,6 +60,9 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             case "Ir a órdenes":
                 element = GenerarOrdenCompraSolaFirmaContactoPageObject.IR_A_ORDENES_BUTTON;
                 break;
+            case "Detalle del pago":
+                element = GenerarOrdenCompraSolaFirmaContactoPageObject.DETALLE_DEL_PAGO_CONTAINER;
+                break;
         }
         if (waitVisibility(element, "40")) {
             click(element);
@@ -341,7 +344,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 //                                    VALUES = FIELDS + " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
 //                                    VALUES = " $ " + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                 } else if (FIELDS.contains("Cuota única, vencimiento:")) {
-                                    VALUES = FIELDS + " " + getDateStringFormat(VALUES);
+                                    VALUES = FIELDS + " " + getDateStringFormat(VALUES, "d/M/yyyy");
                                 } else if (FIELDS.contains("Interés")) {
                                     if (!VALUES.equals("[null]")) {
                                         VALUES = VALUES.replace("[", "");
@@ -350,6 +353,15 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
                                     } else {
                                         VALUES = "";
                                     }
+                                    //Campos para convenio Linea 12 Meses
+                                } else if (FIELDS.contains("Periodicidad de pago de interés")) {
+                                    if (VALUES.contains("Mensual")) {
+                                        VALUES = FIELDS + " Mensual";
+                                    }
+                                } else if (FIELDS.contains("No. cuotas para pago interés")) {
+                                    VALUES = FIELDS + " " + VALUES;
+                                } else if (FIELDS.contains("Fecha de pago del capital")) {
+                                    VALUES = FIELDS + " " + getDateStringFormat(VALUES, "dd/MM/yyyy");
                                 }
                                 Assert.assertTrue(FIELDS_TEXT.replaceAll(".", "").contains(VALUES.replaceAll(".", "")));
                                 i.getAndIncrement();
@@ -357,10 +369,10 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
         }
     }
 
-    private String getDateStringFormat(String stringDate) {
+    private String getDateStringFormat(String stringDate, String format) {
         LocalDateTime ldt = LocalDateTime.parse(stringDate);
         //revisar q pasa si la fecha trae 2 cifras
-        return ldt.format(DateTimeFormatter.ofPattern("d/M/yyyy"));
+        return ldt.format(DateTimeFormatter.ofPattern(format));
     }
 
     public void validateProductor(List<List<String>> t_table) {
