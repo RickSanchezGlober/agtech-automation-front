@@ -1,6 +1,7 @@
 @financing @proveedor @OrdenCompraCesionForward
 Feature: Generar Orden de Compra con Método de Pago Cesión Forward
-
+#Se debe agregar tag @regression para que sea nuevamente incluído en la ejecución del pipeline
+#Se espera por actualización de data para proveedor - convenios - broker
   Background:
     Given Se navega al portal Nera proveedor
     And Se ingresa con usuario cjfranzin@gmail.com y password Test123+
@@ -8,7 +9,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     When El proveedor hace click en el botón Crear Orden
 
 
-  @TEST_ID_AG-3283 @TEST_ID_AG-3284 @regression
+  @TEST_ID_AG-3283 @TEST_ID_AG-3284
   Scenario: Proveedor - FIX - Validación de Condiciones - Validar Identificación de CUIT
   Proveedor - FIX - Validación de Condiciones - Verifico validación Cesión Forward
     And El proveedor visualiza el boton Buscar Deshabilitado
