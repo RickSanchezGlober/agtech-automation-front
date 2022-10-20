@@ -1,4 +1,4 @@
-@financing @productor @dalia
+@financing @productor
 Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
 
   Background:
@@ -6,7 +6,7 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
     And Se ingresa con usuario aut.prod@test.com y password Test123+
     When El productor hace click en el boton Ver todas del home
 
-   @regression @AG-2992
+  @regression @AG-2992
   Scenario: Productor - Verificar detalle de la orden - A sola firma
     And El productor hace click en el boton Filtrar de la pantalla ordenes
     And El productor selecciona el filtro Pendiente
@@ -18,7 +18,7 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
      | Estado:                    |
      | Proveedor                  |
      | Medio de pago              |
-     | Financiación A sola firma  |
+     | A sola firma               |
      | Entidad                    |
      | Banco Galicia              |
      | Monto                      |
@@ -29,6 +29,8 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
      | Interés                    |
      | IVA sobre interés          |
      | Sellado                    |
-     | Total a pagar *            |
+     | Total a pagar al Banco*    |
      | Costo sobre el capital     |
+    And Botón Continuar se visualiza Habilitado en detalle de orden
     And Obtener datos de endpoint -GET PRODUCTOR- en bff con ruta farmer/orders/detail/
+    #Pendiente fecha de vencimiento cuando esté habilitado

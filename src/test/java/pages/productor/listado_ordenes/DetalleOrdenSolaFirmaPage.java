@@ -1,8 +1,8 @@
 package pages.productor.listado_ordenes;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pageobjects.productor.listado_ordenes.DetalleOrdenSolaFirmaPageObject;
-import pageobjects.proveedor.listado_ordenes.DetalleOrdenGeneradaPageObject;
 import pages.BasePage;
 import utils.RestAssuredExtension;
 
@@ -100,8 +100,6 @@ public class DetalleOrdenSolaFirmaPage extends BasePage {
             orderAmount = orderAmount.replace(".","&").replace(",", ".").replace("&", ",");
             String orderStatus = response.getBody().jsonPath().get("order_status").toString();
             String paymentStatus = response.getBody().jsonPath().get("payment_status").toString();
-            String paymentLine = response.getBody().jsonPath().get("financial_line_name").toString();
-            String payment_method = response.getBody().jsonPath().get("payment_method").toString();
             String financial_line_name = response.getBody().jsonPath().get("financial_line_name").toString();
             String financial_entity = response.getBody().jsonPath().get("financial_entity").toString();
             String due_date = response.getBody().jsonPath().get("due_date").toString();
@@ -115,14 +113,15 @@ public class DetalleOrdenSolaFirmaPage extends BasePage {
             total_amount = total_amount.replace(".","&").replace(",", ".").replace("&", ",");
             String capital_cost = formatValue.format(response.getBody().jsonPath().get("capital_cost"));
             capital_cost = capital_cost.replace(".","&").replace(",", ".").replace("&", ",");
-
+            String statusText = "check status error";
+            if(orderStatus.equals("Nueva") && paymentStatus.equals("Pendiente Productor")){
+                statusText = "Autorizá el crédito";
+            }
             if (!sElemento.contains(provider_name) && isContained) { isContained = false; }
             if (!sElemento.contains(orderTna) && isContained) { isContained = false; }
             if (!sElemento.contains(orderDesc) && isContained) { isContained = false; }
             if (!sElemento.contains(orderAmount) && isContained) { isContained = false; }
             //if (!sElemento.contains(paymentStatus) && isContained) { isContained = false; }
-            if (!sElemento.contains(paymentLine) && isContained) { isContained = false; }
-            if (!sElemento.contains(payment_method) && isContained) { isContained = false; }
             if (!sElemento.contains(financial_line_name) && isContained) { isContained = false; }
             if (!sElemento.contains(financial_entity) && isContained) { isContained = false; }
             if (!sElemento.contains(interest) && isContained) { isContained = false; }
@@ -130,9 +129,21 @@ public class DetalleOrdenSolaFirmaPage extends BasePage {
             if (!sElemento.contains(stamp_taxes) && isContained) { isContained = false; }
             if (!sElemento.contains(total_amount) && isContained) { isContained = false; }
             if (!sElemento.contains(capital_cost) && isContained) { isContained = false; }
+            if (!sElemento.contains(statusText) && isContained) { isContained = false; }
         }else {
             isContained = false;
         }
         return isContained;
+    }
+
+    public boolean productorVerifyElement(String buttonName) {
+        By element = null;
+        switch (buttonName) {
+            case "Continuar":
+                element = DetalleOrdenSolaFirmaPageObject.CONTINUAR_BUTTON;
+                break;
+        }
+        waitVisibility(element, "20");
+        return isEnabled(element);
     }
 }

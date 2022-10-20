@@ -16,4 +16,16 @@ public class DetalleOrdenSolaFirmaSteps {
     public void getDataFromApiGetMethod(String sourceApi, String path) {
         Assert.assertTrue(detalleOrdenSolaFirmaPage.getDataFromApiGetMethod(sourceApi, path));
     }
+
+    @And("^Botón (.*) se visualiza (.*) en detalle de orden")
+    public void productorVerifyElement(String buttonName, String status) {
+        switch (status) {
+            case "Habilitado":
+                Assert.assertTrue(detalleOrdenSolaFirmaPage.productorVerifyElement(buttonName));
+                break;
+            case "Deshabilitado":
+                Assert.assertFalse(detalleOrdenSolaFirmaPage.productorVerifyElement(buttonName));
+                break;
+        }
+    }
 }
