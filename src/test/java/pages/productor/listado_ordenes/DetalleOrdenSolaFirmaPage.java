@@ -121,7 +121,6 @@ public class DetalleOrdenSolaFirmaPage extends BasePage {
             if (!sElemento.contains(orderTna) && isContained) { isContained = false; }
             if (!sElemento.contains(orderDesc) && isContained) { isContained = false; }
             if (!sElemento.contains(orderAmount) && isContained) { isContained = false; }
-            //if (!sElemento.contains(paymentStatus) && isContained) { isContained = false; }
             if (!sElemento.contains(financial_line_name) && isContained) { isContained = false; }
             if (!sElemento.contains(financial_entity) && isContained) { isContained = false; }
             if (!sElemento.contains(interest) && isContained) { isContained = false; }
@@ -138,12 +137,43 @@ public class DetalleOrdenSolaFirmaPage extends BasePage {
 
     public boolean productorVerifyElement(String buttonName) {
         By element = null;
+        boolean isEnabled = false;
         switch (buttonName) {
+            case "Continuar":
+            case "Confirmar Pago":
+                element = DetalleOrdenSolaFirmaPageObject.CONTINUAR_BUTTON;
+                break;
+            case "Filtrar":
+                element = DetalleOrdenSolaFirmaPageObject.FILTRAR_BUTTON;
+                break;
+            case "Tooltip":
+                element = DetalleOrdenSolaFirmaPageObject.COSTO_CAPITAL_TOOLTIP;
+                break;
+        }
+        waitVisibility(element, "20");
+        isEnabled = isEnabled(element);
+
+        //Si es Tooltip --> Se verifica también que contenga el texto en el atributo
+        if(buttonName.equals("Tooltip")){
+            if(!getAttribute(element, "data-tip").equalsIgnoreCase("Es la suma de los costos (incluyendo impuestos) dividido el capital del préstamo.")){
+                isEnabled = false;
+            }
+        }
+        return isEnabled;
+    }
+
+    public void clickOnButtonProductorDetalle(String buttonName) {
+        By element = null;
+        switch (buttonName) {
+            case "Volver-Detalle de la Orden":
+            case "Volver-Ordenes":
+                element = DetalleOrdenSolaFirmaPageObject.VOLVER_BUTTON;
+                break;
             case "Continuar":
                 element = DetalleOrdenSolaFirmaPageObject.CONTINUAR_BUTTON;
                 break;
         }
-        waitVisibility(element, "20");
-        return isEnabled(element);
+        waitVisibility(element, "5");
+        click(element);
     }
 }

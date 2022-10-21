@@ -1,4 +1,4 @@
-@financing @productor
+@financing @productor @dalia
 Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
 
   Background:
@@ -31,6 +31,15 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
      | Sellado                    |
      | Total a pagar al Banco*    |
      | Costo sobre el capital     |
-    And Botón Continuar se visualiza Habilitado en detalle de orden
     And Obtener datos de endpoint -GET PRODUCTOR- en bff con ruta farmer/orders/detail/
-    #Pendiente fecha de vencimiento cuando esté habilitado
+    And Botón Tooltip se visualiza Habilitado en detalle de orden
+    And Botón Continuar se visualiza Habilitado en detalle de orden
+    And El productor hace click sobre botón: Continuar
+    And Botón Confirmar Pago se visualiza Deshabilitado en detalle de orden
+    And El productor hace click sobre botón: Volver-Detalle de la Orden
+    And Botón Continuar se visualiza Habilitado en detalle de orden
+    And El productor hace click sobre botón: Volver-Ordenes
+    And Botón Filtrar se visualiza Habilitado en detalle de orden
+
+#Pendiente fecha de vencimiento cuando esté habilitado
+#CLICK TOOLTIP
