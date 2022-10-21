@@ -1,6 +1,7 @@
 @financing @proveedor @OrdenCompraCesionForward
 Feature: Generar Orden de Compra con Método de Pago Cesión Forward
-
+#Se debe agregar tag @regression para que sea nuevamente incluído en la ejecución del pipeline
+#Se espera por actualización de data para proveedor - convenios - broker
   Background:
     Given Se navega al portal Nera proveedor
     And Se ingresa con usuario cjfranzin@gmail.com y password Test123+
@@ -13,7 +14,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And El proveedor ingresa Descripción Válida en el campo Descripción
     When El proveedor hace click en el botón Continuar
 
-  @AG-970 @regression @TEST_ID_AG_1177 @TEST_ID_AG_1178 @TEST_ID_AG_754
+  @AG-970 @TEST_ID_AG_1177 @TEST_ID_AG_1178 @TEST_ID_AG_754
   Scenario: Proveedor - Generar Orden de Compra - Visualizar el medio de pago en la lista de los disponibles credito forward
     Then El proveedor verifica que se muestre Elegí el medio de pago con el cual el productor va a pagar la orden.
     And El proveedor verifica que se muestre Medios de Pagos Disponibles
@@ -25,7 +26,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     And El proveedor verifica que se muestre Ingresá el Monto del Crédito
     And El proveedor verifica que se muestre Tipo de Convenio
 
-  @AG-788 @regression @TEST_ID_AG_1135 @TEST_ID_AG_1139 @TEST_ID_AG_1140 @TEST_ID_AG_1141 @TEST_ID_AG_1151 @TEST_ID_AG_1152
+  @AG-788 @TEST_ID_AG_1135 @TEST_ID_AG_1139 @TEST_ID_AG_1140 @TEST_ID_AG_1141 @TEST_ID_AG_1151 @TEST_ID_AG_1152
   @TEST_ID_AG_1153 @TEST_ID_AG_1155
   Scenario: Proveedor - Generar Orden de Compra - Completar Info Medio de Pago Seleccionado Cesion de Forward
     Then El proveedor seleciona medio de pago Cesión de forward
@@ -47,7 +48,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     #Pendiente boton simular TEST_ID_AG_1156
 
 
-    @AG-1119 @regression @TEST_ID_AG_1205 @TEST_ID_AG_1204
+    @AG-1119 @TEST_ID_AG_1205 @TEST_ID_AG_1204
   Scenario: Proveedor - Generar Orden de Compra - Visualizar campo desplegable Gestión del Forward al ingresar con usuario sin/con negocio directo
     #Se valida que con este usuario <Si contenga> la opción de negocio directo - Sin Corredor
     Then El proveedor seleciona medio de pago Cesión de forward
@@ -68,7 +69,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
 
     ### Pendiente @TEST_ID_AG_1038
 
-  @AG-877 @regression @TEST_ID_AG_1462
+  @AG-877 @TEST_ID_AG_1462
   Scenario: Proveedor - Generar Orden de Compra - Respuesta a la Consulta de Márgenes Cesión de Forward (Paso 3)
     Then El proveedor seleciona medio de pago Cesión de forward
     And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
@@ -83,7 +84,7 @@ Feature: Generar Orden de Compra con Método de Pago Cesión Forward
     # Se espera por resolución de BUG https://ag-tech.atlassian.net/browse/AG-1516
     # And El proveedor no percibe el boton Confirmar medio de pago
 
-  @AG-1148 @regression @TEST_ID_AG_1485
+  @AG-1148 @TEST_ID_AG_1485
   Scenario: Proveedor - Generar Orden de Compra - Resumen/Simulación P.D. Crédito c/Cesión de Forward (Paso 5)
     Then El proveedor seleciona medio de pago Cesión de forward
     And El proveedor introduce monto mayor a $1.500.000 en el campo Ingresá el monto del crédito
