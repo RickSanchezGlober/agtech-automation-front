@@ -9,6 +9,6 @@ public class DetalleOrdenSolaFirmaPageObject {
     public static final By.ByClassName PRODUCTOR_ORDER_DETAIL_ROW = new By.ByClassName("last_order__arrow");
     public static final By.ByClassName PRODUCTOR_ORDER_COLLAPSIBLE_ARROW = new By.ByClassName("collapsible_box__arrow");
     public static final By.ByClassName CONTINUAR_BUTTON = new By.ByClassName("button__container_primary");
-    public static final By.ByClassName VOLVER_BUTTON = new By.ByClassName("goback_button__icon");
+    public static final By.ByClassName VOLVER_BUTTON = new By.ByClassName("goback_button__text");
     public static final By.ByXPath FILTRAR_BUTTON = new By.ByXPath("//button[contains(text(),'Filtrar')]");
 }

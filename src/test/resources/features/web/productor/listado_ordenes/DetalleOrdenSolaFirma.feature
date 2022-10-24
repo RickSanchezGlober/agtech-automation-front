@@ -40,6 +40,3 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
     And Botón Continuar se visualiza Habilitado en detalle de orden
     And El productor hace click sobre botón: Volver-Ordenes
     And Botón Filtrar se visualiza Habilitado en detalle de orden
-
-#Pendiente fecha de vencimiento cuando esté habilitado
-#CLICK TOOLTIP
