@@ -28,4 +28,9 @@ public class DetalleOrdenSolaFirmaSteps {
                 break;
         }
     }
+
+    @And("^El productor hace click sobre botón: (.*)$")
+    public void clickOnButtonProductorDetalle(String buttonName) {
+        detalleOrdenSolaFirmaPage.clickOnButtonProductorDetalle(buttonName);
+    }
 }
