@@ -1,4 +1,4 @@
-@payments @proveedor @generarOrdenCompraSolaFirma
+@payments @proveedor @generarOrdenCompraSolaFirma @yailin
 Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la orden. Medios de pago.
 
   Background:
@@ -7,7 +7,6 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     When El proveedor hace click en el botón Crear Orden
 
   @TEST_ID_AG-529 @TEST_ID_AG-530 @TEST_SET_ID_AG-2078 @regression
-
   Scenario: Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar pantalla nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar ingreso de CUIT nueva orden de compra
   Proveedor - Generar Orden de Compra - Identificación de Cliente - Validar busqueda de productor asociado al CUIT valido
@@ -222,7 +221,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And Se llena el campo Número de celular con valor Válido
     And El proveedor hace click en el botón Continuar
     And El proveedor hace click en el botón Enviar orden
-    #Coemnto este paso pq hay que pegarle a simulacion para volver a confirmar
+    #Comento este paso pq hay que pegarle a simulacion para volver a confirmar
 #    And Consumir api que que confirma la creacion de orden bff con ruta orders/confirm y body bff_confirm.txt
     Then Se visualiza la pantalla de Orden generada y enviada exitosamente
     And El proveedor hace click en el botón Ir a órdenes

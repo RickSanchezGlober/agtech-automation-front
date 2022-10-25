@@ -1,4 +1,4 @@
-@payments @proveedor @generarOrdenCompraSolaFirmaContacto
+@payments @proveedor @generarOrdenCompraSolaFirmaContacto @yailin
 Feature: Generar Orden de Compra. Información del Contacto. Confimación.
 
   Background:

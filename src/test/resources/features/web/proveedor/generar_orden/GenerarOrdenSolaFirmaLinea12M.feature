@@ -1,4 +1,4 @@
-@payments @proveedor @generarOrdenSolaFirmaLinea12M
+@payments @proveedor @generarOrdenSolaFirmaLinea12M @yailin
 Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la orden. Medios de pago.
 
   Background:
@@ -69,6 +69,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
       | CFT                             | cft                         |
       | Periodicidad de pago de interés | cotization_type_description |
       | No. cuotas para pago interés    | installment_cuantity        |
+      | Fecha de pago del capital       | due_date                    |
       | Fecha de pago del capital       | due_date                    |
     And El proveedor visualiza el boton Confirmar medio de pago Habilitado
     And Validar Nombre del Productor

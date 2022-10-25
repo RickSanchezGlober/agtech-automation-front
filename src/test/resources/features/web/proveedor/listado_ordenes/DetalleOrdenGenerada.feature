@@ -1,4 +1,4 @@
-@financing @proveedor @DetalleOrdenGenerada 
+@financing @proveedor @DetalleOrdenGenerada @dalia
 Feature: Validar el detalle de la Orden desde el listado de Ordenes
 
   Background:

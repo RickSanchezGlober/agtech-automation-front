@@ -1,4 +1,4 @@
-@financing @proveedor @DetalleOrdenPagada
+@financing @proveedor @DetalleOrdenPagada @dalia
 Feature: Validar el detalle de la Orden Pagada desde el listado de Ordenes y Exportar PDF
 
   Background:

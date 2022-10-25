@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ListadoOrdenesProveedorSteps {
     ListadoOrdenesProveedorPage listadoOrdenesProveedorPage = new ListadoOrdenesProveedorPage();
+    public static String countOrders;
 
     @Then("^Se viaualizan los elementos de la pantalla de órdenes$")
     public void verifyVisibleElementsOrdersScreen(List<List<String>> t_table) {
@@ -64,6 +65,7 @@ public class ListadoOrdenesProveedorSteps {
     @And("^Si el proveedor tiene mas de (.*) ordenes se visualiza el boton (.*) Habilitado")
     public void checkButtonStatusMoreThanXOrders(String countOrders, String buttonName) {
         String buttonStatus = "";
+        this.countOrders = countOrders;
         if (listadoOrdenesProveedorPage.moreThanXOrders(countOrders) && buttonName.equals(">")) {
             buttonStatus = "Habilitado";
         } else {
@@ -74,6 +76,7 @@ public class ListadoOrdenesProveedorSteps {
 
     @And("^Si el proveedor tiene mas de (.*) ordenes se hace click en el boton (.*)")
     public void clickOnButtonPaging(String countOrders, String buttonName) {
+        this.countOrders = countOrders;
         if (listadoOrdenesProveedorPage.moreThanXOrders(countOrders)) {
             listadoOrdenesProveedorPage.clickOnButtonPaging(buttonName);
         }
@@ -81,11 +84,15 @@ public class ListadoOrdenesProveedorSteps {
 
     @And("^Se visualizan el resto de las ordenes")
     public void checkRestOrders() {
-        Assert.assertTrue(listadoOrdenesProveedorPage.checkRestOrders());
+        if (listadoOrdenesProveedorPage.moreThanXOrders(countOrders)) {
+            Assert.assertTrue(listadoOrdenesProveedorPage.checkRestOrders());
+        }
     }
 
     @And("^Se visualizan las primeras (.*) ordenes")
     public void verifyFirstOrders(String orderQuantity) {
-        Assert.assertTrue(listadoOrdenesProveedorPage.verifyFirstOrders(orderQuantity));
+        if (listadoOrdenesProveedorPage.moreThanXOrders(countOrders)) {
+            Assert.assertTrue(listadoOrdenesProveedorPage.verifyFirstOrders(orderQuantity));
+        }
     }
 }

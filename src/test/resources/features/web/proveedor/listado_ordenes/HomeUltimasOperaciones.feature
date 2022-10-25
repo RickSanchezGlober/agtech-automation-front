@@ -1,4 +1,4 @@
-@payments @proveedor @home @homeUltimasOperaciones
+@payments @proveedor @home @homeUltimasOperaciones @yailin
 Feature:  Home Proveedor - Últimas Operaciones Realizadas
 
   Background:
