@@ -275,7 +275,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
     }
 
     public boolean verifyButtonState(String buttonName, String buttonStatus) {
-        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "10");
+        waitVisibility(ListadoOrdenesProveedorPageObject.RESULTADOS_SPAN, "15");
         boolean isEnableButton = false;
         switch (buttonStatus) {
             case "Deshabilitado":
@@ -308,9 +308,15 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         Select dropDownList = new Select(driver.findElement(ListadoOrdenesProveedorPageObject.PAGINADO_SELECT));
         List<WebElement> lisOptions = dropDownList.getOptions();
         for (int i = 0; i < lisOptions.size(); i++) {
-            if (lisOptions.get(i).getText().equals("1 - 10")) {
+            //si tiene menos de 10 ordenes no aparece el 10
+            if (moreThanXOrders("10")) {
+                if (lisOptions.get(i).getText().equals("1 - 10")) {
+                    resultOpt1 = true;
+                }
+            } else {
                 resultOpt1 = true;
-            } else if (lisOptions.get(i).getText().equals("50")) {
+            }
+            if (lisOptions.get(i).getText().equals("50")) {
                 resultOpt2 = true;
             } else if (lisOptions.get(i).getText().equals("100")) {
                 resultOpt3 = true;
@@ -388,6 +394,7 @@ public class ListadoOrdenesProveedorPage extends BasePage {
         }
         return result;
     }
+
     public boolean verifyVisibleTittle(String tittle) {
         By element = null;
         switch (tittle) {

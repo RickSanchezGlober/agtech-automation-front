@@ -1,4 +1,4 @@
-@payments @proveedor @ordenes @listadoOrdenesProveedor
+@payments @proveedor @ordenes @listadoOrdenesProveedor @yailin
 Feature: Proveedor - Listado de Órdenes
 
   Background:
@@ -70,7 +70,8 @@ Feature: Proveedor - Listado de Órdenes
       | like      | farmer.name,farmer.cuit                                                                                                                                     |
       | fields    | provider,order_date,id_order,amount,farmer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
     Then Se visualiza el botón < Deshabilitado
-    And Si el proveedor tiene mas de 10 ordenes se visualiza el boton > Habilitado
+    #Ahora esta apareciendo el boeton > habilitado
+#    And Si el proveedor tiene mas de 10 ordenes se visualiza el boton > Habilitado
     And Si el proveedor tiene mas de 10 ordenes se hace click en el boton >
     And Se visualizan el resto de las ordenes
     And Si el proveedor tiene mas de 10 ordenes se hace click en el boton <

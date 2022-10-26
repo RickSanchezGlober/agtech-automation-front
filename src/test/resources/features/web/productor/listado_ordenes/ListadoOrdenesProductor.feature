@@ -1,14 +1,14 @@
-@payments @productor @ordenes @listadoOrdenesProductor
+@payments @productor @ordenes @listadoOrdenesProductor @yailin
 Feature: Productor - Listado de Órdenes
 
   Background:
     Given Se navega al portal Nera productor
     And Se ingresa con usuario aut.prod@test.com y password Test123+
-    And El proveedor hace click en el boton Ver todas del home
+    And El productor hace click en el boton Ver todas las órdenes del home
 
   @TEST_SET_ID_AG-3486 @regression
   Scenario: Productor - Listado de Órdenes - Proveedor - Validar pantalla Listado de Ordenes
-    When El productor visualiza el titulo Órdenes
+    When El productor visualiza el titulo Tus órdenes
     Then El productor viaualiza los elementos de la pantalla de órdenes
       | el buscador Buscar CUIT o nombre de cliente |
       | el boton Exportar XLS                       |
@@ -45,6 +45,7 @@ Feature: Productor - Listado de Órdenes
       | like      | farmer.name,farmer.cuit                                                                                                                                     |
       | fields    | provider,order_date,id_order,amount,farmer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
     And El productor hace una busqueda por CUIT existente
+    #el buscador no muestra el cuit de del farmer en la UI
     Then El productor visualiza los resultados correctos
     And El productor hace una busqueda por nombre del cliente existente
     And El productor visualiza los resultados correctos

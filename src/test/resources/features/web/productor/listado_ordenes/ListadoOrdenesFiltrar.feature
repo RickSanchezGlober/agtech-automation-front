@@ -1,4 +1,4 @@
-@payments @prodcutor @ordenes @listadoOrdenesProductorFiltrar
+@payments @prodcutor @ordenes @listadoOrdenesProductorFiltrar @yailin
 Feature:  Home Productor - Últimas Operaciones Realizadas
 
   Background:
@@ -15,8 +15,7 @@ Feature:  Home Productor - Últimas Operaciones Realizadas
   Productor - Listado de Órdenes Productor - Buscador + Filtro - Validar botón "Limpiar filtros"
     And El productor hace click en el boton Filtrar de la pantalla ordenes
     Then El productor visualiza los elementos de la pantalla de Filtros de órdenes
-    #Faltan algunos elementos que faltan, bug reportado
-      | el titulo Filtros de órdenes            |
+      | el titulo Filtrar por                   |
       | el titulo Fecha de creación de la orden |
       | los campos Desde, Hasta                 |
       | el titulo Estado                        |
@@ -28,14 +27,13 @@ Feature:  Home Productor - Últimas Operaciones Realizadas
       | el check Cesión de forward              |
       | el check A sola firma                   |
       | el botón Aplicar filtros                |
-#    El boton esta habilitado, deberia estar Deshabilitado
-#    And El productor visualiza el boton Aplicar filtros Deshabilitado
+    And El productor visualiza el boton Aplicar filtros Deshabilitado
     And El productor visualiza el boton Limpiar filtros Deshabiltado
     And El productor selecciona el filtro Pendiente
     And El productor visualiza el boton Aplicar filtros Habilitado
     And El productor visualiza el boton Limpiar filtros Habilitado
     And El productor hace click en el boton Limpiar filtros de la pantalla ordenes
-#    And El productor visualiza el boton Aplicar filtros Deshabilitado
+    And El productor visualiza el boton Aplicar filtros Deshabilitado
 
   @TEST_ID_AG-2371 @TEST_ID_AG-2378 @TEST_ID_AG-2379 @regression
   Scenario: Productor - Listado de Órdenes Productor - Buscador + Filtro - Validar botón "Aplicar filtros"

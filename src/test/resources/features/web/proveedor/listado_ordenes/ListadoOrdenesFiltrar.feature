@@ -1,4 +1,4 @@
-@payments @proveedor @ordenes @listadoOrdenesProveedorFiltrar
+@payments @proveedor @ordenes @listadoOrdenesProveedorFiltrar @yailin
 Feature:  Home Proveedor - Últimas Operaciones Realizadas
 
   Background:

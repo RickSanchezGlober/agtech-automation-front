@@ -1,4 +1,4 @@
-@payments @productor @listadoOrdenes
+@payments @productor @listadoOrdenes @yailin
 Feature:  Productor - Listado de órdenes
 
   Background:
@@ -15,7 +15,7 @@ Feature:  Productor - Listado de órdenes
       | sort      | order_date                                                                                                                                                  |
       | skip      | 0                                                                                                                                                           |
       | count     | 10                                                                                                                                                          |
-      | where     | farmer.cuit:30707633197,status                                                                                                                              |
+      | where     | farmer.cuit:,status                                                                                                                                         |
       | like      | farmer.name,farmer.cuit                                                                                                                                     |
       | fields    | provider,order_date,id_order,amount,farmer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
     And Se muestra un listado de órdenes descendente

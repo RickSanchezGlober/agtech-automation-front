@@ -154,8 +154,8 @@ public class ListadoOrdenesPage extends BasePage {
         String FIELD_TEXT_API = data.get("order_date").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(getDateStringFormat(FIELD_TEXT_API)));
-        //farmer
-        JSONObject PRODUCERS = (JSONObject) data.get("farmer");
+        //provider
+        JSONObject PRODUCERS = (JSONObject) data.get("provider");
         FIELD_TEXT_API = PRODUCERS.get("name").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.toLowerCase().contains(FIELD_TEXT_API.toLowerCase()));
@@ -218,10 +218,10 @@ public class ListadoOrdenesPage extends BasePage {
     }
 
     public boolean checkHomePageElements() {
-        waitVisibility(ListadoOrdenesPageObject.ORDENES_TITTLE, "10");
-        return verifyVisibleText(ListadoOrdenesPageObject.ORDENES_TITTLE, "Órdenes")
+        waitVisibility(ListadoOrdenesPageObject.TUS_ORDENES_TITTLE, "10");
+        return verifyVisibleText(ListadoOrdenesPageObject.TUS_ORDENES_TITTLE, "Tus órdenes")
                 && driver.findElement(ListadoOrdenesPageObject.ORDER_PAGE_HEADER).getText().contains("Filtrar")
-                && driver.findElement(ListadoOrdenesPageObject.ORDER_PAGE_HEADER).getText().contains("Exportar")
+                && driver.findElement(ListadoOrdenesPageObject.ORDER_PAGE_HEADER).getText().contains("Exportar XLS")
                 && getAttribute(ListadoOrdenesPageObject.BUSCAR_CUIT_NOMBRE_INPUT, "placeholder").equalsIgnoreCase("Buscar CUIT o nombre de cliente")
                 && findElementOnList("Creación", ListadoOrdenesPageObject.ENCABEZADO_TABLA_CONTAINER)
                 && findElementOnList("Proveedor", ListadoOrdenesPageObject.ENCABEZADO_TABLA_CONTAINER)
