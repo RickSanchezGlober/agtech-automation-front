@@ -10,7 +10,7 @@ public class ListadoOrdenesProductorPageObject {
     public static final By.ByClassName ORDENES_CONTAINER = new By.ByClassName("last_order__order");
     public static final By.ByClassName LUPA_BUTTON = new By.ByClassName("search_bar__button");
     public static final By.ByClassName RESULTADOS_SPAN = new By.ByClassName("counter__totalizer");
-    public static final By.ByClassName ORDENES_TITTLE = new By.ByClassName("order_page__title");
+    public static final By.ByClassName TUS_ORDENES_TITTLE = new By.ByClassName("order_page__title");
     public static final By.ByClassName OPERACIONES_PROXIMAS_VENCER = new By.ByClassName("next_expiration_orders__title");
     //Botones <> para el paginado
     public static final By.ByClassName COUNTER_BUTTON_CONTAINER = new By.ByClassName("counter__button");

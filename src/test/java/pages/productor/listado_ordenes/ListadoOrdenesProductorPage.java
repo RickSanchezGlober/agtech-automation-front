@@ -34,7 +34,7 @@ public class ListadoOrdenesProductorPage extends BasePage {
 
     public boolean verifyVisibleElementsOrdersScreen(List<List<String>> t_table) {
         By byElement = null;
-        waitVisibility(ListadoOrdenesProductorPageObject.BUSCAR_CUIT_NOMBRE_INPUT,"20");
+        waitVisibility(ListadoOrdenesProductorPageObject.BUSCAR_CUIT_NOMBRE_INPUT, "20");
         List<Boolean> resultList = new ArrayList<>();
         for (int i = 0; i < t_table.size(); i++) {
             String elementName = t_table.get(i).get(0);
@@ -153,7 +153,7 @@ public class ListadoOrdenesProductorPage extends BasePage {
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.contains(getDateStringFormat(FIELD_TEXT_API)));
         //PRODUCER_CUIT
-        JSONObject PRODUCERS = (JSONObject) data.get("farmer");
+        JSONObject PRODUCERS = (JSONObject) data.get("provider");
         FIELD_TEXT_API = PRODUCERS.get("cuit").toString();
         log.info(String.format("Verificando que se muestre '%s''%s'", "en la operacion " + (pos + 1), FIELD_TEXT_API));
         Assert.assertTrue(FIELD_TEXT_UI.replaceAll("-", "").contains(FIELD_TEXT_API.replaceAll("-", "")));
@@ -171,6 +171,7 @@ public class ListadoOrdenesProductorPage extends BasePage {
             Double DOUBLE_AMOUNT = (Double) data.get("amount");
             String STRING_AMOUNT = parseFromDoubleToString(DOUBLE_AMOUNT.toString(), 0);
             FIELD_TEXT_API = StringUtils.chop(STRING_AMOUNT);
+            FIELD_TEXT_API = StringUtils.chop(FIELD_TEXT_API);
         }
 //        Double DOUBLE_AMOUNT = (Double) data.get("amount");
 //        FIELD_TEXT_API = parseFromDoubleToString(DOUBLE_AMOUNT.toString(), 2);
@@ -386,8 +387,8 @@ public class ListadoOrdenesProductorPage extends BasePage {
     public boolean verifyVisibleTittle(String tittle) {
         By element = null;
         switch (tittle) {
-            case "Órdenes":
-                element = ListadoOrdenesProductorPageObject.ORDENES_TITTLE;
+            case "Tus órdenes":
+                element = ListadoOrdenesProductorPageObject.TUS_ORDENES_TITTLE;
                 break;
             case "Órdenes próximas a vencer":
                 element = ListadoOrdenesProductorPageObject.OPERACIONES_PROXIMAS_VENCER;

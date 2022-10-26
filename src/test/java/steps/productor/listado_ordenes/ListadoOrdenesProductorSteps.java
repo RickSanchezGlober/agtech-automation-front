@@ -10,6 +10,7 @@ import java.util.List;
 
 public class ListadoOrdenesProductorSteps {
     ListadoOrdenesProductorPage listadoOrdenesProductorPage = new ListadoOrdenesProductorPage();
+    public static String countOrders;
 
     @Then("^El productor viaualiza los elementos de la pantalla de órdenes$")
     public void productorVerifyVisibleElementsOrdersScreen(List<List<String>> t_table) {
@@ -59,6 +60,7 @@ public class ListadoOrdenesProductorSteps {
     @And("^Si el productor tiene mas de (.*) ordenes se visualiza el boton (.*) Habilitado")
     public void productorCheckButtonStatusMoreThanXOrders(String countOrders, String buttonName) {
         String buttonStatus = "";
+        this.countOrders = countOrders;
         if (listadoOrdenesProductorPage.moreThanXOrders(countOrders) && buttonName.equals(">")) {
             buttonStatus = "Habilitado";
         } else {
@@ -76,7 +78,10 @@ public class ListadoOrdenesProductorSteps {
 
     @And("^El productor visualiza el resto de las ordenes")
     public void productorCheckRestOrders() {
-        Assert.assertTrue(listadoOrdenesProductorPage.checkRestOrders());
+        if (listadoOrdenesProductorPage.moreThanXOrders(countOrders)) {
+            Assert.assertTrue(listadoOrdenesProductorPage.checkRestOrders());
+
+        }
     }
 
     @And("^El productor visualiza las primeras (.*) ordenes")

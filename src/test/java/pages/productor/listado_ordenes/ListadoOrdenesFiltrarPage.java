@@ -235,7 +235,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
             String elementName = t_table.get(i).get(0);
             log.info(String.format("Buscando el elemento '%s'", elementName));
             switch (elementName) {
-                case "el titulo Filtros de órdenes":
+                case "el titulo Filtrar por":
                     byElement = ListadoOrdenesFiltrarPageObject.FILTRO_DE_ORDENES_TITLE;
                     resultList.add(verifyVisibleText(byElement, elementName.replace("el titulo ", "")));
                     break;
@@ -410,8 +410,8 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
 
     public boolean verifyEmptyStateOrdersScrenn() {
         boolean result = verifyElementEmptyStateOrdersScreen("icono")
-                && verifyElementEmptyStateOrdersScreen("No encontramos operaciones")
-                && verifyElementEmptyStateOrdersScreen("revisá los filtros y volvé a intentarlo.");
+                && verifyElementEmptyStateOrdersScreen("No encontramos órdenes")
+                && verifyElementEmptyStateOrdersScreen("Revisá los filtros y volvé a intentarlo.");
         return result;
     }
 
@@ -425,11 +425,11 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
                 element = ListadoOrdenesFiltrarPageObject.EMPTY_STATE_ICON;
                 result = isDisplayed(element);
                 break;
-            case "No encontramos operaciones":
+            case "No encontramos órdenes":
                 element = ListadoOrdenesFiltrarPageObject.NO_ENCONTRAMOS_OPERACIONES_TITTLE;
                 result = verifyVisibleText(element, elementName);
                 break;
-            case "revisá los filtros y volvé a intentarlo.":
+            case "Revisá los filtros y volvé a intentarlo.":
                 element = ListadoOrdenesFiltrarPageObject.REVISA_LOS_FILTROS_SUBTITTLE;
                 result = verifyVisibleText(element, elementName);
                 break;
