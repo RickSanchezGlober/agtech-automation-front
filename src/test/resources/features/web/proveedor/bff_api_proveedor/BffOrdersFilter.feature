@@ -3,7 +3,6 @@ Feature: Bff Orders Filters.
 
   @HISTORY_ID_AG-3267
   Scenario: API - Postman - Validar Consultar Órdenes Filtradas BFF
-#    Given Se obtiene el token con servicio bff con ruta provider/auth/login y body bff_proveedor_login.txt
     Given Se obtienen ordenes con servicio bff con ruta orders/filter y parametros
       | skip   | 0                                                                                                                                                                                                                 |
       | count  | 10                                                                                                                                                                                                                |
