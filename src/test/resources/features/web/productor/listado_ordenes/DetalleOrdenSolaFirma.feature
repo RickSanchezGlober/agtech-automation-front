@@ -60,3 +60,4 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
       | where     | farmer.cuit:,status:Pagada,payment_methods.financial_line_id:1                                                                                              |
       | like      | farmer.name,farmer.cuit                                                                                                                                     |
       | fields    | provider,order_date,id_order,amount,farmer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
+    And El productor visualiza el boton Mostrar más detalle Habilitado
