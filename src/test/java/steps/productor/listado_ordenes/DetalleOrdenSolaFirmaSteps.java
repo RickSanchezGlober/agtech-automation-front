@@ -1,6 +1,7 @@
 package steps.productor.listado_ordenes;
 
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.When;
 import org.testng.Assert;
 import pages.productor.listado_ordenes.DetalleOrdenSolaFirmaPage;
 import java.util.List;
@@ -32,5 +33,9 @@ public class DetalleOrdenSolaFirmaSteps {
     @And("^El productor hace click sobre botón: (.*)$")
     public void clickOnButtonProductorDetalle(String buttonName) {
         detalleOrdenSolaFirmaPage.clickOnButtonProductorDetalle(buttonName);
+    }
+    @When("^Verificar datos de api productor que lista todas las ordenes (.*) con ruta (.*) y parámetros$")
+    public void checkDataFromApiServicesGetOrdersWithFilters(String sourceApi, String path, List<List<String>> t_table) {
+        detalleOrdenSolaFirmaPage.checkDataFromApiServicesGetOrdersWithFilters(sourceApi, path, t_table);
     }
 }

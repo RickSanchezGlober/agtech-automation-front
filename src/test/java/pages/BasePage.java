@@ -296,16 +296,16 @@ public class BasePage {
         if (data != null) {
             AtomicInteger i = new AtomicInteger(1);
             data.cells()
-                .forEach(
-                    value -> {
-                        List<String> rField = Collections.singletonList(value.get(0));
-                        String KEY = rField.get(0);
-                        // SAVE
-                        try {
-                            saveInScenarioContext(KEY, response.getBody().jsonPath().get(KEY).toString());
-                        } catch (NullPointerException e) {
-                        }
-                    });
+                    .forEach(
+                            value -> {
+                                List<String> rField = Collections.singletonList(value.get(0));
+                                String KEY = rField.get(0);
+                                // SAVE
+                                try {
+                                    saveInScenarioContext(KEY, response.getBody().jsonPath().get(KEY).toString());
+                                } catch (NullPointerException e) {
+                                }
+                            });
         }
     }
 
@@ -314,7 +314,7 @@ public class BasePage {
         String bodySource = "";
         if (path.contains("farmer")) {
             bodySource = "bff_productor_login.txt";
-        } else if (path.contains("producer")||path.contains("provider")) {
+        } else if (path.contains("producer") || path.contains("provider")) {
             bodySource = "bff_proveedor_login.txt";
         }
         RestAssuredExtension.response = RestAssuredExtension.postMethodLogin(sourceApi, path, bodySource);
@@ -490,5 +490,10 @@ public class BasePage {
     public String parseFromDoubleToString(String doubleNumber, int numbersAfterDot) {
         BigDecimal bd = new BigDecimal(doubleNumber).setScale(numbersAfterDot, RoundingMode.HALF_UP);
         return String.valueOf(bd).replace(".", ",");
+    }
+
+    public String getDateStringFormat(String stringDate, String format) {
+        LocalDateTime ldt = LocalDateTime.parse(stringDate);
+        return ldt.format(DateTimeFormatter.ofPattern(format));
     }
 }

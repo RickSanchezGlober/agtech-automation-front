@@ -25,9 +25,15 @@ public class DetallesOrdenesPage extends BasePage {
     }
 
     public void clickOnDetailOrder() {
-        waitVisibility(DetallesOrdenesPageObject.ORDENES_CONTAINER, "2");
+        waitVisibility(DetallesOrdenesPageObject.ORDENES_CONTAINER, "15");
         List<WebElement> elementList = driver.findElements(DetallesOrdenesPageObject.ORDENES_CONTAINER);
-        elementList.get(0).click();
+        if (elementList.size() > 0
+                && elementList.get(0).getText().contains(ListadoOrdenesFiltrarPage.filterSelected)) {
+            log.info("Haciendo click en una orden Pagada a Sola Firma");
+            elementList.get(0).click();
+        } else {
+            log.info("No se pudo completar la prueba. No existen órdenes Pagadas a Sola Firma");
+        }
     }
 
     public boolean verifyDetailsOrder(String detail) {

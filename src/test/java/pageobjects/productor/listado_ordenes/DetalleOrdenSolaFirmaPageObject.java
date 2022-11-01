@@ -11,4 +11,6 @@ public class DetalleOrdenSolaFirmaPageObject {
     public static final By.ByClassName CONTINUAR_BUTTON = new By.ByClassName("button__container_primary");
     public static final By.ByClassName VOLVER_BUTTON = new By.ByClassName("goback_button__text");
     public static final By.ByXPath FILTRAR_BUTTON = new By.ByXPath("//button[contains(text(),'Filtrar')]");
+    public static final By.ByClassName ORDEN_PAGADA_DETALLE_CONTAINER = new By.ByClassName("paid_order_detail__info_container");
+
 }

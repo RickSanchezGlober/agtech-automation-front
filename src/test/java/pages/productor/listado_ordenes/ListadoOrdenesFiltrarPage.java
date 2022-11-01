@@ -39,7 +39,7 @@ public class ListadoOrdenesFiltrarPage extends BasePage {
             waitVisibility(ListadoOrdenesFiltrarPageObject.X_FILTROS_BUTTON, "20");
             click(ListadoOrdenesFiltrarPageObject.X_FILTROS_BUTTON);
         } else {
-            waitVisibility(ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER, "10");
+            waitVisibility(ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER, "20");
             List<WebElement> elementList = driver.findElements(ListadoOrdenesFiltrarPageObject.ORDERS_BUTTON_CONTAINER);
             for (int i = 0; i < elementList.size(); i++) {
                 if (elementList.get(i).getText().contains(buttonName)) {
