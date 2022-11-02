@@ -1,10 +1,10 @@
-@payments @proveedor @generarOrdenSolaFirmaLinea12M @yailin
+@payments @proveedor @generarOrdenSolaFirmaLinea12M
 Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la orden. Medios de pago.
 
   Background:
     Given Se navega al portal Nera proveedor
     And Usuario logueado en el portal Nera
-    When Se hace click en el botón Órdenes
+#    When Se hace click en el botón Órdenes
     And El proveedor hace click en el botón Crear Orden
     And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
     And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
@@ -25,7 +25,8 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
 
   @TEST_ID_AG-2888 @regression
   Scenario: Proveedor - Generar Orden - Simular Crédito A sola firma (Línea 12 meses) - Validar pantalla simular crédito mensual
-    Then El proveedor selecciona en subsidio de tasa opcion 12M Mensual 2022 - Con Subsidio
+#    Then El proveedor selecciona en subsidio de tasa opcion 12M Mensual 2022 - Con Subsidio
+    Then El proveedor selecciona en subsidio de tasa opcion Mensual Con Subsidio
     And El proveedor hace click en el botón Simular Crédito
     And Validar datos de servicios api bff con ruta simulation con body bff_simulation_SF_Linea12MMensual.txt
       | Monto                           | amount                      |

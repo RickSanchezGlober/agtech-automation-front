@@ -23,6 +23,10 @@ public class DetalleOrdenSolaFirmaPage extends BasePage {
     }
 
     public static String sOrdenNumber;
+    public static String idOrder;
+    public static LinkedHashMap listFirtOrder;
+    public static LinkedHashMap listFirtOrderFromDetails;
+    public static List<WebElement> elementList;
 
     public boolean verifyQuantityAndDetails(String sStatus, List<List<String>> t_table) {
         Boolean hayElementos = false;
@@ -220,15 +224,25 @@ public class DetalleOrdenSolaFirmaPage extends BasePage {
         response = RestAssuredExtension.getMethodWithParamsHeader(sourceApi, path, t_table, getAccess_token());
 
         //Almaceno los datos de la 1era orden
-        LinkedHashMap listFirtOrder = new LinkedHashMap<>(response.getBody().jsonPath().get("result[0]"));
-        String idOrder = listFirtOrder.get("id_order").toString();
+        listFirtOrder = new LinkedHashMap<>(response.getBody().jsonPath().get("result[0]"));
+        idOrder = listFirtOrder.get("id_order").toString();
 
         //Le pego al servicio que trae el detalle de la orden idOrder
         response = RestAssuredExtension.getMethod("bff", "farmer/orders/detail/" + idOrder, getAccess_token());
-        LinkedHashMap listFirtOrderFromDetails = new LinkedHashMap<>(response.getBody().jsonPath().get(""));
+        listFirtOrderFromDetails = new LinkedHashMap<>(response.getBody().jsonPath().get(""));
+        verifyPaidOrderDetail("Detalle de la orden");
+    }
 
+    public void verifyPaidOrderDetail(String screen) {
         //Texto del sidesheet de la orden pagada, UI
-        List<WebElement> elementList = driver.findElements(DetalleOrdenSolaFirmaPageObject.ORDEN_PAGADA_DETALLE_CONTAINER);
+        switch (screen) {
+            case "Detalle de la orden":
+                elementList = driver.findElements(DetalleOrdenSolaFirmaPageObject.ORDEN_PAGADA_DETALLE_CONTAINER);
+                break;
+            case "Más detalle":
+                elementList = driver.findElements(DetalleOrdenSolaFirmaPageObject.MAS_DETALLE_ORDEN_PAGADA_CONTAINER);
+                break;
+        }
         for (int i = 0; i < elementList.size(); i++) {
             if (elementList.get(i).getText().contains("Fecha de creación")) {
                 String fechaCreacion = getDateStringFormat(listFirtOrder.get("create_date").toString(), "dd/MM/yyyy");
@@ -273,9 +287,31 @@ public class DetalleOrdenSolaFirmaPage extends BasePage {
                 String montoTotal = listFirtOrderFromDetails.get("total_amount").toString().replace(".", "");
                 log.info(String.format("Verificando que el 'Total a pagar al Banco' sea '%s'", montoTotal));
                 Assert.assertTrue(elementList.get(i).getText().replace(".", "").replace(",", "").contains(montoTotal));
+            }//Estas 2 validaciones son solo para la pantalla de Mas detalles
+            else if (elementList.get(i).getText().contains("Sellado")) {
+                String sellado = listFirtOrderFromDetails.get("stamp_taxes").toString().replace(".", "");
+                log.info(String.format("Verificando que el 'Sellado' sea '%s'", sellado));
+                Assert.assertTrue(elementList.get(i).getText().replace(",", "").contains(sellado));
+            } else if (elementList.get(i).getText().contains("Costo sobre capital")) {
+                String costoCapital = parseFromDoubleToString(listFirtOrderFromDetails.get("capital_cost").toString(), 2);
+                log.info(String.format("Verificando que el 'Costo sobre capital' sea '%s'", costoCapital));
+                Assert.assertTrue(elementList.get(i).getText().contains(costoCapital));
             }
         }
-
     }
 
+    public void checkMoreDetailsPaidOrder() {
+        verifyPaidOrderDetail("Más detalle");
+    }
+
+    public void checkOnSecctionMoreDetails(String buttonName) {
+        By element = null;
+        switch (buttonName) {
+            case "Crédito":
+                element = DetalleOrdenSolaFirmaPageObject.CREDITO_SECTION;
+                break;
+        }
+        waitVisibility(element, "10");
+        click(element);
+    }
 }
