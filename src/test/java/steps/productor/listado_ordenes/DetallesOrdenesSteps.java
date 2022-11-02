@@ -20,4 +20,5 @@ public class DetallesOrdenesSteps {
     public void seVisualizaFechaYHoraDelDetalleEnSidesheet(String detail) {
         Assert.assertTrue(detallesOrdenesPage.verifyDetailsOrder(detail));
     }
+
 }

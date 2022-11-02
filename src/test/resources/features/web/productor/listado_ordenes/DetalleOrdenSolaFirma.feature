@@ -14,23 +14,23 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
     And El productor hace click en el boton Aplicar filtros de la pantalla ordenes
     And El productor hace click en el boton Cerrar Filtros de la pantalla ordenes
     And Se verifica que existan ordenes en status Pendiente y se verifica que el Detalle de la Orden esté correcta
-     | Orden:                     |
-     | Estado:                    |
-     | Proveedor                  |
-     | Medio de pago              |
-     | A sola firma               |
-     | Entidad                    |
-     | Banco Galicia              |
-     | Monto                      |
-     | TNA                        |
-     | Vencimiento del crédito    |
-     | Detalles del crédito       |
-     | Monto a financiar          |
-     | Interés                    |
-     | IVA sobre interés          |
-     | Sellado                    |
-     | Total a pagar al Banco*    |
-     | Costo sobre el capital     |
+      | Orden:                  |
+      | Estado:                 |
+      | Proveedor               |
+      | Medio de pago           |
+      | A sola firma            |
+      | Entidad                 |
+      | Banco Galicia           |
+      | Monto                   |
+      | TNA                     |
+      | Vencimiento del crédito |
+      | Detalles del crédito    |
+      | Monto a financiar       |
+      | Interés                 |
+      | IVA sobre interés       |
+      | Sellado                 |
+      | Total a pagar al Banco* |
+      | Costo sobre el capital  |
     And Obtener datos de endpoint -GET PRODUCTOR- en bff con ruta farmer/orders/detail/
     And Botón Tooltip se visualiza Habilitado en detalle de orden
     And Botón Continuar se visualiza Habilitado en detalle de orden
@@ -41,3 +41,22 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
 #    And Botón Continuar se visualiza Habilitado en detalle de orden
 #    And El productor hace click sobre botón: Volver-Ordenes
 #    And Botón Filtrar se visualiza Habilitado en detalle de orden
+
+  @regression @HU_AG-2683
+  Scenario: Productor - Detalle Orden PAGADA Crédito Sola Firma
+    And El productor hace click en el boton Filtrar de la pantalla ordenes
+    And El productor selecciona el filtro Pagada
+    And El productor selecciona el filtro A sola firma
+    And El productor hace click en el boton Aplicar filtros de la pantalla ordenes
+    And El productor hace click en el boton Cerrar Filtros de la pantalla ordenes
+    And Se hace click sobre el detalle de una orden
+#    Aca le pegamos al servicio que filtra y al q trae el detalle de la orden
+#    Verificamos que el detalle de la orden muestra lo que trae el servicio farmer/orders/detail/idOrder
+    Then Verificar datos de api productor que lista todas las ordenes bff con ruta farmer/orders/filter y parámetros
+      | type_sort | DESC                                                                                                                                                        |
+      | sort      | order_date                                                                                                                                                  |
+      | skip      | 0                                                                                                                                                           |
+      | count     | 10                                                                                                                                                          |
+      | where     | farmer.cuit:,status:Pagada,payment_methods.financial_line_id:1                                                                                              |
+      | like      | farmer.name,farmer.cuit                                                                                                                                     |
+      | fields    | provider,order_date,id_order,amount,farmer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |

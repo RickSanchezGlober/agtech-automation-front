@@ -369,12 +369,6 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
         }
     }
 
-    private String getDateStringFormat(String stringDate, String format) {
-        LocalDateTime ldt = LocalDateTime.parse(stringDate);
-        //revisar q pasa si la fecha trae 2 cifras
-        return ldt.format(DateTimeFormatter.ofPattern(format));
-    }
-
     public void validateProductor(List<List<String>> t_table) {
         DataTable data = createDataTable(t_table);
         explicitWait(GenerarOrdenCompraSolaFirmaPageObject.RESULTADO_SIMULACION_TEXT);
