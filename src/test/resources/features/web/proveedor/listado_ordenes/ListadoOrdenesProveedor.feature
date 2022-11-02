@@ -1,4 +1,4 @@
-@payments @proveedor @ordenes @listadoOrdenesProveedor @yailin
+@payments @proveedor @ordenes @listadoOrdenesProveedor
 Feature: Proveedor - Listado de Órdenes
 
   Background:

@@ -1,4 +1,4 @@
-@payments @prodcutor @ordenes @listadoOrdenesProductorFiltrar @yailin
+@payments @prodcutor @ordenes @listadoOrdenesProductorFiltrar
 Feature:  Home Productor - Últimas Operaciones Realizadas
 
   Background:
