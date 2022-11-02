@@ -1,4 +1,4 @@
-@payments @productor @listadoOrdenes @yailin
+@payments @productor @listadoOrdenes
 Feature:  Productor - Listado de órdenes
 
   Background:

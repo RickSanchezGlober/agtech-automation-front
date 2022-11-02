@@ -38,4 +38,12 @@ public class DetalleOrdenSolaFirmaSteps {
     public void checkDataFromApiServicesGetOrdersWithFilters(String sourceApi, String path, List<List<String>> t_table) {
         detalleOrdenSolaFirmaPage.checkDataFromApiServicesGetOrdersWithFilters(sourceApi, path, t_table);
     }
+    @And("^El productor visualiza más detalles de la orden pagada$")
+    public void checkMoreDetailsPaidOrder() {
+        detalleOrdenSolaFirmaPage.checkMoreDetailsPaidOrder();
+    }
+    @And("^El productor hace click en la seccion (.*) de la pantalla Mas Detalle$")
+    public void checkOnSecctionMoreDetails(String buttonName) {
+        detalleOrdenSolaFirmaPage.checkOnSecctionMoreDetails(buttonName);
+    }
 }

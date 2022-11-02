@@ -1,4 +1,4 @@
-@financing @productor @dalia
+@productor
 Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
 
   Background:
@@ -6,7 +6,7 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
     And Se ingresa con usuario aut.prod@test.com y password Test123+
     When El productor hace click en el boton Ver todas del home
 
-  @regression @AG-2992
+  @regression @financing @AG-2992
   Scenario: Productor - Verificar detalle de la orden - A sola firma
     And El productor hace click en el boton Filtrar de la pantalla ordenes
     And El productor selecciona el filtro Pendiente
@@ -42,7 +42,7 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
 #    And El productor hace click sobre botón: Volver-Ordenes
 #    And Botón Filtrar se visualiza Habilitado en detalle de orden
 
-  @regression @HU_AG-2683
+  @regression @payments @HU_AG-2683 @HU_AG-2684
   Scenario: Productor - Detalle Orden PAGADA Crédito Sola Firma
     And El productor hace click en el boton Filtrar de la pantalla ordenes
     And El productor selecciona el filtro Pagada
@@ -60,3 +60,7 @@ Feature:  Sola Firma Productor: Simulación del Crédito c/Mejoras
       | where     | farmer.cuit:,status:Pagada,payment_methods.financial_line_id:1                                                                                              |
       | like      | farmer.name,farmer.cuit                                                                                                                                     |
       | fields    | provider,order_date,id_order,amount,farmer,payment_methods.financial_entity,payment_methods.financial_line_id,status,payment_methods.conditions.loan_amount |
+    And El productor visualiza el boton Mostrar más detalle Habilitado
+    And El productor hace click en el boton Mostrar más detalle de la pantalla ordenes
+    And El productor hace click en la seccion Crédito de la pantalla Mas Detalle
+    And El productor visualiza más detalles de la orden pagada

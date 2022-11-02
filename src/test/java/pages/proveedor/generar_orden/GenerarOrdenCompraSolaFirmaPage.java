@@ -12,8 +12,6 @@ import pages.BasePage;
 import utils.DataGenerator;
 import utils.RestAssuredExtension;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -276,14 +274,14 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
 
     public void selectPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
-        explicitWait(GenerarOrdenCompraSolaFirmaPageObject.ELEGI_MEDIO_PAGO_TITLE);
+        waitVisibility(GenerarOrdenCompraSolaFirmaPageObject.ELEGI_MEDIO_PAGO_TITLE, "20");
         List<WebElement> elementList = driver.findElements(GenerarOrdenCompraSolaFirmaPageObject.PAYMENT_CARD_CONTAINER);
         boolean result = false;
         for (int i = 0; i < elementList.size(); i++) {
             if (elementList.get(i).getText().contains(paymentMethod)) {
                 result = true;
                 log.info("Haciendo click en el medio de pago :" + paymentMethod);
-                sleep(1);
+                sleep(2);
                 elementList.get(i).findElements(GenerarOrdenCompraSolaFirmaPageObject.PAYMENT_CARD_BANK_NAME_CONTAINER).get(0).click();
                 break;
             }

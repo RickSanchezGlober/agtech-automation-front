@@ -1,4 +1,4 @@
-@payments @proveedor @generarOrdenCompraSolaFirma @yailin
+@payments @proveedor @generarOrdenCompraSolaFirma
 Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la orden. Medios de pago.
 
   Background:
