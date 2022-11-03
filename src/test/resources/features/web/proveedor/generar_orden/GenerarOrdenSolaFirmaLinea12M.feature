@@ -6,7 +6,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And Usuario logueado en el portal Nera
 #    When Se hace click en el botón Órdenes
     And El proveedor hace click en el botón Crear Orden
-    And El proveedor ingresa 30597962793 en el campo Ingresá el CUIT
+    And El proveedor ingresa 30568143120 en el campo Ingresá el CUIT
     And Recuperar datos de servicios api bff con ruta customer-validation/ y guardar variables abajo
       | cuit_teradata |
       | name          |
@@ -25,7 +25,6 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
 
   @TEST_ID_AG-2888 @regression
   Scenario: Proveedor - Generar Orden - Simular Crédito A sola firma (Línea 12 meses) - Validar pantalla simular crédito mensual
-#    Then El proveedor selecciona en subsidio de tasa opcion 12M Mensual 2022 - Con Subsidio
     Then El proveedor selecciona en subsidio de tasa opcion Mensual Con Subsidio
     And El proveedor hace click en el botón Simular Crédito
     And Validar datos de servicios api bff con ruta simulation con body bff_simulation_SF_Linea12MMensual.txt
@@ -44,7 +43,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
 
   @TEST_ID_AG-2889 @regression
   Scenario: Proveedor - Generar Orden - Simular Crédito A sola firma (Línea 12 meses) - Validar pantalla simular crédito trimestral
-    Then El proveedor selecciona en subsidio de tasa opcion 12M Trimestral 2022 - Con Subsidio
+    Then El proveedor selecciona en subsidio de tasa opcion Trimestral Con Subsidio
     And El proveedor hace click en el botón Simular Crédito
     And Validar datos de servicios api bff con ruta simulation con body bff_simulation_SF_Linea12MTrimestral.txt
       | Monto                           | amount                      |
@@ -62,7 +61,7 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
 
   @TEST_ID_AG-2890 @regression
   Scenario: Proveedor - Generar Orden - Simular Crédito A sola firma (Línea 12 meses) - Validar pantalla simular crédito semestral
-    Then El proveedor selecciona en subsidio de tasa opcion 12M Semestral 2022 - Con Subsidio
+    Then El proveedor selecciona en subsidio de tasa opcion Semestral Con Subsidio
     And El proveedor hace click en el botón Simular Crédito
     And Validar datos de servicios api bff con ruta simulation con body bff_simulation_SF_Linea12MSemestral.txt
       | Monto                           | amount                      |
@@ -79,9 +78,9 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
     And El proveedor visualiza el boton Simular Crédito Deshabilitado
     And El proveedor no visualiza el boton Confirmar medio de pago
 
-  @TEST_ID_AG-2891 @regression
+  @TEST_ID_AG-2891 @3582 @regression
   Scenario: Proveedor - Generar Orden - Resumen (Línea 12 meses) - Validar pantalla Resumen Linea 12 meses
-    And El proveedor selecciona en subsidio de tasa opcion 12M Semestral 2022 - Con Subsidio
+    And El proveedor selecciona en subsidio de tasa opcion Semestral Con Subsidio
     And El proveedor hace click en el botón Simular Crédito
     And Recuperar datos de servicios api bff con ruta simulation con body bff_simulation_SF_Linea12MSemestral.txt
       | provider.name                      |
@@ -97,6 +96,11 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
       | installments[0].amount             |
       | installments[1].amount             |
       | total_amount                       |
+      | installments[0].stamp_taxes        |
+      | installments[1].stamp_taxes        |
+      | installments[0].due_date           |
+      | installments[1].due_date           |
+      | installments[1].amortization       |
     And El proveedor hace click en el botón Confirmar medio de pago
     Then Se muestra la pantalla para ingresar los datos del contacto Datos de contacto de quien recibirá y aprobará la orden de pago.
     And Se muestra la pantalla para ingresar los datos del contacto Nombre y Apellido
@@ -132,9 +136,14 @@ Feature: Generar Orden de Compra. Identificacion del cliente. Detalles de la ord
       | installments[1].interest_nominal   |
       | installments[0].amount             |
       | installments[1].amount             |
+      | total_amount                       |
+      | installments[0].stamp_taxes        |
+      | installments[1].stamp_taxes        |
+      | installments[0].due_date           |
+      | installments[1].due_date           |
+      | installments[1].amortization       |
     And El proveedor visualiza el botón Enviar orden Habilitado
     And El proveedor hace click en el botón Enviar orden
-#  Ver el cuit para enviar la orden Linea 12 meses
-#    And Se visualiza la pantalla de Orden generada y enviada exitosamente
-#    And El proveedor hace click en el botón Ir a órdenes
-#    And El proveedor vuelve a la Home
+    And Se visualiza la pantalla de Orden generada y enviada exitosamente
+    And El proveedor hace click en el botón Ir a órdenes
+    And El proveedor vuelve a la Home
