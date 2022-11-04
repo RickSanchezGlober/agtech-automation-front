@@ -1,6 +1,6 @@
 {
-    "farmer_cuit":"30597962793",
-    "farmer_name": "QUIYU AGROPECUARIA SA",
+    "farmer_cuit":"30568143120",
+    "farmer_name": "FORTIN VEGA SOCIEDAD ANONIMA",
     "id_agreement":"632b6f6be521b9e296506410",
     "amount":"1001",
     "financial_line_id":"1",

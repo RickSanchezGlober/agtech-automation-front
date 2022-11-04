@@ -144,7 +144,8 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                 // TABLE
                                 List<String> rField = Collections.singletonList(value.get(0));
                                 String FIELDS = rField.get(0);
-                                String VALUES = getScenarioContextVariables(rField.get(0));
+                                String VALUES = "";
+                                VALUES = getScenarioContextVariables(rField.get(0));
 
                                 // WEB ELEMENTS
                                 switch (FIELDS) {
@@ -156,10 +157,6 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                         VALUES = "Monto " + "$" + numberS.substring(0, 1) + "." + numberS.substring(1, 7);
                                         break;
                                     case "financing_type":
-                                        //Para linea 12 meses
-                                        if (VALUES.contains("Semestral")) {
-                                            VALUES = "12M " + VALUES;
-                                        }
                                         VALUES = "Tipo de convenio " + VALUES;
                                         break;
                                     case "installment_cuantity":
@@ -178,24 +175,18 @@ public class GenerarOrdenCompraSolaFirmaContactoPage extends BasePage {
                                     case "installments[1].total_vat_interest":
                                     case "installments[0].amount":
                                     case "installments[1].amount":
-//                                    case "installments.vat_interest": ya no aparece
-                                        //no verifico este texto "Sellado"
-                                        // "IVA s/ interés" "Sellado" pq para mapear
-                                        // no esta por filas sino por columnas
-                                        if (!VALUES.equals("[null]")) {
-                                            VALUES = VALUES.replace("]", "");
-                                            VALUES = VALUES.replace("[", "");
-                                            VALUES = "$ " + parseFromDoubleToString(VALUES, 2);
-                                        } else {
-                                            VALUES = "";
-                                        }
-                                        break;
+                                    case "installments[0].stamp_taxes":
+                                    case "installments[1].stamp_taxes":
                                     case "total_amount":
-                                        String amount = parseFromDoubleToString(VALUES, 2);
-                                        VALUES = "$ " + amount.substring(0, 1) + "." + amount.substring(1, 7);
+                                    case "installments[1].amortization":
+                                        VALUES = "$ " + parseFromDoubleToString(VALUES, 2);
+                                        break;
+                                    case "installments[0].due_date":
+                                    case "installments[1].due_date":
+                                        VALUES = getDateStringFormat(VALUES, "dd/MM/yyyy");
                                         break;
                                 }
-                                log.info(FIELDS + " " + FIELDS_TEXT);
+                                log.info(VALUES + " " + FIELDS);
 
                                 // VALIDATIONS
                                 Assert.assertTrue(FIELDS_TEXT.replaceAll(".", "").contains(VALUES.replaceAll(".", "")));

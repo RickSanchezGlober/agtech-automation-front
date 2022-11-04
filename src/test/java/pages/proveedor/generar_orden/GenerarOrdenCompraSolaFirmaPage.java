@@ -281,7 +281,7 @@ public class GenerarOrdenCompraSolaFirmaPage extends BasePage {
             if (elementList.get(i).getText().contains(paymentMethod)) {
                 result = true;
                 log.info("Haciendo click en el medio de pago :" + paymentMethod);
-                sleep(2);
+                sleep(3);
                 elementList.get(i).findElements(GenerarOrdenCompraSolaFirmaPageObject.PAYMENT_CARD_BANK_NAME_CONTAINER).get(0).click();
                 break;
             }
