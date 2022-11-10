@@ -1,0 +1,36 @@
+{
+    "title": "",
+    "user_email": "cristian.duque@globant.com",
+    "payment_methods": [
+        {
+            "amount": 1687.36,
+            "end_to_pay": 1687.36,
+            "currency_code": "01",
+            "currency_name": "moneda",
+            "tna_farmer": 76,
+            "financial_entity": "Banco Galicia",
+            "payment_method": "Financiacion",
+            "financial_line_id": "1",
+            "expiry_date": "2023-07-03T00:00:00.000Z",
+            "conditions": {
+                "id_simulation_financial_entity": "1009e2e1c2d94e9a99542a7eaa3cc333",
+                "due_date": "2023-07-03T03:00:00.000Z",
+                "cft": 73.684581,
+                "cft_iva": 81.693371,
+                "fees": 1
+            }
+        }
+    ],
+    "contact": {
+        "name": "yo",
+        "email": "yo@yo.com",
+        "phone": "454645645645"
+    },
+    "farmer": {
+        "name": "FORTIN VEGA SOCIEDAD ANONIMA",
+        "cuit": "30-56814312-0"
+    },
+    "provider": {
+        "_id": "2"
+    }
+}

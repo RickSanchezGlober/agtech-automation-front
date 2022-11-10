@@ -1,0 +1,8 @@
+{
+     "farmer_cuit":"30568143120",
+     "farmer_name": "FORTIN VEGA SOCIEDAD ANONIMA",
+     "id_agreement":"632b370ae521b9e2960fb184",
+     "amount":"1001",
+     "financial_line_id":"1",
+     "provider_id":"2"
+ }

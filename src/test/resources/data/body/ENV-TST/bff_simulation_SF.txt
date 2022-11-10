@@ -1,0 +1,8 @@
+{
+    "farmer_cuit":"30597962793",
+    "farmer_name": "QUIYU AGROPECUARIA SA",
+    "id_agreement":"62dac574b0b8830001f075a3",
+    "amount":"1001",
+    "financial_line_id":"1",
+    "provider_id":"2"
+}
